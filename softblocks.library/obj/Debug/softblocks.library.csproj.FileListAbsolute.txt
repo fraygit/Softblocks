@@ -1,0 +1,5 @@
+C:\Projects\Softblocks\softblocks\softblocks.library\bin\Debug\softblocks.library.dll
+C:\Projects\Softblocks\softblocks\softblocks.library\bin\Debug\softblocks.library.pdb
+C:\Projects\Softblocks\softblocks\softblocks.library\obj\Debug\softblocks.library.csprojResolveAssemblyReference.cache
+C:\Projects\Softblocks\softblocks\softblocks.library\obj\Debug\softblocks.library.dll
+C:\Projects\Softblocks\softblocks\softblocks.library\obj\Debug\softblocks.library.pdb

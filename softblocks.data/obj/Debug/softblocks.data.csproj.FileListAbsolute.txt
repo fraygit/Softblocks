@@ -1,0 +1,12 @@
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\softblocks.data.dll
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\softblocks.data.pdb
+C:\Projects\Softblocks\softblocks\softblocks.data\obj\Debug\softblocks.data.csprojResolveAssemblyReference.cache
+C:\Projects\Softblocks\softblocks\softblocks.data\obj\Debug\softblocks.data.dll
+C:\Projects\Softblocks\softblocks\softblocks.data\obj\Debug\softblocks.data.pdb
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\MongoDB.Bson.dll
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\MongoDB.Driver.Core.dll
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\MongoDB.Driver.dll
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\MongoDB.Bson.xml
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\MongoDB.Driver.xml
+C:\Projects\Softblocks\softblocks\softblocks.data\bin\Debug\MongoDB.Driver.Core.xml
