@@ -1163,7 +1163,9 @@
     <Content Include="vendor\toastr\toastr.min.css" />
     <Content Include="vendor\toastr\toastr.min.js" />
     <Content Include="vendor\topojson\topojson.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -1171,6 +1173,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="Custom\SoftblocksMembershipProvider.cs" />
+    <Compile Include="Custom\SoftblocksRoleProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1252,6 +1255,16 @@
     <Folder Include="vendor\moment\src\lib\utils\" />
     <Folder Include="vendor\moment\src\locale\" />
     <Folder Include="vendor\moment\templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\softblocks.data\softblocks.data.csproj">
+      <Project>{a6795271-68c4-4c6c-b42f-a06b4de1a286}</Project>
+      <Name>softblocks.data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\softblocks.library\softblocks.library.csproj">
+      <Project>{28b2b422-14c7-4146-ae4f-37128f43d103}</Project>
+      <Name>softblocks.library</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

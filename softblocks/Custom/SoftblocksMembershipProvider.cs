@@ -1,6 +1,9 @@
-﻿using System;
+﻿using softblocks.data.Model;
+using softblocks.library.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
 
@@ -147,7 +150,16 @@ namespace softblocks.Custom
 
         public override bool ValidateUser(string username, string password)
         {
-            return true;
+            var userService = new UserService();
+            var getUser = userService.ValidateUser(username, password);
+            Task.WaitAll(getUser);
+            var user = getUser.Result;
+            if (user != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
