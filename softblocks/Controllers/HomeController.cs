@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace softblocks.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         // GET: Home

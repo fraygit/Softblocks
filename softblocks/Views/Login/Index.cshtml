@@ -1,0 +1,41 @@
+﻿@model softblocks.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+        <section class="content">
+            <div class="container-center animated slideInDown">
+
+                <div class="view-header">
+                    <div class="header-icon">
+                        <i class="pe page-header-icon pe-7s-unlock"></i>
+                    </div>
+                    <div class="header-title">
+                        <h3>Login</h3>
+                        <small>
+                            Please enter your credentials to login.
+                        </small>
+                    </div>
+                </div>
+                <div class="panel panel-filled">
+                    <div class="panel-body"> 
+
+                        @Html.Partial("Validate", new softblocks.Models.PageLogin())
+
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+@section Scripts{
+    @if (Model.InvalidUser)
+    {
+        <script type="text/javascript">
+            toastr.warning('Invalid username or password!');
+        </script>
+    }
+
+    
+}

@@ -12,7 +12,7 @@ namespace softblocks.Custom
         {
             get
             {
-                throw new NotImplementedException();
+                return "SoftblocksApp";
             }
             set
             {
@@ -147,7 +147,7 @@ namespace softblocks.Custom
 
         public override bool ValidateUser(string username, string password)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
