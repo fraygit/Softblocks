@@ -18,6 +18,12 @@ namespace softblocks.library.Services
             _userRepository = new UserRepository();
         }
 
+        public async Task<User> CreateUser(User user)
+        {
+            await _userRepository.CreateSync(user);
+            return user;
+        }
+
         public async Task<User> ValidateUser(string username, string password)
         {
             return new User
