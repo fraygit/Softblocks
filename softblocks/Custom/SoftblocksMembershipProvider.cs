@@ -151,9 +151,14 @@ namespace softblocks.Custom
         public override bool ValidateUser(string username, string password)
         {
             var userService = new UserService();
-            var getUser = userService.ValidateUser(username, password);
-            Task.WaitAll(getUser);
-            var user = getUser.Result;
+            //var getUser = userService.ValidateUser(username, password);
+            //Task.WaitAll(getUser);
+            //var user = getUser.Result;
+
+
+            //var user = userService.ValidateUser(username, password);
+
+            var user = Task.Run(() => userService.ValidateUser(username, password)).Result;
             if (user != null)
             {
                 return true;

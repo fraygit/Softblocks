@@ -9,11 +9,11 @@ C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\softblocks.dat
 C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Bson.dll
 C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Driver.dll
 C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Driver.Core.dll
-C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
 C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\softblocks.data.pdb
 C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Bson.xml
 C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Driver.xml
-C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Driver.Core.xml
 C:\Projects\Softblocks\softblocksGit\softblocks.library\obj\Debug\softblocks.library.csprojResolveAssemblyReference.cache
 C:\Projects\Softblocks\softblocksGit\softblocks.library\obj\Debug\softblocks.library.dll
 C:\Projects\Softblocks\softblocksGit\softblocks.library\obj\Debug\softblocks.library.pdb
+C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Projects\Softblocks\softblocksGit\softblocks.library\bin\Debug\MongoDB.Driver.Core.xml

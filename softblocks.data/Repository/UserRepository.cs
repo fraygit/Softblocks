@@ -15,12 +15,19 @@ namespace softblocks.data.Repository
     {
         public async Task<User> GetUser(string username)
         {
-            var builder = Builders<User>.Filter;
-            var filter = builder.Eq("Email", username);
-            var users = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
-            if (users.Any())
-                return users.FirstOrDefault();
-            return null;
+            try
+            {
+                var builder = Builders<User>.Filter;
+                var filter = builder.Eq("Email", username);
+                var users = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
+                if (users.Any())
+                    return users.FirstOrDefault();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<User> GetUserByVerificationCode(string verificationCode)

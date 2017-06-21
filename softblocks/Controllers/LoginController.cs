@@ -13,7 +13,7 @@ namespace softblocks.Controllers
     public class LoginController : Controller
     {
         // GET: Login
-        public ActionResult Index(LoginViewModel model)
+        public async Task<ActionResult> Index(LoginViewModel model)
         {
             return View(model);
         }

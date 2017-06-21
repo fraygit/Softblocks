@@ -26,19 +26,14 @@ namespace softblocks.library.Services
 
         public async Task<User> ValidateUser(string username, string password)
         {
-            return new User
+            var user = await _userRepository.GetUser(username);
+            if (user != null)
             {
-                Email = "francis.yanga@gmail.com",
-                FirstName = "Francis"                
-            };
-            //var user = await _userRepository.GetUser(username);
-            //if (user != null)
-            //{
-            //    if (user.Password == Crypto.HashSha256(password))
-            //    {
-            //        return user;
-            //    }
-            //}
+                if (user.Password == Crypto.HashSha256(password))
+                {
+                    return user;
+                }
+            }
             return null;
         }
     }
