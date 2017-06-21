@@ -1,4 +1,5 @@
-﻿using softblocks.data.Model;
+﻿using softblocks.data.Interface;
+using softblocks.data.Model;
 using softblocks.library.Services;
 using softblocks.Models;
 using System;
@@ -12,6 +13,13 @@ namespace softblocks.Controllers
 {
     public class RegisterController : Controller
     {
+        private IUserRepository _userRepository;
+
+        public RegisterController(IUserRepository _userRepository)
+        {
+            this._userRepository = _userRepository;
+        }
+
         // GET: Register
         public ActionResult Index()
         {
@@ -24,7 +32,7 @@ namespace softblocks.Controllers
             {
                 if (model.Password == model.PasswordRepeat)
                 {
-                    var userService = new UserService();
+                    var userService = new UserService(_userRepository);
                     var user = new User
                     {
                         Email = model.Username,

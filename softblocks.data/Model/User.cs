@@ -16,5 +16,6 @@ namespace softblocks.data.Model
         public string ProfilePhoto { get; set; }
         public int Status { get; set; }
         public string VerificationCode { get; set; }
+        public string CurrentOrganisation { get; set; }
     }
 }

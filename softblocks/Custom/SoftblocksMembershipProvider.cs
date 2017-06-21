@@ -1,4 +1,8 @@
-﻿using softblocks.data.Model;
+﻿using SimpleInjector;
+using SimpleInjector.Integration.Web;
+using softblocks.data.Interface;
+using softblocks.data.Model;
+using softblocks.data.Repository;
 using softblocks.library.Services;
 using System;
 using System.Collections.Generic;
@@ -150,7 +154,13 @@ namespace softblocks.Custom
 
         public override bool ValidateUser(string username, string password)
         {
-            var userService = new UserService();
+
+            var container = new Container();
+            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
+            container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
+            container.Verify();
+
+            var userService = container.GetInstance<UserService>();
             //var getUser = userService.ValidateUser(username, password);
             //Task.WaitAll(getUser);
             //var user = getUser.Result;

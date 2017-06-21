@@ -1,4 +1,5 @@
 ﻿using softblocks.data.Common;
+using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.data.Repository;
 using System;
@@ -9,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace softblocks.library.Services
 {
-    public class UserService
+    public class UserService 
     {
-        private UserRepository _userRepository;
+        private IUserRepository _userRepository;
 
-        public UserService()
+        public UserService(IUserRepository _userRepository)
         {
-            _userRepository = new UserRepository();
+            this._userRepository = _userRepository;
         }
 
         public async Task<User> CreateUser(User user)
