@@ -827,6 +827,8 @@
     <Content Include="vendor\jquery-ui\ui\tabs.js" />
     <Content Include="vendor\jquery-ui\ui\tooltip.js" />
     <Content Include="vendor\jquery-ui\ui\widget.js" />
+    <Content Include="vendor\jquery-validation\additional-methods.min.js" />
+    <Content Include="vendor\jquery-validation\jquery.validate.min.js" />
     <Content Include="vendor\jquery\AUTHORS.txt" />
     <Content Include="vendor\jquery\dist\jquery.js" />
     <Content Include="vendor\jquery\dist\jquery.min.js" />
