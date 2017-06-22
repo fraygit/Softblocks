@@ -59,11 +59,14 @@
     <Compile Include="Common\Crypto.cs" />
     <Compile Include="Entities\Base\IMongoEntity.cs" />
     <Compile Include="Entities\Base\MongoEntity.cs" />
+    <Compile Include="Interface\IAppModuleRepository.cs" />
     <Compile Include="Interface\IOrganisationRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
+    <Compile Include="Model\AppModule.cs" />
     <Compile Include="Model\Organisation.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AppModuleRepositoty.cs" />
     <Compile Include="Repository\OrganisationRepositoty.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Service\ConnectionHandler.cs" />

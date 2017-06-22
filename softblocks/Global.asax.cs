@@ -25,6 +25,7 @@ namespace softblocks
             // Register your types, for instance using the scoped lifestyle:
             container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
             container.Register<IOrganisationRepository, OrganisationRepositoty>(Lifestyle.Scoped);
+            container.Register<IAppModuleRepository, AppModuleRepositoty>(Lifestyle.Scoped);
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();
 
