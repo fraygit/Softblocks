@@ -25,6 +25,12 @@ namespace softblocks.library.Services
             return user;
         }
 
+        public async Task<User> Get(string username)
+        {
+            var user = await _userRepository.GetUser(username);
+            return user;
+        }
+
         public async Task<User> ValidateUser(string username, string password)
         {
             var user = await _userRepository.GetUser(username);

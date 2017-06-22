@@ -1,13 +1,15 @@
-﻿
+﻿@model softblocks.Models.NavigationViewModel
 <aside class="navigation">
     <nav>
         <ul class="nav luna-nav">
-            <li class="nav-info" style="margin-top:-10px!important;">
-                <i class="pe pe-7s-shield text-accent"></i>
-                <div class="m-t-xs">
-                    <span class="c-white">LUNA</span> admin theme with Dark UI style for monitoring and administration web applications.
-                </div>
-            </li>
+            @if (!string.IsNullOrEmpty(Model.OrganisationName)) { 
+                <li class="nav-info" style="margin-top:-10px!important;">
+                    <i class="pe pe-7s-shield text-accent"></i>
+                    <div class="m-t-xs">
+                        <span class="c-white">@Model.OrganisationName</span> 
+                    </div>
+                </li>
+            }
             <li class="nav-category">
                 Main
             </li>

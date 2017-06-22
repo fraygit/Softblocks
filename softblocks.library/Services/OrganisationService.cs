@@ -26,6 +26,12 @@ namespace softblocks.library.Services
             return organisation;
         }
 
+        public async Task<Organisation> Get(string id)
+        {
+            var organisation = await _organisationRepository.Get(id);
+            return organisation;
+        }
+
         public async Task<Organisation> CreateAndSetUserDefaultOrganisation(Organisation organisation, string username)
         {
             await _organisationRepository.CreateSync(organisation);

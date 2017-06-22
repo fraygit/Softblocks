@@ -1197,6 +1197,7 @@
     </Compile>
     <Compile Include="Models\JsonGenericResult.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\NavigationViewModel.cs" />
     <Compile Include="Models\PageLogin.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
