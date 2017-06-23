@@ -26,6 +26,7 @@ namespace softblocks
             container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
             container.Register<IOrganisationRepository, OrganisationRepositoty>(Lifestyle.Scoped);
             container.Register<IAppModuleRepository, AppModuleRepositoty>(Lifestyle.Scoped);
+            container.Register<IDocumentTypeRepository, DocumentTypeRepository>(Lifestyle.Scoped);
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();
 
