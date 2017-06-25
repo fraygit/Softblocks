@@ -11,6 +11,7 @@ namespace softblocks.data.Model
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string OrganisationId { get; set; }
         public List<Field> Fields { get; set; }
     }
 }

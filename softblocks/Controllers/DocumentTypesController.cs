@@ -16,10 +16,12 @@ namespace softblocks.Controllers
     public class DocumentTypesController : Controller
     {
         private IDocumentTypeRepository _documentTypeRepositoy;
+        private IUserRepository _userRepository;
 
-        public DocumentTypesController(IDocumentTypeRepository _documentTypeRepositoy)
+        public DocumentTypesController(IDocumentTypeRepository _documentTypeRepositoy, IUserRepository _userRepository)
         {
             this._documentTypeRepositoy = _documentTypeRepositoy;
+            this._userRepository = _userRepository;
         }
 
         // GET: DocumentTypes
@@ -40,14 +42,29 @@ namespace softblocks.Controllers
         {
             try
             {
-                var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-                var documentType = await documentTypeService.Create(model);
-                var result = new JsonGenericResult
+                var userService = new UserService(_userRepository);
+                var user = await userService.Get(User.Identity.Name);
+                if (!string.IsNullOrEmpty(user.CurrentOrganisation))
                 {
-                    IsSuccess = true,
-                    Result = documentType.Id.ToString()
+                    model.OrganisationId = user.CurrentOrganisation;
+
+                    var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
+                    var documentType = await documentTypeService.Create(model);
+
+                    var result = new JsonGenericResult
+                    {
+                        IsSuccess = true,
+                        Result = documentType.Id.ToString()
+                    };
+                    return Json(result);
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No current organisation. Please login into one."
                 };
-                return Json(result);
+                return Json(ErrorResult);
+
             }
             catch (Exception ex)
             {
