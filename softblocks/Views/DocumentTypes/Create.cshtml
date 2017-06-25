@@ -1,4 +1,5 @@
-﻿
+﻿@model softblocks.data.Model.DocumentType
+
 <section class="content">
     <div class="container-fluid">
 
@@ -22,7 +23,7 @@
             <div class="col-md-6" id="pblCreateOrg">
                 <div class="panel panel-filled">
                     <div class="panel-heading">
-                        Create a Document Type
+                        Document Type
                     </div>
                     <div class="panel-body">
 
@@ -31,24 +32,45 @@
                         <form id="frmCreateOrg">
                             <div class="form-group">
                                 <label for="exampleInputName">Document Type Name</label>
-                                <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="">
+                                <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="" value="@Model.Name">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
+                                <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription">@Model.Description</textarea>
                             </div>
                             <!--<button type="button" class="btn btn-default" id="btnCreate">Create</button>-->
-                            <button type="button" class="btn btn-default" id="btnCreate">Create</button>
+                            <button type="button" class="btn btn-default" id="btnCreate">Save</button>
                         </form>
                     </div>
                 </div>
-
             </div>
-        </div>
+            <div class="col-md-6">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        Add Fields
+                    </div>
+                    <div class="panel-body">
+
+                        <p>A document type is a data set.</p>
+
+                        <form id="frmCreateOrg">
+                            <div class="form-group">
+                                <label for="exampleInputName">Field Name</label>
+                                <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Data Type</label>
+                                <select id="ddDataType" class="form-control">
+                                    <option value="Text">Text</option>
+                                    <option value="Integer">Integer</option>
+                                </select>
+                            </div>
+                            <!--<button type="button" class="btn btn-default" id="btnCreate">Create</button>-->
+                            <button type="button" class="btn btn-default" id="btnAddField">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </div>
 </section>
 

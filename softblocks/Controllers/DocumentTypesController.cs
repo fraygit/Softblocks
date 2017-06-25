@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using MongoDB.Bson;
 
 namespace softblocks.Controllers
 {
@@ -27,9 +28,11 @@ namespace softblocks.Controllers
             return View();
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create(string id)
         {
-            return View();
+            var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
+            var documentType = await documentTypeService.Get(id);
+            return View(documentType);
         }
 
         [HttpPost]
@@ -38,10 +41,11 @@ namespace softblocks.Controllers
             try
             {
                 var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-                documentTypeService.Create(model);
+                var documentType = await documentTypeService.Create(model);
                 var result = new JsonGenericResult
                 {
-                    IsSuccess = true
+                    IsSuccess = true,
+                    Result = documentType.Id.ToString()
                 };
                 return Json(result);
             }

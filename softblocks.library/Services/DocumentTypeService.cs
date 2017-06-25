@@ -22,5 +22,11 @@ namespace softblocks.library.Services
             await _documentTypeRepository.CreateSync(documentType);
             return documentType;
         }
+
+        public async Task<DocumentType> Get(string id)
+        {
+            var documentType = await _documentTypeRepository.Get(id);
+            return documentType;
+        }
     }
 }

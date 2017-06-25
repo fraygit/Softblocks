@@ -8,9 +8,9 @@ namespace softblocks.data.Common
 {
     public class Enums
     {
-        public enum FieldTypes
+        public enum DataTypes
         {
-            Text, TextArea, Number, Decimal, Date, DateTime
+            Text, TextArea, Integer, Decimal, Date, DateTime
         }
     }
 }
