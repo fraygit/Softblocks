@@ -13,12 +13,12 @@ namespace softblocks.Controllers
     public class LoginController : Controller
     {
         // GET: Login
-        public async Task<ActionResult> Index(LoginViewModel model)
+        public ActionResult Index(LoginViewModel model)
         {
             return View(model);
         }
         
-        public async Task<ActionResult> Validate(PageLogin loginModel)
+        public ActionResult Validate(PageLogin loginModel)
         {
             var isUserValid = Membership.ValidateUser(loginModel.Username, loginModel.Password);
             if (isUserValid)

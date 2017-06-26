@@ -113,6 +113,7 @@
                             $("#pnlAddField").removeClass("ld-loading");
                             if (d.IsSuccess == true) {
                                 $("#frmAddField")[0].reset();
+                                LoadFieldTable();
                                 toastr.success('Successfully add field!');
                             }
                             else {
