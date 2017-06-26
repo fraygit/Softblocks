@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" id="pnlAddField">
                 <div class="panel panel-filled">
                     <div class="panel-heading">
                         Add/Edit Field
@@ -53,10 +53,10 @@
 
                         <p>A document type is a data set.</p>
 
-                        <form id="frmCreateOrg">
+                        <form id="frmAddField">
                             <div class="form-group">
                                 <label for="exampleInputName">Field Name</label>
-                                <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="">
+                                <input type="text" class="form-control" id="txtFieldName" placeholder="Name" required="">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Data Type</label>
@@ -105,32 +105,33 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $("#btnCreate").click(function () {
-                $("#pblCreateOrg").addClass("ld-loading");
-                var isValid = $("#frmCreateOrg").valid();
+            $("#btnAddField").click(function () {
+                $("#pnlAddField").addClass("ld-loading");
+                var isValid = $("#frmAddField").valid();
                 if (isValid) {
                     var data = {
-                        Name: $("#txtOrganisationName").val(),
-                        Description: $("#txtDescription").val()
+                        DocumentId: '@Model.Id.ToString()',
+                        Name: $("#txtFieldName").val(),
+                        DataType: $("#ddDataType").val()
                     }
                     $.ajax({
                         type: "POST",
-                        url: "/AppModule/Create",
+                        url: '@Url.Action("AddField", "DocumentTypes")',
                         contentType: "application/json",
                         dataType: "json",
                         data: JSON.stringify(data),
                         success: function (d) {
-                            $("#pblCreateOrg").removeClass("ld-loading");
+                            $("#pnlAddField").removeClass("ld-loading");
                             if (d.IsSuccess == true) {
-                                $("#frmCreateOrg")[0].reset();
-                                toastr.success('Successfully created module!');
+                                $("#frmAddField")[0].reset();
+                                toastr.success('Successfully add field!');
                             }
                             else {
                                 toastr.warning('Error occured. ' + d.Message);
                             }
                         },
                         error: function (xhr, textStatus, errorThrown) {
-                            $("#pblCreateOrg").removeClass("ld-loading");
+                            $("#pnlAddField").removeClass("ld-loading");
                             // TODO: Show error
                         }
                     });

@@ -1205,6 +1205,7 @@
     <Compile Include="Models\NavigationViewModel.cs" />
     <Compile Include="Models\PageLogin.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\ReqAddField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

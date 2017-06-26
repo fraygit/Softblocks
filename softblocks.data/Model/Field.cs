@@ -9,7 +9,8 @@ namespace softblocks.data.Model
 {
     public class Field
     {
+        public string FieldId { get; set; }
         public string Name { get; set; }
-        public Enums.DataTypes DataType { get; set; }
+        public string DataType { get; set; }
     }
 }

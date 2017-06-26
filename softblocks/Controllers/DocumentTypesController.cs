@@ -34,7 +34,11 @@ namespace softblocks.Controllers
         {
             var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
             var documentType = await documentTypeService.Get(id);
-            return View(documentType);
+            if (documentType != null)
+            {
+                return View(documentType);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -64,6 +68,38 @@ namespace softblocks.Controllers
                     Message = "No current organisation. Please login into one."
                 };
                 return Json(ErrorResult);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddField(ReqAddField model)
+        {
+            try
+            {
+                var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
+                var field = new Field
+                {
+                    Name = model.Name,
+                    DataType = model.DataType
+                };
+                var documentType = await documentTypeService.AddField(model.DocumentId, field);
+
+                var result = new JsonGenericResult
+                {
+                    IsSuccess = true,
+                    Result = documentType.Fields
+                };
+                return Json(result);
 
             }
             catch (Exception ex)
