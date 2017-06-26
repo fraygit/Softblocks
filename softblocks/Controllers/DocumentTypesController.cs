@@ -41,6 +41,13 @@ namespace softblocks.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> Fields(string id)
+        {
+            var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
+            var documentType = await documentTypeService.Get(id);
+            return View(documentType);
+        }
+
         [HttpPost]
         public async Task<JsonResult> Create(DocumentType model)
         {

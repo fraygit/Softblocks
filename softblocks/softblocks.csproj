@@ -1268,6 +1268,7 @@
     <Content Include="Views\AppModule\Create.cshtml" />
     <Content Include="Views\DocumentTypes\Index.cshtml" />
     <Content Include="Views\DocumentTypes\Create.cshtml" />
+    <Content Include="Views\DocumentTypes\Fields.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -71,32 +71,10 @@
                     </div>
                 </div>
             </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-filled">
-                <div class="panel-heading">
-                    Fields
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Data Type</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Henry</td>
-                                    <td>Purus Gravida Sagittis Limited</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="pnlFields"></div>
             </div>
         </div>
     </div>
@@ -105,6 +83,17 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
+
+            //Load partial view
+            var LoadFieldTable = function () {
+                $("#pnlFields").addClass("ld-loading");
+                $('#pnlFields').load('@Url.Action("Fields", "DocumentTypes", new { id = Model.Id })', function () {
+                    $("#pnlFields").removeClass("ld-loading");
+                });
+            }
+
+            LoadFieldTable();
+
             $("#btnAddField").click(function () {
                 $("#pnlAddField").addClass("ld-loading");
                 var isValid = $("#frmAddField").valid();
@@ -138,5 +127,5 @@
                 }
             });
         });
-    </script>
+</script>
 }
