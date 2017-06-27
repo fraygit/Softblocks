@@ -61,12 +61,14 @@
     <Compile Include="Entities\Base\IMongoEntity.cs" />
     <Compile Include="Entities\Base\MongoEntity.cs" />
     <Compile Include="Interface\IAppModuleRepository.cs" />
+    <Compile Include="Interface\IDataPanelRepository.cs" />
     <Compile Include="Interface\IDocumentTypeRepository.cs" />
     <Compile Include="Interface\IModuleMenuRepository.cs" />
     <Compile Include="Interface\IOrganisationRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Model\AppModule.cs" />
     <Compile Include="Model\AppModulePage.cs" />
+    <Compile Include="Model\DataPanel.cs" />
     <Compile Include="Model\DocumentType.cs" />
     <Compile Include="Model\Field.cs" />
     <Compile Include="Model\ModuleMenu.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AppModuleRepositoty.cs" />
+    <Compile Include="Repository\DataPanelRepository.cs" />
     <Compile Include="Repository\DocumentTypeRepository.cs" />
     <Compile Include="Repository\ModuleMenuRepository.cs" />
     <Compile Include="Repository\OrganisationRepositoty.cs" />

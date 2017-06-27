@@ -1201,6 +1201,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppModuleController.cs" />
+    <Compile Include="Controllers\DataPanelController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -1289,6 +1290,7 @@
     <Content Include="Views\AppModule\PageList.cshtml" />
     <Content Include="Views\Partials\ListModulePages.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\DataPanel\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

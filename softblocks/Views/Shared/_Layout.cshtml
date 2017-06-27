@@ -53,6 +53,37 @@
     <!-- App scripts -->
     <script src="/scripts/luna.js"></script>
 
+    <script type="text/javascript">
+        
+        var CallAjax = function (ajaxUrl, method, data, formElement, pnl, cb) {                
+            $(pnl).addClass("ld-loading");
+            var isValid = $(formElement).valid();
+            if (isValid) {
+                $.ajax({
+                    type: method,
+                    url: ajaxUrl,
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        $(pnl).removeClass("ld-loading");
+                        if (d.IsSuccess == true) {
+                            cb(d);
+                        }
+                        else {
+                            toastr.warning('Error occured. ' + d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $(pnl).removeClass("ld-loading");
+                        // TODO: Show error
+                    }
+                });
+            }                
+        };
+        
+    </script>
+
     @RenderSection("scripts", required: false)
     <script>
     $(document).ready(function () {

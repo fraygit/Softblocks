@@ -6,17 +6,47 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="view-header">
-                    <div class="pull-right text-right" style="line-height: 14px">
-                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#pnlCreate">Create Document Type</button>
-                    </div>
                     <div class="header-icon">
                         <i class="pe page-header-icon pe-7s-note2"></i>
                     </div>
                     <div class="header-title">
-                        <h3>Document Types</h3>
+                        <h3>Data Tools</h3>
                     </div>
                 </div>
                 <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" id="pblCreateOrg">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        <div class="pull-right text-right" style="line-height: 14px">
+                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#pnlCreate">Create Document Type</button>
+                        </div>
+                        Document Types
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <div id="pnlDocuemntTypes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="pblCreateOrg">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        <div class="pull-right text-right" style="line-height: 14px">
+                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#pnlAddDataPanel">Add Data Panels</button>
+                        </div>
+                        Data Panels
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <div id="pnlDataPanels"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -46,6 +76,38 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-accent" id="btnCreateDocumentType">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pnlAddDataPanel" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Create Data Panel</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmCreateDataPanel">
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="txtDataPanelName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDataPanelDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Type</label>
+                        <select id="ddDataPanelType" class="form-control">
+                            <option>Form</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-accent" id="btnCreateDataPanel">Create</button>
             </div>
         </div>
     </div>
@@ -91,6 +153,28 @@
                         }
                     });
                 }
+            });
+
+            var LoadDataPanelList = function () {
+                $("#pnlDataPanels").addClass("ld-loading");
+                $("#pnlDataPanels").load('@Url.Action("List", "DataPanel")', function () {
+                    $("#pnlDataPanels").removeClass("ld-loading");
+                });
+            };
+
+            LoadDataPanelList();
+
+            $("#btnCreateDataPanel").click(function () {
+                var data = {
+                    Name: $("#txtDataPanelName").val(),
+                    Description: $("#txtDataPanelDescription").val(),
+                    Type: $("#ddDataPanelType").val()
+                }
+                CallAjax("@Url.Action("Add", "DataPanel")", "POST", data, "#frmCreateDataPanel", "#pnlAddDataPanel", function (d) {
+                    toastr.success('Successfully created data panel!');
+                    LoadDataPanelList();
+                    $("#pnlAddDataPanel").modal("toggle");
+                });
             });
 
         });
