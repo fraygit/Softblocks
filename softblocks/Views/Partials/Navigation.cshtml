@@ -10,6 +10,9 @@
                     </div>
                 </li>
             }
+            
+            @Html.Action("ListModulePages", "Partials")
+
             <li class="nav-category">
                 Main
             </li>
@@ -46,12 +49,8 @@
                     Modules <span class="sub-nav-icon"> <i class="stroke-arrow"></i> </span>
                 </a>
                 <ul id="extras" class="nav nav-second collapse">
+                    <li><a href="@Url.Action("Index", "AppModule")">Modules</a></li>
                     <li><a href="@Url.Action("Create", "AppModule")">Create Module</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="support.html">Support</a></li>
-                    <li><a href="nestableList.html">List</a></li>
-                    <li><a href="timeline.html">Timeline</a></li>
                 </ul>
             </li>
             <li>

@@ -66,6 +66,7 @@
     <Compile Include="Interface\IOrganisationRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Model\AppModule.cs" />
+    <Compile Include="Model\AppModulePage.cs" />
     <Compile Include="Model\DocumentType.cs" />
     <Compile Include="Model\Field.cs" />
     <Compile Include="Model\ModuleMenu.cs" />

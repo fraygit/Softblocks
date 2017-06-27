@@ -1,0 +1,131 @@
+﻿@model softblocks.data.Model.AppModule
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="@Url.Action("Index", "AppModule")">Modules</a> / Detail
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="view-header">
+                    <div class="header-icon">
+                        <i class="pe page-header-icon pe-7s-note2"></i>
+                    </div>
+                    <div class="header-title">
+                        <h3>Module @Model.Name</h3>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" id="pblCreateOrg">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        <div class="pull-right text-right" style="line-height: 14px">
+                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#pnlAddPage">Add Page</button>
+                        </div>
+                        Page List
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <div id="pnlPages"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade" id="pnlAddPage" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add Page</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddPage">
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="txtName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Title</label>
+                        <input type="text" class="form-control" id="txtTitle" placeholder="Page Title" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-accent" id="btnAddPage">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            var LoadPages = function () {
+                $("#pnlPages").addClass("ld-loading");
+                $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
+                    $("#pnlPages").removeClass("ld-loading");
+                });
+            }
+
+            LoadPages();
+
+            $("#btnAddPage").click(function () {
+                $("#pnlAddPage").addClass("ld-loading");
+                var isValid = $("#frmAddPage").valid();
+                if (isValid) {
+                    var data = {
+                        ModuleId: '@Model.Id.ToString()',
+                        Page: {
+                            Name: $("#txtName").val(),
+                            Title: $("#txtTitle").val(),
+                            Description: $("#txtDescription").val()
+                        }
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddPage", "AppModule")",
+                        contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        $("#pnlAddPage").removeClass("ld-loading");
+                        if (d.IsSuccess == true) {
+                            $("#frmAddPage")[0].reset();
+                            $("#pnlAddPage").modal('toggle');
+                            toastr.success('Successfully created document type!');
+                            LoadPages();
+                            setTimeout(function () {
+                                //document.location.href = "/DocumentTypes/Create/" + d.Result;
+                            }, 1000);
+                        }
+                        else {
+                            toastr.warning('Error occured. ' + d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $("#pnlAddPage").removeClass("ld-loading");
+                        // TODO: Show error
+                    }
+                });
+            }
+            });
+        });
+    </script>
+}

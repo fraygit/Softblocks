@@ -1,0 +1,14 @@
+﻿@model List<softblocks.data.Model.AppModule>
+
+@foreach (var module in Model) { 
+    <li class="nav-category">
+        @module.Name
+    </li>
+    if (module.Pages != null) {
+        foreach (var page in module.Pages) { 
+            <li>
+                <a href="@Url.Action("Index", "Page", new { moduleId = module.Id.ToString(), pageId = page.PageId.ToString() })">@page.Name</a>
+            </li>
+        }
+    }
+}

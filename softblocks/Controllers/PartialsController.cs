@@ -1,4 +1,5 @@
 ﻿using softblocks.data.Interface;
+using softblocks.data.Model;
 using softblocks.library.Services;
 using softblocks.Models;
 using System;
@@ -15,14 +16,15 @@ namespace softblocks.Controllers
 
         private IUserRepository _userRepository;
         private IOrganisationRepository _organisationRepository;
+        private IAppModuleRepository _appModuleRepository;
 
         private NavigationViewModel _model;
 
-        public PartialsController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository)
+        public PartialsController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository, IAppModuleRepository _appModuleRepository)
         {
             this._userRepository = _userRepository;
             this._organisationRepository = _organisationRepository;
-
+            this._appModuleRepository = _appModuleRepository;
         }
 
         // GET: Partials
@@ -53,6 +55,18 @@ namespace softblocks.Controllers
         public ActionResult Header()
         {
             return PartialView();
+        }
+
+        public ActionResult ListModulePages()
+        {
+            var userService = new UserService(_userRepository);
+            var user = Task.Run(() => userService.Get(User.Identity.Name)).Result;
+            var modules = new List<AppModule>();
+            if (!string.IsNullOrEmpty(user.CurrentOrganisation))
+            {
+                modules = Task.Run(() => _appModuleRepository.ListAll()).Result; 
+            }
+            return PartialView(modules);
         }
     }
 }
