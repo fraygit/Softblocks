@@ -30,6 +30,20 @@ namespace softblocks.Controllers
             return View();
         }
 
+        public async Task<ActionResult> DropdownList()
+        {
+            var user = await _userRepository.GetUser(User.Identity.Name);
+            if (user != null)
+            {
+                var documentTypes = await _documentTypeRepositoy.GetByOrg(user.CurrentOrganisation);
+                if (documentTypes != null)
+                {
+                    return View(documentTypes);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
         public async Task<ActionResult> Create(string id)
         {
             var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);

@@ -10,5 +10,6 @@ namespace softblocks.data.Interface
 {
     public interface IDocumentTypeRepository : IEntityService<DocumentType>
     {
+        Task<List<DocumentType>> GetByOrg(string organisationId);
     }
 }

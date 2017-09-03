@@ -39,6 +39,26 @@ namespace softblocks.Controllers
             return View(list);
         }
 
+        public async Task<ActionResult> Edit(string dataPanelId)
+        {
+            var dataPanel = await _dataPanelRepository.Get(dataPanelId);
+            if (dataPanel != null)
+            {
+                return View(dataPanel);
+            }
+            return RedirectToAction("Index", "DocumentType");
+        }
+
+        public async Task<ActionResult> EditForm(string dataPanelId)
+        {
+            var dataPanel = await _dataPanelRepository.Get(dataPanelId);
+            if (dataPanel != null)
+            {
+                return View(dataPanel);
+            }
+            return RedirectToAction("Index", "DocumentType");
+        }
+
         [HttpPost]
         public async Task<JsonResult> Add(DataPanel model)
         {

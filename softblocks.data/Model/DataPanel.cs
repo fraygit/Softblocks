@@ -13,5 +13,7 @@ namespace softblocks.data.Model
         public string Description { get; set; }
         public string OrganisationId { get; set; }
         public string Type { get; set; }
+        public string DataTypeId { get; set; }
+        public DataPanelForm Form { get; set; }
     }
 }

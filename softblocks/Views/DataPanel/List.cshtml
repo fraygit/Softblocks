@@ -18,7 +18,7 @@
             foreach (var dataPanel in Model)
             {
                 <tr>
-                    <td>@dataPanel.Name</td>
+                    <td><a href="@Url.Action("Edit", "DataPanel", new { dataPanelId = dataPanel.Id.ToString() })">@dataPanel.Name</a></td>
                     <td>@dataPanel.Description</td>
                     <td><a href=""><i class="fa fa-pencil"></i></a></td>
                     <td><a href=""><i class="fa fa-trash"></i></a></td>

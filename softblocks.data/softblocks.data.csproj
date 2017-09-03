@@ -69,8 +69,10 @@
     <Compile Include="Model\AppModule.cs" />
     <Compile Include="Model\AppModulePage.cs" />
     <Compile Include="Model\DataPanel.cs" />
+    <Compile Include="Model\DataPanelForm.cs" />
     <Compile Include="Model\DocumentType.cs" />
     <Compile Include="Model\Field.cs" />
+    <Compile Include="Model\FormField.cs" />
     <Compile Include="Model\ModuleMenu.cs" />
     <Compile Include="Model\Organisation.cs" />
     <Compile Include="Model\User.cs" />
