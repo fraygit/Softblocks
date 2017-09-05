@@ -116,6 +116,8 @@
     <Content Include="images\a4.jpg" />
     <Content Include="images\a5.jpg" />
     <Content Include="images\profile.jpg" />
+    <Content Include="plugins\bower_components\jquery-validation\additional-methods.min.js" />
+    <Content Include="plugins\bower_components\jquery-validation\jquery.validate.min.js" />
     <Content Include="scripts\luna.js" />
     <Content Include="styles\pe-icons\helper.css" />
     <Content Include="styles\pe-icons\pe-icon-7-stroke.css" />

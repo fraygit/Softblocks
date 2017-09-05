@@ -27,6 +27,17 @@
                     <li><a href="javascript:void(0)"><i class="fa fa-power-off"></i> Logout</a></li>
                 </ul>
             </li>
+            
+            @if (!string.IsNullOrEmpty(Model.OrganisationName)) {
+                <li class="nav-small-cap m-t-10">--- Organisation</li>
+                <li>
+                    <a href="index.html" class="waves-effect"><i class="zmdi zmdi-home zmdi-hc-fw fa-fw"></i> <span class="hide-menu"> @Model.OrganisationName <span class="fa arrow"></span></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="#">Users</a></li>
+                        <li><a href="#">Switch organisation</a></li>
+                    </ul>
+                </li>
+            }
 
             @Html.Action("ListModulePages", "Partials")
 
@@ -53,6 +64,11 @@
                     <li><a href="@Url.Action("Index", "DocumentTypes")">Document Types</a></li>
                 </ul>
             </li>
+
+            <li>
+                <a href="@Url.Action("Logout", "Home")" class=" waves-effect"><i class="zmdi zmdi-power zmdi-hc-fw fa-fw"></i> <span class="hide-menu">Log out</span></a>
+            </li>
+
 
         </ul>
     </div>

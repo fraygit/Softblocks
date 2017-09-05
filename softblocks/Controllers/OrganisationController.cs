@@ -42,6 +42,8 @@ namespace softblocks.Controllers
             try
             {
                 var organisationService = new OrganisationService(_organisationRepository, _userRepository);
+                model.Users = new List<string>();
+                model.Users.Add(User.Identity.Name);
                 await organisationService.CreateAndSetUserDefaultOrganisation(model, User.Identity.Name);
                 var result = new JsonGenericResult
                 {

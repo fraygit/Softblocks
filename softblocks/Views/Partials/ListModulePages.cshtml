@@ -1,7 +1,7 @@
 ﻿@model List<softblocks.data.Model.AppModule>
 
 
-<li class="nav-small-cap m-t-10">--- Modules</li>
+<li class="nav-small-cap m-t-10">--- Apps</li>
 @foreach (var module in Model)
 {
     <li>
@@ -17,6 +17,9 @@
                 </ul>
             }
         }
+    </li>
+    <li>
+        <a href="#" class="waves-effect"><i class="zmdi zmdi-local-grocery-store zmdi-hc-fw fa-fw"></i> <span class="hide-menu">App Store</span></a>
     </li>
 }
 

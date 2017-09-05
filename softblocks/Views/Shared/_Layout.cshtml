@@ -1,11 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,12 +26,19 @@
     <link href="/assets/css/style.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="/assets/css/colors/default.css" id="theme" rel="stylesheet">
+    <link href="/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+        .error{
+            color:red;
+        }
+    </style>
 </head>
 
 <body>
@@ -312,6 +314,8 @@
     <script src="/assets/js/dashboard2.js"></script>
     <!--Style Switcher -->
     <script src="/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="/plugins/bower_components/jquery-validation/jquery.validate.min.js"></script>
+    <script src="/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>
