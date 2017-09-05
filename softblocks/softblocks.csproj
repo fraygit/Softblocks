@@ -1302,6 +1302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\css\" />
     <Folder Include="vendor\moment\src\lib\create\" />
     <Folder Include="vendor\moment\src\lib\duration\" />
     <Folder Include="vendor\moment\src\lib\format\" />
