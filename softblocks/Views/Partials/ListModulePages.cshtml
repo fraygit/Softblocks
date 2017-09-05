@@ -1,6 +1,27 @@
 ﻿@model List<softblocks.data.Model.AppModule>
 
-@foreach (var module in Model) { 
+
+<li class="nav-small-cap m-t-10">--- Modules</li>
+@foreach (var module in Model)
+{
+    <li>
+        <a href="index.html" class="waves-effect"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw fa-fw"></i> <span class="hide-menu"> @module.Name <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+        @if (module.Pages != null)
+        {
+            foreach (var page in module.Pages)
+            {
+                <ul class="nav nav-second-level">
+                    <li> 
+                        <a href="@Url.Action("Index", "Page", new { moduleId = module.Id.ToString(), pageId = page.PageId.ToString() })">@page.Name</a>    
+                    </li>
+                </ul>
+            }
+        }
+    </li>
+}
+
+
+@*@foreach (var module in Model) { 
     <li class="nav-category">
         @module.Name
     </li>
@@ -11,4 +32,4 @@
             </li>
         }
     }
-}
+}*@
