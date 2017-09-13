@@ -1,47 +1,37 @@
 ﻿@model softblocks.data.Model.AppModule
 
-<section class="content">
-    <div class="container-fluid">
 
-        <div class="row">
-            <div class="col-lg-12">
-                <a href="@Url.Action("Index", "AppModule")">Modules</a> / Detail
-            </div>
-        </div>
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Module - @Model.Name</h4>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="view-header">
-                    <div class="header-icon">
-                        <i class="pe page-header-icon pe-7s-note2"></i>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Pages
+                <div class="panel-action">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                        <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                            <li role="presentation"><a data-toggle="modal" data-target="#pnlAddPage" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a></li>
+                        </ul>
                     </div>
-                    <div class="header-title">
-                        <h3>Module @Model.Name</h3>
-                    </div>
+                    @*<button type="button" class="btn btn-outline btn-success btn-xs waves-effect" data-toggle="modal" data-target="#pnlAddPage">Add Page</button>*@
                 </div>
-                <hr>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6" id="pblCreateOrg">
-                <div class="panel panel-filled">
-                    <div class="panel-heading">
-                        <div class="pull-right text-right" style="line-height: 14px">
-                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#pnlAddPage">Add Page</button>
-                        </div>
-                        Pages
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <div id="pnlPages"></div>
-                        </div>
+            <div class="panel-wrapper collapse in">
+                <div class="table-responsive">
+                    <div id="pnlPages">                          
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 
 <div class="modal fade" id="pnlAddPage" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -78,16 +68,14 @@
     <script type="text/javascript">
         $(function () {
             var LoadPages = function () {
-                $("#pnlPages").addClass("ld-loading");
+                AddLoadingOverlay("#pnlPages");
                 $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
-                    $("#pnlPages").removeClass("ld-loading");
+                    RemoveLoadingOverlay("#pnlPages");
                 });
             }
-
             LoadPages();
-
             $("#btnAddPage").click(function () {
-                $("#pnlAddPage").addClass("ld-loading");
+                AddLoadingOverlay("#pnlPages");
                 var isValid = $("#frmAddPage").valid();
                 if (isValid) {
                     var data = {
@@ -105,22 +93,22 @@
                     dataType: "json",
                     data: JSON.stringify(data),
                     success: function (d) {
-                        $("#pnlAddPage").removeClass("ld-loading");
+                        RemoveLoadingOverlay("#pnlPages");
                         if (d.IsSuccess == true) {
                             $("#frmAddPage")[0].reset();
                             $("#pnlAddPage").modal('toggle');
-                            toastr.success('Successfully created document type!');
+                            alertSuccess("Success", "Successfully created document type!");
                             LoadPages();
                             setTimeout(function () {
                                 //document.location.href = "/DocumentTypes/Create/" + d.Result;
                             }, 1000);
                         }
                         else {
-                            toastr.warning('Error occured. ' + d.Message);
+                            alertError("Error!", d.Message);
                         }
                     },
                     error: function (xhr, textStatus, errorThrown) {
-                        $("#pnlAddPage").removeClass("ld-loading");
+                        RemoveLoadingOverlay("#pnlPages");
                         // TODO: Show error
                     }
                 });
