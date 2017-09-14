@@ -46,15 +46,45 @@ namespace softblocks.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<ActionResult> List(string appId)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.DocumentTypes != null)
+                    {
+                        return View(appModule.DocumentTypes);
+                    }
+                    return View(new List<DocumentType>());
+                }
+            }
+            return View();
+        }
+
         public async Task<ActionResult> Create(string id, string appId)
         {
-            var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-            var documentType = await documentTypeService.Get(id);
-            if (documentType != null)
+            if (!string.IsNullOrEmpty(appId))
             {
-                return View(documentType);
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.DocumentTypes.Any(n => n.Id.ToString().ToLower() == id.ToLower()))
+                    {
+                        return View(appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower() == id.ToLower()));
+                    }
+                }
             }
             return RedirectToAction("Index");
+            
+            //var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
+            //var documentType = await documentTypeService.Get(id);
+            //if (documentType != null)
+            //{
+            //    return View(documentType);
+            //}
+            //return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> Fields(string id)
@@ -78,6 +108,16 @@ namespace softblocks.Controllers
                         {
                             appModule.DocumentTypes = new List<DocumentType>();
                         }
+
+                        if (appModule.DocumentTypes.Any(n => n.Name.ToLower().Trim() == req.Name.ToLower().Trim()))
+                        {
+                            var ErrorResult1 = new JsonGenericResult
+                            {
+                                IsSuccess = false,
+                                Message = "A document type of the same name already exists."
+                            };
+                            return Json(ErrorResult1);
+                        }
                         var docId = ObjectId.GenerateNewId();
                         appModule.DocumentTypes.Add(new DocumentType
                         {
@@ -97,7 +137,7 @@ namespace softblocks.Controllers
                 var ErrorResult = new JsonGenericResult
                 {
                     IsSuccess = false,
-                    Message = "No current organisation. Please login into one."
+                    Message = "No app selected."
                 };
                 return Json(ErrorResult);
 

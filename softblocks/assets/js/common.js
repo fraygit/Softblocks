@@ -29,7 +29,7 @@ function alertError(title, message) {
         text: message,
         position: 'top-right',
         loaderBg: '#ff6849',
-        icon: 'success',
+        icon: 'error',
         hideAfter: 2000,
         stack: 6
     });

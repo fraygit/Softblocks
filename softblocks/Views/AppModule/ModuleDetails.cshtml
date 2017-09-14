@@ -112,33 +112,48 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(function () {
-            var LoadPages = function () {
-                AddLoadingOverlay("#pnlPages");
-                $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
+    $(function () {
+        var LoadPages = function () {
+            AddLoadingOverlay("#pnlPages");
+            $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
                     RemoveLoadingOverlay("#pnlPages");
                 });
                 $('#pnlPages').slimScroll({
                     height: '250px'
                 });
             }
+
+            var LoadDocumentTypes = function () {
+                AddLoadingOverlay("#pnlDocTypes");
+                $('#pnlDocTypes').load('@Url.Action("List", "DocumentTypes", new { appId = Model.Id.ToString() })', function () {
+                    RemoveLoadingOverlay("#pnlDocTypes");
+                });
+                $('#pnlDocTypes').slimScroll({
+                    height: '250px'
+                });
+            }
+
             LoadPages();
+            LoadDocumentTypes();
+
+
+
             $("#btnAddPage").click(function () {
                 AddLoadingOverlay("#pnlPages");
                 var isValid = $("#frmAddPage").valid();
                 if (isValid) {
                     var data = {
                         ModuleId: '@Model.Id.ToString()',
-                        Page: {
-                            Name: $("#txtName").val(),
-                            Title: $("#txtTitle").val(),
-                            Description: $("#txtDescription").val()
-                        }
+                    Page: {
+                        Name: $("#txtName").val(),
+                        Title: $("#txtTitle").val(),
+                        Description: $("#txtDescription").val()
                     }
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("AddPage", "AppModule")",
-                        contentType: "application/json",
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddPage", "AppModule")",
+                    contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify(data),
                     success: function (d) {
@@ -162,43 +177,43 @@
                     }
                 });
             }
-            });
-
-            $("#btnCreateDocumentType").click(function () {
-                $("#pnlCreate").addClass("ld-loading");
-                var isValid = $("#frmCreateDocumentType").valid();
-                if (isValid) {
-                    var data = {
-                        Name: $("#txtDocumentName").val(),
-                        Description: $("#txtDocDescription").val(),
-                        AppModuleId: $("#pnlData").data("app-module-id")
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "/DocumentTypes/Create",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify(data),
-                        success: function (d) {
-                            $("#pnlCreate").removeClass("ld-loading");
-                            if (d.IsSuccess == true) {
-                                $("#frmCreateDocumentType")[0].reset();
-                                alertSuccess("Success", "Successfully created document type!");
-                                setTimeout(function () {
-                                    document.location.href = "/DocumentTypes/Create/?id=" + d.Result + "&appId=" + $("#pnlData").data("app-module-id");
-                                }, 1000);
-                            }
-                            else {
-                                alertError("Error!", d.Message);
-                            }
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            $("#pnlCreate").removeClass("ld-loading");
-                            // TODO: Show error
-                        }
-                    });
-                }
-            });
         });
+
+        $("#btnCreateDocumentType").click(function () {
+            $("#pnlCreate").addClass("ld-loading");
+            var isValid = $("#frmCreateDocumentType").valid();
+            if (isValid) {
+                var data = {
+                    Name: $("#txtDocumentName").val(),
+                    Description: $("#txtDocDescription").val(),
+                    AppModuleId: $("#pnlData").data("app-module-id")
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/DocumentTypes/Create",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        $("#pnlCreate").removeClass("ld-loading");
+                        if (d.IsSuccess == true) {
+                            $("#frmCreateDocumentType")[0].reset();
+                            alertSuccess("Success", "Successfully created document type!");
+                            setTimeout(function () {
+                                document.location.href = "/DocumentTypes/Create/?id=" + d.Result + "&appId=" + $("#pnlData").data("app-module-id");
+                            }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $("#pnlCreate").removeClass("ld-loading");
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+    });
     </script>
 }

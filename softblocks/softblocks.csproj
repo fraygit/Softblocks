@@ -1298,6 +1298,7 @@
     <Content Include="Views\DataPanel\List.cshtml" />
     <Content Include="Views\DataPanel\Edit.cshtml" />
     <Content Include="Views\DocumentTypes\DropdownList.cshtml" />
+    <Content Include="Views\DocumentTypes\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
