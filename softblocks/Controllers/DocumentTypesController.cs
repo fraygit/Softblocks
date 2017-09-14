@@ -55,6 +55,7 @@ namespace softblocks.Controllers
                 {
                     if (appModule.DocumentTypes != null)
                     {
+                        ViewBag.AppId = appModule.Id.ToString();
                         return View(appModule.DocumentTypes);
                     }
                     return View(new List<DocumentType>());

@@ -1,5 +1,62 @@
 ﻿@model softblocks.data.Model.DocumentType
 
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Document Types</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <ol class="breadcrumb">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">UI Elements</a></li>
+            <li class="active">Panels &amp; Wells</li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @Model.Name
+                <div class="panel-action">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                        <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                            <li role="presentation"><a data-toggle="modal" data-target="#pnlAddPage" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <form class="form-horizontal row" role="form">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Document Type Name</label>
+                                    <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="" value="@Model.Name">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Description</label>
+                                    <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription">@Model.Description</textarea>
+                                </div>
+                            </div>    
+                            <div class="col-2">                    
+                                <button type="button" class="btn btn-block btn-info waves-effect" id="btnCreate">Save</button>
+                            </div>
+                        
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer"> Panel Footer </div>
+        </div>
+    </div>
+</div>
+
 <section class="content">
     <div class="container-fluid">
 
