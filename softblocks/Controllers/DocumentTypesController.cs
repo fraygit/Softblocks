@@ -17,11 +17,13 @@ namespace softblocks.Controllers
     {
         private IDocumentTypeRepository _documentTypeRepositoy;
         private IUserRepository _userRepository;
+        private IAppModuleRepository _appModuleRepository;
 
-        public DocumentTypesController(IDocumentTypeRepository _documentTypeRepositoy, IUserRepository _userRepository)
+        public DocumentTypesController(IDocumentTypeRepository _documentTypeRepositoy, IUserRepository _userRepository, IAppModuleRepository _appModuleRepository)
         {
             this._documentTypeRepositoy = _documentTypeRepositoy;
             this._userRepository = _userRepository;
+            this._appModuleRepository = _appModuleRepository;
         }
 
         // GET: DocumentTypes
@@ -44,7 +46,7 @@ namespace softblocks.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<ActionResult> Create(string id)
+        public async Task<ActionResult> Create(string id, string appId)
         {
             var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
             var documentType = await documentTypeService.Get(id);
@@ -63,25 +65,34 @@ namespace softblocks.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Create(DocumentType model)
+        public async Task<JsonResult> Create(ReqCreateDocumentType req)
         {
             try
             {
-                var userService = new UserService(_userRepository);
-                var user = await userService.Get(User.Identity.Name);
-                if (!string.IsNullOrEmpty(user.CurrentOrganisation))
+                if (!string.IsNullOrEmpty(req.AppModuleId))
                 {
-                    model.OrganisationId = user.CurrentOrganisation;
-
-                    var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-                    var documentType = await documentTypeService.Create(model);
-
-                    var result = new JsonGenericResult
+                    var appModule = await _appModuleRepository.Get(req.AppModuleId);
+                    if (appModule != null)
                     {
-                        IsSuccess = true,
-                        Result = documentType.Id.ToString()
-                    };
-                    return Json(result);
+                        if (appModule.DocumentTypes == null)
+                        {
+                            appModule.DocumentTypes = new List<DocumentType>();
+                        }
+                        var docId = ObjectId.GenerateNewId();
+                        appModule.DocumentTypes.Add(new DocumentType
+                        {
+                            Id = docId,
+                            Name = req.Name,
+                            Description = req.Description
+                        });
+                        await _appModuleRepository.Update(req.AppModuleId, appModule);
+                        var result = new JsonGenericResult
+                        {
+                            IsSuccess = true,
+                            Result = docId.ToString()
+                        };
+                        return Json(result);
+                    }
                 }
                 var ErrorResult = new JsonGenericResult
                 {
@@ -101,6 +112,46 @@ namespace softblocks.Controllers
 
             }
         }
+
+        //[HttpPost]
+        //public async Task<JsonResult> Create(DocumentType model)
+        //{
+        //    try
+        //    {
+        //        var userService = new UserService(_userRepository);
+        //        var user = await userService.Get(User.Identity.Name);
+        //        if (!string.IsNullOrEmpty(user.CurrentOrganisation))
+        //        {
+        //            model.OrganisationId = user.CurrentOrganisation;
+
+        //            var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
+        //            var documentType = await documentTypeService.Create(model);
+
+        //            var result = new JsonGenericResult
+        //            {
+        //                IsSuccess = true,
+        //                Result = documentType.Id.ToString()
+        //            };
+        //            return Json(result);
+        //        }
+        //        var ErrorResult = new JsonGenericResult
+        //        {
+        //            IsSuccess = false,
+        //            Message = "No current organisation. Please login into one."
+        //        };
+        //        return Json(ErrorResult);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new JsonGenericResult
+        //        {
+        //            IsSuccess = false,
+        //            Message = ex.Message
+        //        });
+
+        //    }
+        //}
 
         [HttpPost]
         public async Task<JsonResult> AddField(ReqAddField model)

@@ -9,9 +9,11 @@ namespace softblocks.data.Model
 {
     public class AppModule : MongoEntity
     {
+        public string Version { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string OrganisationId { get; set; }
         public List<AppModulePage> Pages { get; set; }
+        public List<DocumentType> DocumentTypes { get; set; }
     }
 }

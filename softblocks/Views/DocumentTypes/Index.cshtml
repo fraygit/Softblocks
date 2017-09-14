@@ -138,7 +138,7 @@
                             $("#pnlCreate").removeClass("ld-loading");
                             if (d.IsSuccess == true) {
                                 $("#frmCreateDocumentType")[0].reset();
-                                toastr.success('Successfully created document type!');
+                                alertSuccess("Success", "Successfully created document type!");
                                 setTimeout(function () {
                                     document.location.href = "/DocumentTypes/Create/" + d.Result;
                                 }, 1000);

@@ -109,6 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\js\common.js" />
     <Content Include="Global.asax" />
     <Content Include="images\a1.jpg" />
     <Content Include="images\a2.jpg" />
@@ -116,6 +117,7 @@
     <Content Include="images\a4.jpg" />
     <Content Include="images\a5.jpg" />
     <Content Include="images\profile.jpg" />
+    <Content Include="plugins\bower_components\blockUI\jquery.blockUI.js" />
     <Content Include="plugins\bower_components\jquery-validation\additional-methods.min.js" />
     <Content Include="plugins\bower_components\jquery-validation\jquery.validate.min.js" />
     <Content Include="scripts\luna.js" />
@@ -1223,6 +1225,7 @@
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ReqAddField.cs" />
     <Compile Include="Models\ReqAddPage.cs" />
+    <Compile Include="Models\ReqCreateDocumentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

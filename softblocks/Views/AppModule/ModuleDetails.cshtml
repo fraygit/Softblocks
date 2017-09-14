@@ -1,13 +1,12 @@
 ﻿@model softblocks.data.Model.AppModule
 
+<span id="pnlData" data-app-module-id="@Model.Id"></span>
 
 <div class="row bg-title">
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <h4 class="page-title">Module - @Model.Name</h4>
     </div>
-    <!-- /.col-lg-12 -->
 </div>
-
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="panel panel-default">
@@ -20,7 +19,6 @@
                             <li role="presentation"><a data-toggle="modal" data-target="#pnlAddPage" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a></li>
                         </ul>
                     </div>
-                    @*<button type="button" class="btn btn-outline btn-success btn-xs waves-effect" data-toggle="modal" data-target="#pnlAddPage">Add Page</button>*@
                 </div>
             </div>
             <div class="panel-wrapper collapse in">
@@ -29,10 +27,32 @@
                     </div>
                 </div>
             </div>
+            <div class="panel-footer"> Panel Footer </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Document Types
+                <div class="panel-action">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                        <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                            <li role="presentation"><a data-toggle="modal" data-target="#pnlCreate" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Document Types</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="table-responsive">
+                    <div id="pnlDocTypes">
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer"> Panel Footer </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="pnlAddPage" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
@@ -64,6 +84,32 @@
     </div>
 </div>
 
+<div class="modal fade" id="pnlCreate" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Create Document Type</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmCreateDocumentType">
+                    <div class="form-group">
+                        <label for="exampleInputName">Document Type Name</label>
+                        <input type="text" class="form-control" id="txtDocumentName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDocDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-accent" id="btnCreateDocumentType">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script type="text/javascript">
         $(function () {
@@ -71,6 +117,9 @@
                 AddLoadingOverlay("#pnlPages");
                 $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
                     RemoveLoadingOverlay("#pnlPages");
+                });
+                $('#pnlPages').slimScroll({
+                    height: '250px'
                 });
             }
             LoadPages();
@@ -97,7 +146,7 @@
                         if (d.IsSuccess == true) {
                             $("#frmAddPage")[0].reset();
                             $("#pnlAddPage").modal('toggle');
-                            alertSuccess("Success", "Successfully created document type!");
+                            alertSuccess("Success", "Successfully created page!");
                             LoadPages();
                             setTimeout(function () {
                                 //document.location.href = "/DocumentTypes/Create/" + d.Result;
@@ -113,6 +162,42 @@
                     }
                 });
             }
+            });
+
+            $("#btnCreateDocumentType").click(function () {
+                $("#pnlCreate").addClass("ld-loading");
+                var isValid = $("#frmCreateDocumentType").valid();
+                if (isValid) {
+                    var data = {
+                        Name: $("#txtDocumentName").val(),
+                        Description: $("#txtDocDescription").val(),
+                        AppModuleId: $("#pnlData").data("app-module-id")
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/DocumentTypes/Create",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            $("#pnlCreate").removeClass("ld-loading");
+                            if (d.IsSuccess == true) {
+                                $("#frmCreateDocumentType")[0].reset();
+                                alertSuccess("Success", "Successfully created document type!");
+                                setTimeout(function () {
+                                    document.location.href = "/DocumentTypes/Create/?id=" + d.Result + "&appId=" + $("#pnlData").data("app-module-id");
+                                }, 1000);
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            $("#pnlCreate").removeClass("ld-loading");
+                            // TODO: Show error
+                        }
+                    });
+                }
             });
         });
     </script>
