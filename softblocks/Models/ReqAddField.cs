@@ -7,8 +7,10 @@ namespace softblocks.Models
 {
     public class ReqAddField
     {
-        public string DocumentId { get; set; }
+        public string AppId { get; set; }
+        public string DocumentTypeId { get; set; }
         public string Name { get; set; }
         public string DataType { get; set; }
+        public string Parent { get; set; }
     }
 }

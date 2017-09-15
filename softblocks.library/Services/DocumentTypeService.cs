@@ -29,21 +29,21 @@ namespace softblocks.library.Services
             return documentType;
         }
 
-        public async Task<DocumentType> AddField(string id, Field field)
-        {
-            var documentType = await _documentTypeRepository.Get(id);
-            if (documentType != null)
-            {
-                if (documentType.Fields == null)
-                {
-                    documentType.Fields = new List<Field>();
-                }
-                field.FieldId = Guid.NewGuid().ToString();
-                documentType.Fields.Add(field);
-                await _documentTypeRepository.Update(id, documentType);
-                return documentType;
-            }
-            throw new Exception("Document type does not exists!");
-        }
+        //public async Task<DocumentType> AddField(string id, Field field)
+        //{
+        //    var documentType = await _documentTypeRepository.Get(id);
+        //    if (documentType != null)
+        //    {
+        //        if (documentType.Fields == null)
+        //        {
+        //            documentType.Fields = new List<Field>();
+        //        }
+        //        field.FieldId = Guid.NewGuid().ToString();
+        //        documentType.Fields.Add(field);
+        //        await _documentTypeRepository.Update(id, documentType);
+        //        return documentType;
+        //    }
+        //    throw new Exception("Document type does not exists!");
+        //}
     }
 }

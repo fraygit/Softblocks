@@ -1,34 +1,74 @@
-﻿@model softblocks.data.Model.DocumentType
+﻿@model List<softblocks.data.Model.Field>
 @{
     Layout = null;
 }
-<div class="panel panel-filled">
-    <div class="panel-heading">
-        Fields
-    </div>
-    <div class="panel-body">
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Data Type</th>
-                        <th style="width:10px;">&nbsp;</th>
-                        <th style="width:10px;">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var field in Model.Fields) { 
-                        <tr>
-                            <td>@field.Name</td>
-                            <td>@field.DataType</td>
-                            <td><a href=""><i class="fa fa-pencil"></i></a></td>
-                            <td><a href=""><i class="fa fa-trash"></i></a></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
 
-    </div>
+<div class="myadmin-dd-empty dd" id="nestable2">
+    @DrawFields(Model)
 </div>
+
+@helper DrawFields(List<softblocks.data.Model.Field> fields) 
+{ 
+    <ol class="dd-list">
+        @foreach (var field in fields)
+        {
+            <li class="dd-item dd3-item" data-id="13">
+                <div class="dd-handle dd3-handle"></div>
+                <div class="dd3-content"> 
+                    @field.Name <span class="pull-right">@field.DataType</span>
+                    @if (field.Fields != null){
+                        @DrawFields(field.Fields);
+                    }
+                </div>
+            </li>
+        }
+    </ol>
+}
+
+
+@*<div class="myadmin-dd-empty dd" id="nestable2">
+    <ol class="dd-list">
+        <li class="dd-item dd3-item" data-id="13">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 13 </div>
+        </li>
+        <li class="dd-item dd3-item" data-id="14">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 14 </div>
+        </li>
+        <li class="dd-item dd3-item" data-id="14">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 16 </div>
+        </li>
+        <li class="dd-item dd3-item" data-id="14">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 17 </div>
+        </li>
+        <li class="dd-item dd3-item" data-id="14">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 18 </div>
+        </li>
+        <li class="dd-item dd3-item" data-id="14">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 19 </div>
+        </li>
+        <li class="dd-item dd3-item" data-id="15">
+            <div class="dd-handle dd3-handle"></div>
+            <div class="dd3-content"> Item 15 </div>
+            <ol class="dd-list">
+                <li class="dd-item dd3-item" data-id="16">
+                    <div class="dd-handle dd3-handle"></div>
+                    <div class="dd3-content"> Item 16 </div>
+                </li>
+                <li class="dd-item dd3-item" data-id="17">
+                    <div class="dd-handle dd3-handle"></div>
+                    <div class="dd3-content"> Item 17 </div>
+                </li>
+                <li class="dd-item dd3-item" data-id="18">
+                    <div class="dd-handle dd3-handle"></div>
+                    <div class="dd3-content"> Item 18 </div>
+                </li>
+            </ol>
+        </li>
+    </ol>
+</div>*@

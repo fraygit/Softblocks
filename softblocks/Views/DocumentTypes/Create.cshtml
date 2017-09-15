@@ -16,7 +16,7 @@
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="panel panel-default">
+        <div class="panel panel-inverse">
             <div class="panel-heading">
                 @Model.Name
                 <div class="panel-action">
@@ -31,7 +31,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <form class="form-horizontal row" role="form">
+                        <form class="form-horizontal row" role="form">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="exampleInputName">Document Type Name</label>
@@ -43,21 +43,65 @@
                                     <label for="exampleInputEmail1">Description</label>
                                     <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription">@Model.Description</textarea>
                                 </div>
-                            </div>    
-                            <div class="col-2">                    
+                            </div>
+                            <div class="col-2">
                                 <button type="button" class="btn btn-block btn-info waves-effect" id="btnCreate">Save</button>
                             </div>
-                        
-                    </form>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer"> Panel Footer </div>
         </div>
     </div>
 </div>
 
-<section class="content">
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                Add Fields
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <form id="frmAddField">
+                        <div class="form-group">
+                            <label for="exampleInputName">Parent</label>
+                            <div id="pnlDDParent"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName">Field Name</label>
+                            <input type="text" class="form-control" id="txtFieldName" placeholder="Name" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Data Type</label>
+                            <select id="ddDataType" class="form-control">
+                                <option value="Text">Text</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Document Type">Document Type</option>
+                            </select>
+                        </div>
+                        <!--<button type="button" class="btn btn-default" id="btnCreate">Create</button>-->
+                        <button type="button" class="btn btn-block btn-info waves-effect" id="btnAddField">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                Fields
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div id="pnlFields"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<section class="content">
     <div class="container-fluid">
 
 
@@ -131,11 +175,12 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div id="pnlFields"></div>
+                sadf
+                
             </div>
         </div>
     </div>
-</section>
+</section>*@
 
 @section Scripts{
     <script type="text/javascript">
@@ -143,22 +188,29 @@
 
             //Load partial view
             var LoadFieldTable = function () {
-                $("#pnlFields").addClass("ld-loading");
-                $('#pnlFields').load('@Url.Action("Fields", "DocumentTypes", new { id = Model.Id })', function () {
-                    $("#pnlFields").removeClass("ld-loading");
+                $('#pnlFields').load('@Html.Raw(Url.Action("Fields", "DocumentTypes", new { documentId = Model.Id.ToString(), appId = ViewBag.AppId }))', function () {
+                    //$("#pnlFields").removeClass("ld-loading");
+                });
+            }
+
+            var LoadParentField = function () {
+                $('#pnlDDParent').load('@Html.Raw(Url.Action("ParentDocumentTypes", "DocumentTypes", new { documentId = Model.Id.ToString(), appId = ViewBag.AppId }))', function () {
+                    //$("#pnlFields").removeClass("ld-loading");
                 });
             }
 
             LoadFieldTable();
+            LoadParentField()
 
             $("#btnAddField").click(function () {
-                $("#pnlAddField").addClass("ld-loading");
                 var isValid = $("#frmAddField").valid();
                 if (isValid) {
                     var data = {
-                        DocumentId: '@Model.Id.ToString()',
+                        AppId: '@ViewBag.AppId',
+                        DocumentTypeId: '@Model.Id.ToString()',
                         Name: $("#txtFieldName").val(),
-                        DataType: $("#ddDataType").val()
+                        DataType: $("#ddDataType").val(),
+                        Parent: $("#ddParent").val()
                     }
                     $.ajax({
                         type: "POST",
@@ -167,18 +219,18 @@
                         dataType: "json",
                         data: JSON.stringify(data),
                         success: function (d) {
-                            $("#pnlAddField").removeClass("ld-loading");
                             if (d.IsSuccess == true) {
                                 $("#frmAddField")[0].reset();
                                 LoadFieldTable();
-                                toastr.success('Successfully add field!');
+                                LoadParentField();
+                                alertSuccess("Success", "Successfully created page!");
                             }
                             else {
-                                toastr.warning('Error occured. ' + d.Message);
+                                alertError("Error!", d.Message);
                             }
                         },
                         error: function (xhr, textStatus, errorThrown) {
-                            $("#pnlAddField").removeClass("ld-loading");
+                            alertError("Error!", d.Message);
                             // TODO: Show error
                         }
                     });

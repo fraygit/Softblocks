@@ -1,0 +1,12 @@
+﻿@model Dictionary<string, string>
+@{
+    Layout = null;
+}
+
+
+<select id="ddParent" class="form-control">
+    @foreach (var doc in Model)
+    {
+        <option value="@doc.Value">@doc.Key</option>
+    }
+</select>

@@ -9,8 +9,9 @@ namespace softblocks.data.Model
 {
     public class Field
     {
-        public string FieldId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string DataType { get; set; }
+        public List<Field> Fields { get; set; }
     }
 }
