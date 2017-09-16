@@ -10,5 +10,6 @@ namespace softblocks.data.Model
     {
         public string FieldId { get; set; }
         public int Order { get; set; }
+        public int ColWidth { get; set; }
     }
 }

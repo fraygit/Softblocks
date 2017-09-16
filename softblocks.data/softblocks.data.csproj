@@ -63,6 +63,7 @@
     <Compile Include="Interface\IAppModuleRepository.cs" />
     <Compile Include="Interface\IDataPanelRepository.cs" />
     <Compile Include="Interface\IDocumentTypeRepository.cs" />
+    <Compile Include="Interface\IModuleFormRepository.cs" />
     <Compile Include="Interface\IModuleMenuRepository.cs" />
     <Compile Include="Interface\IOrganisationRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Model\DocumentType.cs" />
     <Compile Include="Model\Field.cs" />
     <Compile Include="Model\FormField.cs" />
+    <Compile Include="Model\ModuleForm.cs" />
     <Compile Include="Model\ModuleMenu.cs" />
     <Compile Include="Model\Organisation.cs" />
     <Compile Include="Model\User.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Repository\AppModuleRepositoty.cs" />
     <Compile Include="Repository\DataPanelRepository.cs" />
     <Compile Include="Repository\DocumentTypeRepository.cs" />
+    <Compile Include="Repository\ModuleFormRepository.cs" />
     <Compile Include="Repository\ModuleMenuRepository.cs" />
     <Compile Include="Repository\OrganisationRepositoty.cs" />
     <Compile Include="Repository\UserRepository.cs" />
