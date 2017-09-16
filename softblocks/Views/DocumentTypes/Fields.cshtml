@@ -16,10 +16,11 @@
                 <div class="dd-handle dd3-handle"></div>
                 <div class="dd3-content"> 
                     @field.Name <span class="pull-right">@field.DataType</span>
-                    @if (field.Fields != null){
-                        @DrawFields(field.Fields);
-                    }
                 </div>
+                @if (field.Fields != null)
+                {
+                    @DrawFields(field.Fields);
+                }
             </li>
         }
     </ol>

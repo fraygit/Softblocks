@@ -202,6 +202,10 @@
             LoadFieldTable();
             LoadParentField()
 
+            $("#pnlFields").slimScroll({
+                height: '500px'
+            });
+
             $("#btnAddField").click(function () {
                 var isValid = $("#frmAddField").valid();
                 if (isValid) {

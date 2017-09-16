@@ -79,14 +79,6 @@ namespace softblocks.Controllers
                 }
             }
             return RedirectToAction("Index");
-            
-            //var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-            //var documentType = await documentTypeService.Get(id);
-            //if (documentType != null)
-            //{
-            //    return View(documentType);
-            //}
-            //return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> ParentDocumentTypes(string documentId, string appId)
@@ -106,17 +98,27 @@ namespace softblocks.Controllers
                     var documentType = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim());
                     if (documentType.Fields.Any())
                     {
-                        foreach (var field in documentType.Fields)
-                        {
-                            if (field.DataType == "Document Type")
-                            {
-                                parentDocumentTypes.Add(field.Name, field.Id );
-                            }
-                        }
+                        parentDocumentTypes = GetAllDocumentTypes(documentType.Fields, parentDocumentTypes);
                     }
                 }
             }
             return View(parentDocumentTypes);
+        }
+
+        private Dictionary<string, string> GetAllDocumentTypes(List<Field> fields, Dictionary<string, string>  documentTypes)
+        {
+            if (fields != null)
+            {
+                foreach (var field in fields)
+                {
+                    if (field.DataType == "Document Type")
+                    {
+                        documentTypes.Add(field.Name, field.Id);
+                        documentTypes = GetAllDocumentTypes(field.Fields, documentTypes);
+                    }
+                }
+            }
+            return documentTypes;
         }
 
         public async Task<ActionResult> Fields(string documentId, string appId)
@@ -196,45 +198,32 @@ namespace softblocks.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<JsonResult> Create(DocumentType model)
-        //{
-        //    try
-        //    {
-        //        var userService = new UserService(_userRepository);
-        //        var user = await userService.Get(User.Identity.Name);
-        //        if (!string.IsNullOrEmpty(user.CurrentOrganisation))
-        //        {
-        //            model.OrganisationId = user.CurrentOrganisation;
-
-        //            var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-        //            var documentType = await documentTypeService.Create(model);
-
-        //            var result = new JsonGenericResult
-        //            {
-        //                IsSuccess = true,
-        //                Result = documentType.Id.ToString()
-        //            };
-        //            return Json(result);
-        //        }
-        //        var ErrorResult = new JsonGenericResult
-        //        {
-        //            IsSuccess = false,
-        //            Message = "No current organisation. Please login into one."
-        //        };
-        //        return Json(ErrorResult);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new JsonGenericResult
-        //        {
-        //            IsSuccess = false,
-        //            Message = ex.Message
-        //        });
-
-        //    }
-        //}
+        private void FindDocumentType(string documentTypeId, List<Field> fields, string name, string dataType)
+        {
+            if (fields != null)
+            {
+                foreach (var field in fields)
+                {
+                    if (field.Id.ToLower().Trim() == documentTypeId.ToLower().Trim())
+                    {
+                        if (field.Fields == null)
+                        {
+                            field.Fields = new List<Field>();
+                        }
+                        field.Fields.Add(new Field
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name = name,
+                            DataType = dataType
+                        });
+                    }
+                    if (field.DataType == "Document Type")
+                    {
+                        FindDocumentType(documentTypeId, field.Fields, name, dataType);
+                    }
+                }
+            }
+        }
 
         [HttpPost]
         public async Task<JsonResult> AddField(ReqAddField req)
@@ -271,23 +260,7 @@ namespace softblocks.Controllers
                                 }
                                 else
                                 {
-                                    foreach (var field in documentType.Fields)
-                                    {
-                                        if (field.Id.ToLower().Trim() == req.Parent.ToLower().Trim())
-                                        {
-                                            if (field.Fields == null)
-                                            {
-                                                field.Fields = new List<Field>();
-                                            }
-                                            field.Fields.Add(new Field
-                                            {
-                                                Id = Guid.NewGuid().ToString(),
-                                                Name = req.Name,
-                                                DataType = req.DataType
-                                            });
-                                        }
-                                    }
-
+                                    FindDocumentType(req.Parent.ToLower().Trim(), documentType.Fields, req.Name, req.DataType);
                                 }
                                 await _appModuleRepository.Update(req.AppId, app);
 
@@ -308,22 +281,6 @@ namespace softblocks.Controllers
                     Message = "No app selected."
                 };
                 return Json(ErrorResult);
-
-                //var documentTypeService = new DocumentTypeService(_documentTypeRepositoy);
-                //var field = new Field
-                //{
-                //    Name = model.Name,
-                //    DataType = model.DataType
-                //};
-                //var documentType = await documentTypeService.AddField(model.DocumentId, field);
-
-                //var result = new JsonGenericResult
-                //{
-                //    IsSuccess = true,
-                //    Result = documentType.Fields
-                //};
-                //return Json(result);
-
             }
             catch (Exception ex)
             {
