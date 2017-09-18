@@ -109,7 +109,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-accent" id="btnAddPage">Add</button>
+                <button type="button" class="btn btn-accent" id="btnAddForm">Add</button>
             </div>
         </div>
     </div>
@@ -283,6 +283,38 @@
                             setTimeout(function () {
                                 document.location.href = "/DocumentTypes/Create/?id=" + d.Result + "&appId=" + $("#pnlData").data("app-module-id");
                             }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+
+        $("#btnAddForm").click(function () {
+            var isValid = $("#frmAddForm").valid();
+            if (isValid) {
+                var data = {
+                    Name: $("#txtFormName").val(),
+                    Description: $("#txtFormDescription").val(),
+                    AppModuleId: $("#pnlData").data("app-module-id"),
+                    DocumentTypeId: $("#ddDocumentType").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/ModuleForm/Create",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            $("#frmCreateDocumentType")[0].reset();
+                            alertSuccess("Success", "Successfully created form!");
+                            $("#pnlAddForm").modal('toggle');
                         }
                         else {
                             alertError("Error!", d.Message);
