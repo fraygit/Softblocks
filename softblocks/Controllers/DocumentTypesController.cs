@@ -139,6 +139,63 @@ namespace softblocks.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetDocumentTypes(string appModuleId, string parentId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(appModuleId))
+                {
+                    var appModule = await _appModuleRepository.Get(appModuleId);
+                    if (appModule != null)
+                    {
+                        if (appModule.DocumentTypes != null)
+                        {
+                            if (parentId == "0")
+                            {
+                                var resultRoot = new JsonGenericResult
+                                {
+                                    IsSuccess = true,
+                                    Result = appModule.DocumentTypes
+                                };
+                                return Json(resultRoot, JsonRequestBehavior.AllowGet);
+                            }
+                            var result = new JsonGenericResult
+                            {
+                                IsSuccess = true,
+                                Result = appModule.DocumentTypes
+                            };
+                            return Json(result, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            var emptyResult = new JsonGenericResult
+                            {
+                                IsSuccess = true,
+                                Result = new List<DocumentType>()
+                            };
+                            return Json(emptyResult, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+                var noAppResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No app selected."
+                };
+                return Json(noAppResult);
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+
+            }
+        }
+
         [HttpPost]
         public async Task<JsonResult> Create(ReqCreateDocumentType req)
         {

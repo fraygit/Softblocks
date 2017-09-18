@@ -15,5 +15,6 @@ namespace softblocks.data.Model
         public string OrganisationId { get; set; }
         public List<AppModulePage> Pages { get; set; }
         public List<DocumentType> DocumentTypes { get; set; }
+        public List<ModuleForm> Forms { get; set; }
     }
 }

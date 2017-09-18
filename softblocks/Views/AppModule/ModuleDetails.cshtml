@@ -194,6 +194,27 @@
                 });
             }
 
+        var GetDocumentType = function () {
+            $.ajax({
+                type: "GET",
+                url: "@Html.Raw(Url.Action("GetDocumentTypes", "DocumentTypes", new { appModuleId = Model.Id.ToString(), parentId = "0" }))",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (d) {
+                    $.each(d.Result, function (docTypeIndex, docTypeItem) {
+                        $("#ddDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+                    })
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                }
+
+            });
+        };
+
+        GetDocumentType();
+
+
+
             LoadPages();
             LoadDocumentTypes();
 
@@ -240,8 +261,8 @@
             }
         });
 
+
         $("#btnCreateDocumentType").click(function () {
-            $("#pnlCreate").addClass("ld-loading");
             var isValid = $("#frmCreateDocumentType").valid();
             if (isValid) {
                 var data = {
@@ -256,7 +277,6 @@
                     dataType: "json",
                     data: JSON.stringify(data),
                     success: function (d) {
-                        $("#pnlCreate").removeClass("ld-loading");
                         if (d.IsSuccess == true) {
                             $("#frmCreateDocumentType")[0].reset();
                             alertSuccess("Success", "Successfully created document type!");
@@ -269,7 +289,6 @@
                         }
                     },
                     error: function (xhr, textStatus, errorThrown) {
-                        $("#pnlCreate").removeClass("ld-loading");
                         // TODO: Show error
                     }
                 });
