@@ -1453,6 +1453,7 @@
     <Content Include="assets\bootstrap\package.json" />
     <Content Include="assets\bootstrap\README.md" />
     <Content Include="Views\ModuleForm\List.cshtml" />
+    <Content Include="Views\ModuleForm\EditForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

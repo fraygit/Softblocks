@@ -121,6 +121,34 @@ namespace softblocks.Controllers
             return documentTypes;
         }
 
+        public async Task<JsonResult> ListFields(string documentId, string appId)
+        {
+            var appModule = await _appModuleRepository.Get(appId);
+            if (appModule != null)
+            {
+                if (appModule.DocumentTypes == null)
+                {
+                    appModule.DocumentTypes = new List<DocumentType>();
+                }
+
+                if (appModule.DocumentTypes.Any(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()))
+                {
+                    var result = new JsonGenericResult
+                    {
+                        IsSuccess = true,
+                        Result = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()).Fields
+                    };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+            var errorResult = new JsonGenericResult
+            {
+                IsSuccess = true,
+                Result = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()).Fields
+            };
+            return Json(errorResult, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> Fields(string documentId, string appId)
         {
             var appModule = await _appModuleRepository.Get(appId);

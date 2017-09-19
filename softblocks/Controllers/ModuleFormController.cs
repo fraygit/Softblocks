@@ -27,6 +27,34 @@ namespace softblocks.Controllers
             return View();
         }
 
+        public async Task<ActionResult> EditForm(string appId, string formId)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+
+                        ObjectId moduleFormId;
+                        if (ObjectId.TryParse(formId, out moduleFormId))
+                        {
+                            if (appModule.Forms.Any(n => n.Id == moduleFormId))
+                            {
+                                return View(appModule.Forms.FirstOrDefault(n => n.Id == moduleFormId));
+                            }
+                        }
+
+                        return View(appModule.Forms);
+                    }
+                    return View(new ModuleForm());
+                }
+            }
+            return View();
+        }
+
         public async Task<ActionResult> List(string appId)
         {
             if (!string.IsNullOrEmpty(appId))
