@@ -96,9 +96,12 @@ namespace softblocks.Controllers
                 if (appModule.DocumentTypes.Any(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()))
                 {
                     var documentType = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim());
-                    if (documentType.Fields.Any())
+                    if (documentType.Fields != null)
                     {
-                        parentDocumentTypes = GetAllDocumentTypes(documentType.Fields, parentDocumentTypes);
+                        if (documentType.Fields.Any())
+                        {
+                            parentDocumentTypes = GetAllDocumentTypes(documentType.Fields, parentDocumentTypes);
+                        }
                     }
                 }
             }
@@ -113,7 +116,7 @@ namespace softblocks.Controllers
                 {
                     if (field.DataType == "Document Type")
                     {
-                        documentTypes.Add(field.Name, field.Id);
+                        documentTypes.Add(field.Name, field.Id.ToString());
                         documentTypes = GetAllDocumentTypes(field.Fields, documentTypes);
                     }
                 }
@@ -283,13 +286,13 @@ namespace softblocks.Controllers
             }
         }
 
-        private void FindDocumentType(string documentTypeId, List<Field> fields, string name, string dataType)
+        private void FindDocumentType(ObjectId documentTypeId, List<Field> fields, string name, string dataType)
         {
             if (fields != null)
             {
                 foreach (var field in fields)
                 {
-                    if (field.Id.ToLower().Trim() == documentTypeId.ToLower().Trim())
+                    if (field.Id == documentTypeId)
                     {
                         if (field.Fields == null)
                         {
@@ -297,7 +300,7 @@ namespace softblocks.Controllers
                         }
                         field.Fields.Add(new Field
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = ObjectId.GenerateNewId(),
                             Name = name,
                             DataType = dataType
                         });
@@ -333,7 +336,7 @@ namespace softblocks.Controllers
                                 {
                                     throw new Exception("Field name already exist!");
                                 }
-                                var fieldId = Guid.NewGuid().ToString();
+                                var fieldId = ObjectId.GenerateNewId();
                                 if (req.Parent == "0")
                                 {
                                     documentType.Fields.Add(new Field
@@ -345,7 +348,7 @@ namespace softblocks.Controllers
                                 }
                                 else
                                 {
-                                    FindDocumentType(req.Parent.ToLower().Trim(), documentType.Fields, req.Name, req.DataType);
+                                    FindDocumentType(ObjectId.Parse(req.Parent), documentType.Fields, req.Name, req.DataType);
                                 }
                                 await _appModuleRepository.Update(req.AppId, app);
 
