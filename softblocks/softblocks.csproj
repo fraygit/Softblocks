@@ -1452,6 +1452,7 @@
     <Content Include="assets\bootstrap\LICENSE" />
     <Content Include="assets\bootstrap\package.json" />
     <Content Include="assets\bootstrap\README.md" />
+    <Content Include="Views\ModuleForm\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1471,7 +1472,6 @@
     <Folder Include="vendor\moment\src\lib\utils\" />
     <Folder Include="vendor\moment\src\locale\" />
     <Folder Include="vendor\moment\templates\" />
-    <Folder Include="Views\ModuleForm\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\softblocks.data\softblocks.data.csproj">

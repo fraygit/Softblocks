@@ -217,7 +217,18 @@
 
 @section Scripts{
     <script type="text/javascript">
-    $(function () {
+        $(function () {
+
+            var LoadForList = function () {
+                AddLoadingOverlay("#pnlForms");
+                $('#pnlForms').load('@Url.Action("List", "ModuleForm", new { appId = Model.Id.ToString() })', function () {
+                    RemoveLoadingOverlay("#pnlForms");
+                });
+                $('#pnlForms').slimScroll({
+                    height: '250px'
+                });
+            };
+
         var LoadPages = function () {
             AddLoadingOverlay("#pnlPages");
             $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
@@ -261,6 +272,7 @@
 
             LoadPages();
             LoadDocumentTypes();
+            LoadForList();
 
 
 
@@ -359,6 +371,7 @@
                             $("#frmCreateDocumentType")[0].reset();
                             alertSuccess("Success", "Successfully created form!");
                             $("#pnlAddForm").modal('toggle');
+                            LoadForList();
                         }
                         else {
                             alertError("Error!", d.Message);
