@@ -98,7 +98,7 @@
                     dataType: "json",
                     success: function (d) {
                         $.each(d.Result, function (fieldIndex, fieldItem) {
-                            $("#ddField").append($("<option></option>").attr("value", fieldItem.Id).text(fieldItem.Name));
+                            $("#ddField").append($("<option></option>").attr("value", ConvertObjectId(fieldItem.Id)).text(fieldItem.Name));
                         })
                     },
                     error: function (xhr, textStatus, errorThrown) {

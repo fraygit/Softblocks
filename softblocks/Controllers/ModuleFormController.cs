@@ -74,6 +74,79 @@ namespace softblocks.Controllers
         }
 
         [HttpPost]
+        public async Task<JsonResult> AddFormField(ReqAddFormField req)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(req.AppModuleId))
+                {
+                    var appModule = await _appModuleRepository.Get(req.AppModuleId);
+                    if (appModule != null)
+                    {
+                        if (appModule.Forms == null)
+                        {
+                            appModule.Forms = new List<ModuleForm>();
+                        }
+
+                        ObjectId formId;
+                        ObjectId appModuleId;
+
+                        if (ObjectId.TryParse(req.AppModuleId, out appModuleId) && ObjectId.TryParse(req.FormId, out formId))
+                        {
+                            if (appModule.Forms.Any(n => n.Id == formId))
+                            {
+                                var formFieldId = ObjectId.GenerateNewId();
+
+                                var form = appModule.Forms.FirstOrDefault(n => n.Id == formId);
+                                if (form.Fields == null)
+                                {
+                                    form.Fields = new List<FormField>();
+                                }
+
+                                var newFormField = new FormField
+                                {
+                                    Id = formFieldId,
+                                    FieldId = ObjectId.Parse(req.FieldId)
+                                };
+                                form.Fields.Add(newFormField);
+
+                                await _appModuleRepository.Update(req.AppModuleId, appModule);
+                                var result = new JsonGenericResult
+                                {
+                                    IsSuccess = true,
+                                    Result = formFieldId.ToString()
+                                };
+                                return Json(result);
+                            }
+                        }
+                        var ErrorResult2 = new JsonGenericResult
+                        {
+                            IsSuccess = false,
+                            Message = "Invalid app module id or document type id."
+                        };
+                        return Json(ErrorResult2);
+                    }
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No app selected."
+                };
+                return Json(ErrorResult);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+
+            }
+        }
+
+        [HttpPost]
         public async Task<JsonResult> Create(ReqCreateForm req)
         {
             try
