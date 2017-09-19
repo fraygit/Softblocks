@@ -1,7 +1,9 @@
 ﻿using MongoDB.Bson;
 using softblocks.data.Interface;
 using softblocks.data.Model;
+using softblocks.library.Services;
 using softblocks.Models;
+using softblocks.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +57,7 @@ namespace softblocks.Controllers
             return View();
         }
 
-        public async Task<ActionResult> RenderForm(string appId, string formId)
+        public async Task<ActionResult> RenderForm(string appId, string reqFormId)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -65,12 +67,28 @@ namespace softblocks.Controllers
                     if (appModule.Forms != null)
                     {
                         ViewBag.AppId = appModule.Id.ToString();
-                        return View(appModule.Forms);
+
+                        ObjectId formId;
+
+                        if (ObjectId.TryParse(reqFormId, out formId))
+                        {
+                            if (appModule.Forms.Any(n => n.Id == formId))
+                            {
+                                var form = appModule.Forms.FirstOrDefault(n => n.Id == formId);
+                                var response = new ResRenderForm();
+                                response.Form = form;
+
+                                var docTypeService = new DocumentTypeServices(_appModuleRepository);
+                                response.DocumentFields = await docTypeService.FindDocumentType(appId, form.DocumentTypeId);
+                                return View(response);
+                            }
+                        }
+                        
                     }
-                    return View(new List<ModuleForm>());
+                    return View(new ResRenderForm());
                 }
             }
-            return View();
+            return View(new List<ModuleForm>());
         }
 
         public async Task<ActionResult> List(string appId)

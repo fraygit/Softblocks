@@ -1,0 +1,47 @@
+﻿@model softblocks.Models.ResRenderForm
+@{
+    Layout = null;
+}
+
+@if (Model.DocumentFields != null && Model.Form != null)
+{
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                @Model.Form.Name
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        @foreach (var field in Model.Form.Fields)
+                        {
+                            if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
+                            {
+                                var docField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);
+                                switch (docField.DataType)
+                                {
+                                    case "Text":
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <span class="pull-right">
+                                                    <a class="btn btn-xs btn-warning"><i class="fa fa-times"></i></a>
+                                                </span>
+                                                <label class="control-label">@docField.Name</label>
+                                                <input type="text" id="@docField.Id" class="form-control" placeholder="@docField.Name">
+                                            </div>
+                                        </div>
+                                        break;
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="panel-footer"> Panel Footer </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <b>Could not load form.</b>
+}

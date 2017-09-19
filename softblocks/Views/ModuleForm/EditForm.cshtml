@@ -45,20 +45,8 @@
         <span class="pull-right"><button type="button" class="btn btn-info waves-effect" id="btnAddForm" data-toggle="modal" data-target="#pnlAddForm">Add Field</button></span>
         <h3>Preview</h3>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="panel panel-inverse">
-                    <div class="panel-heading">
-                        @Model.Name
-                    </div>
-                    <div class="panel-wrapper collapse in">
-                        <div class="table-responsive">
-                            <div id="pnlPages">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row" id="pnlForm">
+            
         </div>
     </div>
 </div>
@@ -90,6 +78,13 @@
     <script type="text/javascript">
         $(function () {
 
+            var RenderForm = function () {
+                AddLoadingOverlay("#pnlForm");
+                $('#pnlForm').load('@Html.Raw(Url.Action("RenderForm", "ModuleForm", new { appId = ViewBag.AppId, reqFormId = Model.Id.ToString() }))', function () {
+                    RemoveLoadingOverlay("#pnlForm");
+                });
+            };
+
             var GetDocumentTypeFields = function () {
                 $.ajax({
                     type: "GET",
@@ -111,7 +106,7 @@
                 var isValid = $("#frmAddForm").valid();
                 if (isValid) {
                     var data = {
-                        AppModuleId: '@ViewBag.AppId',
+                        AppModuleId: '@ViewBag.',
                         FormId: '@Model.Id',
                         FieldId: $("#ddField").val()
                     }
@@ -119,28 +114,29 @@
                         type: "POST",
                         url: "@Url.Action("AddFormField", "ModuleForm")",
                         contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify(data),
-                    success: function (d) {
-                        if (d.IsSuccess == true) {
-                            $("#frmAddForm")[0].reset();
-                            $("#pnlAddForm").modal('toggle');
-                            alertSuccess("Success", "Successfully created form field!");
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#frmAddForm")[0].reset();
+                                $("#pnlAddForm").modal('toggle');
+                                alertSuccess("Success", "Successfully created form field!");
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            RemoveLoadingOverlay("#pnlPages");
+                            // TODO: Show error
                         }
-                        else {
-                            alertError("Error!", d.Message);
-                        }
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        RemoveLoadingOverlay("#pnlPages");
-                        // TODO: Show error
-                    }
-                });
-            }
+                    });
+                }
             });
 
 
             GetDocumentTypeFields();
+            RenderForm();
 
         });
     </script>
