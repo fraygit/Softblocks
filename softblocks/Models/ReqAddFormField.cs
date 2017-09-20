@@ -10,5 +10,7 @@ namespace softblocks.Models
         public string AppModuleId { get; set; }
         public string FormId { get; set; }
         public string FieldId { get; set; }
+        public int Order { get; set; }
+        public int ColWidth { get; set; }
     }
 }

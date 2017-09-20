@@ -64,6 +64,27 @@
                         <label for="exampleInputName">Field</label>
                         <select id="ddField" class="form-control"></select>
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Column Width</label>
+                        <select id="ddColWidth" class="form-control">
+                            <option value="12">12</option>
+                            <option value="11">11</option>
+                            <option value="10">10</option>
+                            <option value="9">9</option>
+                            <option value="8">8</option>
+                            <option value="7">7</option>
+                            <option value="6">6</option>
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Order</label>
+                        <input type="text" class="form-control" id="txtOrder"/>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -106,9 +127,11 @@
                 var isValid = $("#frmAddForm").valid();
                 if (isValid) {
                     var data = {
-                        AppModuleId: '@ViewBag.',
+                        AppModuleId: '@ViewBag.AppId',
                         FormId: '@Model.Id',
-                        FieldId: $("#ddField").val()
+                        FieldId: $("#ddField").val(),
+                        Order: $("#txtOrder").val(),
+                        ColWidth: $("#ddColWidth").val()
                     }
                     $.ajax({
                         type: "POST",
@@ -121,6 +144,7 @@
                                 $("#frmAddForm")[0].reset();
                                 $("#pnlAddForm").modal('toggle');
                                 alertSuccess("Success", "Successfully created form field!");
+                                RenderForm();
                             }
                             else {
                                 alertError("Error!", d.Message);

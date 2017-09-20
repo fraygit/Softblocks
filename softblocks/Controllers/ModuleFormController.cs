@@ -142,7 +142,9 @@ namespace softblocks.Controllers
                                 var newFormField = new FormField
                                 {
                                     Id = formFieldId,
-                                    FieldId = ObjectId.Parse(req.FieldId)
+                                    FieldId = ObjectId.Parse(req.FieldId),
+                                    Order = req.Order,
+                                    ColWidth = req.ColWidth
                                 };
                                 form.Fields.Add(newFormField);
 

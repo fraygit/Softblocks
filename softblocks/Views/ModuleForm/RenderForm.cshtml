@@ -13,7 +13,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <div class="row">
-                        @foreach (var field in Model.Form.Fields)
+                        @foreach (var field in Model.Form.Fields.OrderBy(n => n.Order))
                         {
                             if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
                             {
@@ -21,10 +21,13 @@
                                 switch (docField.DataType)
                                 {
                                     case "Text":
-                                        <div class="col-md-6">
+                                        <div class="col-md-@field.ColWidth">
                                             <div class="form-group">
                                                 <span class="pull-right">
-                                                    <a class="btn btn-xs btn-warning"><i class="fa fa-times"></i></a>
+                                                    <a href="#" class=""><i class="fa fa-pencil"></i></a>
+                                                    &nbsp;
+                                                    <a href="javascript:alert('sdf');"><i class="fa fa-times"></i></a>
+                                                    &nbsp;
                                                 </span>
                                                 <label class="control-label">@docField.Name</label>
                                                 <input type="text" id="@docField.Id" class="form-control" placeholder="@docField.Name">
