@@ -1,4 +1,5 @@
-﻿using softblocks.data.Interface;
+﻿using MongoDB.Bson;
+using softblocks.data.Interface;
 using softblocks.data.Model;
 using System;
 using System.Collections.Generic;
@@ -26,14 +27,20 @@ namespace softblocks.Controllers
         {
             var module = await _appModuleRepository.Get(moduleId);
             var pageSelected = new AppModulePage();
-            foreach (var page in module.Pages)
+
+            ObjectId pageObjectId;
+            if (ObjectId.TryParse(pageId, out pageObjectId))
             {
-                if (page.PageId == pageId)
+                foreach (var page in module.Pages)
                 {
-                    pageSelected = page;
+                    if (page.PageId == pageObjectId)
+                    {
+                        pageSelected = page;
+                    }
                 }
+                return View(pageSelected);
             }
-            return View(pageSelected);
+            return View();
         }
     }
 }
