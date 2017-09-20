@@ -15,12 +15,12 @@
     <tbody>
         @if (Model.Pages != null)
         {
-            foreach (var pages in Model.Pages)
+            foreach (var page in Model.Pages)
             {
                 <tr>
-                    <td>@pages.Name</td>
-                    <td>@pages.Description</td>
-                    <td><a href=""><i class="fa fa-pencil"></i></a></td>
+                    <td>@page.Name</td>
+                    <td>@page.Description</td>
+                    <td><a href="/Page/Edit?appId=@Model.Id&pageId=@page.PageId"><i class="fa fa-pencil"></i></a></td>
                     <td><a href=""><i class="fa fa-trash"></i></a></td>
                 </tr>
             }

@@ -1458,6 +1458,7 @@
     <Content Include="Views\ModuleForm\List.cshtml" />
     <Content Include="Views\ModuleForm\EditForm.cshtml" />
     <Content Include="Views\ModuleForm\RenderForm.cshtml" />
+    <Content Include="Views\Page\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

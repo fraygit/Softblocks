@@ -23,6 +23,7 @@ namespace softblocks.Controllers
 
 
         // GET: Page
+        [Authorize]
         public async Task<ActionResult> Index(string moduleId, string pageId)
         {
             var module = await _appModuleRepository.Get(moduleId);
@@ -38,6 +39,31 @@ namespace softblocks.Controllers
                         pageSelected = page;
                     }
                 }
+                return View(pageSelected);
+            }
+            return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Edit(string appId, string pageId)
+        {
+            var module = await _appModuleRepository.Get(appId);
+            var pageSelected = new AppModulePage();
+
+            ObjectId pageObjectId;
+            if (ObjectId.TryParse(pageId, out pageObjectId))
+            {
+                foreach (var page in module.Pages)
+                {
+                    if (page.PageId == pageObjectId)
+                    {
+                        pageSelected = page;
+                    }
+                }
+
+                ViewBag.AppId = appId;
+                ViewBag.AppName = module.Name;
+
                 return View(pageSelected);
             }
             return View();

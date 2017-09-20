@@ -110,6 +110,45 @@ namespace softblocks.Controllers
             return View();
         }
 
+
+        public async Task<JsonResult> ListForms(string appId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(appId))
+                {
+                    var appModule = await _appModuleRepository.Get(appId);
+                    if (appModule != null)
+                    {
+                        if (appModule.Forms == null)
+                        {
+                            appModule.Forms = new List<ModuleForm>();
+                        }
+                        var result = new JsonGenericResult
+                        {
+                            IsSuccess = true,
+                            Result = appModule.Forms
+                        };
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No app selected."
+                };
+                return Json(ErrorResult);
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+            }
+        }
+
         [HttpPost]
         public async Task<JsonResult> AddFormField(ReqAddFormField req)
         {
