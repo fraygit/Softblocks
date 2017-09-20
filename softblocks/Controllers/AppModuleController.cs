@@ -1,4 +1,5 @@
-﻿using softblocks.data.Interface;
+﻿using MongoDB.Bson;
+using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.library.Services;
 using softblocks.Models;
@@ -66,7 +67,7 @@ namespace softblocks.Controllers
                 var module = await _appModuleRepository.Get(req.ModuleId);
                 if (module != null)
                 {
-                    req.Page.PageId = Guid.NewGuid().ToString();
+                    req.Page.PageId = ObjectId.GenerateNewId();
                     if (module.Pages == null)
                     {
                         module.Pages = new List<AppModulePage>();

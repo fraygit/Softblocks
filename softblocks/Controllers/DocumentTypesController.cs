@@ -74,6 +74,7 @@ namespace softblocks.Controllers
                     if (appModule.DocumentTypes.Any(n => n.Id.ToString().ToLower() == id.ToLower()))
                     {
                         ViewBag.AppId = appId;
+                        ViewBag.AppName = appModule.Name;
                         return View(appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower() == id.ToLower()));
                     }
                 }

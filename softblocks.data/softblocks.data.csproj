@@ -76,6 +76,7 @@
     <Compile Include="Model\ModuleForm.cs" />
     <Compile Include="Model\ModuleMenu.cs" />
     <Compile Include="Model\Organisation.cs" />
+    <Compile Include="Model\PagePanels.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AppModuleRepositoty.cs" />

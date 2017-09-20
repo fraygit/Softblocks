@@ -39,6 +39,7 @@ namespace softblocks.Controllers
                     if (appModule.Forms != null)
                     {
                         ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
 
                         ObjectId moduleFormId;
                         if (ObjectId.TryParse(formId, out moduleFormId))
