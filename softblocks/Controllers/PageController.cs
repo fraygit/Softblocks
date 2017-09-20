@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using softblocks.data.Interface;
 using softblocks.data.Model;
+using softblocks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,82 @@ namespace softblocks.Controllers
                 return View(pageSelected);
             }
             return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddPanel(ReqAddPanel req)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(req.AppModuleId))
+                {
+                    var appModule = await _appModuleRepository.Get(req.AppModuleId);
+                    if (appModule != null)
+                    {
+                        if (appModule.Forms == null)
+                        {
+                            appModule.Forms = new List<ModuleForm>();
+                        }
+
+                        ObjectId pageId;
+                        ObjectId appModuleId;
+
+                        if (ObjectId.TryParse(req.AppModuleId, out appModuleId) && ObjectId.TryParse(req.PageId, out pageId))
+                        {
+                            if (appModule.Pages.Any(n => n.PageId == pageId))
+                            {
+                                var panelId = ObjectId.GenerateNewId();
+
+                                var page = appModule.Pages.FirstOrDefault(n => n.PageId == pageId);
+                                if (page.Panels == null)
+                                {
+                                    page.Panels = new List<PagePanel>();
+                                }
+
+                                var newPagePanel = new PagePanel
+                                {
+                                    Id = pageId,
+                                    ColWidth = req.Panel.ColWidth,
+                                    Order = req.Panel.Order,
+                                    PanelType = req.Panel.PanelType,
+                                    ForeignId = ObjectId.Parse(req.ForeignId)
+                                };
+                                page.Panels.Add(newPagePanel);
+
+                                await _appModuleRepository.Update(req.AppModuleId, appModule);
+                                var result = new JsonGenericResult
+                                {
+                                    IsSuccess = true,
+                                    Result = panelId.ToString()
+                                };
+                                return Json(result);
+                            }
+                        }
+                        var ErrorResult2 = new JsonGenericResult
+                        {
+                            IsSuccess = false,
+                            Message = "Invalid app module id or document type id."
+                        };
+                        return Json(ErrorResult2);
+                    }
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No app selected."
+                };
+                return Json(ErrorResult);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+
+            }
         }
 
         [Authorize]

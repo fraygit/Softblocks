@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace softblocks.data.Model
 {
-    public class PagePanels
+    public class PagePanel
     {
         public ObjectId Id { get; set; }
         public string PanelType { get; set; }
         public int Order { get; set; }
         public int ColWidth { get; set; }
+        public ObjectId ForeignId { get; set; }
     }
 }

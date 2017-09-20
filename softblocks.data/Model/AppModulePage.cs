@@ -13,6 +13,6 @@ namespace softblocks.data.Model
         public string Name { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<PagePanels> Panels { get; set; }
+        public List<PagePanel> Panels { get; set; }
     }
 }

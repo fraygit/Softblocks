@@ -51,7 +51,7 @@
                 <h4 class="modal-title">Add Panel</h4>
             </div>
             <div class="modal-body">
-                <form id="frmAddForm">
+                <form id="frmAddPanel">
                     <div class="form-group">
                         <label for="exampleInputName">Panel Type</label>
                         <select id="ddPanelType" class="form-control">
@@ -126,6 +126,50 @@
                         });
                         break;
                 }
+            });
+
+
+            $("#btnAdd").click(function () {
+                AddLoadingOverlay("#pnlForm");
+                var isValid = $("#frmAddPanel").valid();
+                if (isValid) {
+                    var data = {
+                        AppModuleId: '@ViewBag.AppId',
+                        PageId: '@Model.PageId',
+                        Panel: {
+                            PanelType: $("#ddPanelType").val(),
+                            Order: $("#txtOrder").val(),
+                            ColWidth: $("#ddColWidth").val()
+                        },
+                        ForeignId: $("#ddForeignId").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddPanel", "Page")",
+                        contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        RemoveLoadingOverlay("#pnlForm");
+                        if (d.IsSuccess == true) {
+                            $("#frmAddPanel")[0].reset();
+                            $("#pnlAddPanel").modal('toggle');
+                            alertSuccess("Success", "Successfully created panel!");
+                            LoadPages();
+                            setTimeout(function () {
+                                //document.location.href = "/DocumentTypes/Create/" + d.Result;
+                            }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        RemoveLoadingOverlay("#pnlForm");
+                        // TODO: Show error
+                    }
+                });
+            }
             });
 
         });
