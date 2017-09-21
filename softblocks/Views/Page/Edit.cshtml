@@ -38,7 +38,12 @@
         <h3>Preview</h3>
 
         <div class="row" id="pnlForm">
+            @foreach (var panel in Model.Panels.OrderBy(n => n.Order))
+            {
+                <div class="col-lg-@panel.ColWidth col-md-@panel.ColWidth page-panel" data-app-id="@ViewBag.AppId" data-foreign-id="@panel.ForeignId" data-panel-type="@panel.PanelType">
 
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -99,6 +104,14 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
+
+            @*var RenderPanels = function () {
+                AddLoadingOverlay("#pnlForm");
+                $('#pnlForm').load('@Html.Raw(Url.Action("RenderPanels", "Page", new { appId = ViewBag.AppId, pageId = Model.PageId.ToString() }))', function () {
+                    RemoveLoadingOverlay("#pnlForm");
+                });
+            };
+            RenderPanels();*@
 
             var RetrievePanelTypes = function (cb) {
                 $.ajax({

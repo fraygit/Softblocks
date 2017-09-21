@@ -29,6 +29,7 @@ namespace softblocks.Controllers
         {
             var module = await _appModuleRepository.Get(moduleId);
             var pageSelected = new AppModulePage();
+            ViewBag.AppId = moduleId;
 
             ObjectId pageObjectId;
             if (ObjectId.TryParse(pageId, out pageObjectId))
