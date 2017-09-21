@@ -86,6 +86,7 @@
     <Compile Include="Repository\OrganisationRepositoty.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Service\ConnectionHandler.cs" />
+    <Compile Include="Service\DataService.cs" />
     <Compile Include="Service\EntityService.cs" />
     <Compile Include="Service\IEntityService.cs" />
   </ItemGroup>

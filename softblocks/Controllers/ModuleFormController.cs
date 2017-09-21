@@ -1,15 +1,18 @@
 ﻿using MongoDB.Bson;
 using softblocks.data.Interface;
 using softblocks.data.Model;
+using softblocks.data.Service;
 using softblocks.library.Services;
 using softblocks.Models;
 using softblocks.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace softblocks.Controllers
 {
@@ -108,6 +111,54 @@ namespace softblocks.Controllers
                 }
             }
             return View();
+        }
+
+        public async Task<JsonResult> Insert(string appId, string reqFormId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(appId))
+                {
+                    var appModule = await _appModuleRepository.Get(appId);
+                    if (appModule != null)
+                    {
+                        if (appModule.Forms == null)
+                        {
+                            appModule.Forms = new List<ModuleForm>();
+                        }
+
+                        ObjectId formId;
+                        if (ObjectId.TryParse(reqFormId, out formId))
+                        {
+                            var result = new JsonGenericResult
+                            {
+                                IsSuccess = true,
+                                Result = appModule.Forms.FirstOrDefault(n => n.Id == formId)
+                            };
+
+                            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, "TestCompany", "SampleCollection");
+                            var serializer = new JavaScriptSerializer();
+                            dataService.Add(serializer.Serialize(appModule));
+
+                            return Json(result, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No app selected."
+                };
+                return Json(ErrorResult);
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+            }
         }
 
 
