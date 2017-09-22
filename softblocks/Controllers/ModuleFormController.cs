@@ -113,13 +113,14 @@ namespace softblocks.Controllers
             return View();
         }
 
-        public async Task<JsonResult> Insert(string appId, string reqFormId)
+        [HttpPost]
+        public async Task<JsonResult> Insert(ReqAddData req)
         {
             try
             {
-                if (!string.IsNullOrEmpty(appId))
+                if (!string.IsNullOrEmpty(req.appId))
                 {
-                    var appModule = await _appModuleRepository.Get(appId);
+                    var appModule = await _appModuleRepository.Get(req.appId);
                     if (appModule != null)
                     {
                         if (appModule.Forms == null)
@@ -128,7 +129,7 @@ namespace softblocks.Controllers
                         }
 
                         ObjectId formId;
-                        if (ObjectId.TryParse(reqFormId, out formId))
+                        if (ObjectId.TryParse(req.foreignId, out formId))
                         {
                             var result = new JsonGenericResult
                             {
@@ -138,9 +139,10 @@ namespace softblocks.Controllers
 
                             var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, "TestCompany", "SampleCollection");
                             var serializer = new JavaScriptSerializer();
-                            dataService.Add(serializer.Serialize(appModule));
+                            //dataService.Add(serializer.Serialize(appModule));
+                            dataService.Add(req.data);
 
-                            return Json(result, JsonRequestBehavior.AllowGet);
+                            return Json(result);
                         }
                     }
                 }

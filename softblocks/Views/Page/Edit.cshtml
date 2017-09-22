@@ -38,11 +38,14 @@
         <h3>Preview</h3>
 
         <div class="row" id="pnlForm">
-            @foreach (var panel in Model.Panels.OrderBy(n => n.Order))
-            {
-                <div class="col-lg-@panel.ColWidth col-md-@panel.ColWidth page-panel" data-app-id="@ViewBag.AppId" data-foreign-id="@panel.ForeignId" data-panel-type="@panel.PanelType">
+            @if (Model.Panels != null) 
+            { 
+                foreach (var panel in Model.Panels.OrderBy(n => n.Order))
+                {
+                    <div class="col-lg-@panel.ColWidth col-md-@panel.ColWidth page-panel" data-app-id="@ViewBag.AppId" data-foreign-id="@panel.ForeignId" data-panel-type="@panel.PanelType" data-panel-id="@panel.Id">
 
-                </div>
+                    </div>
+                }
             }
         </div>
     </div>
