@@ -170,6 +170,8 @@
     <Content Include="images\a5.jpg" />
     <Content Include="images\profile.jpg" />
     <Content Include="plugins\bower_components\blockUI\jquery.blockUI.js" />
+    <Content Include="plugins\bower_components\bootstrap-datepicker\bootstrap-datepicker.min.css" />
+    <Content Include="plugins\bower_components\bootstrap-datepicker\bootstrap-datepicker.min.js" />
     <Content Include="plugins\bower_components\jquery-validation\additional-methods.min.js" />
     <Content Include="plugins\bower_components\jquery-validation\jquery.validate.min.js" />
     <Content Include="scripts\luna.js" />
@@ -1258,6 +1260,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppModuleController.cs" />
     <Compile Include="Controllers\DataPanelController.cs" />
+    <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -1481,6 +1484,7 @@
     <Folder Include="vendor\moment\src\lib\utils\" />
     <Folder Include="vendor\moment\src\locale\" />
     <Folder Include="vendor\moment\templates\" />
+    <Folder Include="Views\DataView\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\softblocks.data\softblocks.data.csproj">
