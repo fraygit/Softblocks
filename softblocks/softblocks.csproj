@@ -1284,6 +1284,7 @@
     <Compile Include="Models\ReqAddFormField.cs" />
     <Compile Include="Models\ReqAddPage.cs" />
     <Compile Include="Models\ReqAddPanel.cs" />
+    <Compile Include="Models\ReqCreateDataView.cs" />
     <Compile Include="Models\ReqCreateDocumentType.cs" />
     <Compile Include="Models\ReqCreateForm.cs" />
     <Compile Include="Models\ResDropdown.cs" />

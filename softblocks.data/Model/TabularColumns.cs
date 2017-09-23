@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace softblocks.data.Model
 {
-    public class DataViewColumns
+    public class TabularColumns
     {
         public ObjectId FieldId { get; set; }
         public int Order { get; set; }

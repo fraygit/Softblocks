@@ -13,6 +13,7 @@ namespace softblocks.data.Model
         public String Name { get; set; }
         public string Description { get; set; }
         public string DataViewType { get; set; }
-        public List<DataViewColumns> Columns { get; set; }
+        public Tabular Tabular { get; set; }
+        
     }
 }

@@ -190,7 +190,7 @@
                 <h4 class="modal-title">Add Data View</h4>
             </div>
             <div class="modal-body">
-                <form id="frmAddForm">
+                <form id="frmAddDataView">
                     <div class="form-group">
                         <label for="exampleInputName">Name</label>
                         <input type="text" class="form-control" id="txtDataViewName" placeholder="Name" required="">
@@ -324,20 +324,18 @@
 
         GetDocumentType();
 
-
-
-            LoadPages();
-            LoadDocumentTypes();
-            LoadForList();
+        LoadPages();
+        LoadDocumentTypes();
+        LoadForList();
 
 
 
-            $("#btnAddPage").click(function () {
-                AddLoadingOverlay("#pnlPages");
-                var isValid = $("#frmAddPage").valid();
-                if (isValid) {
-                    var data = {
-                        ModuleId: '@Model.Id.ToString()',
+        $("#btnAddPage").click(function () {
+            AddLoadingOverlay("#pnlPages");
+            var isValid = $("#frmAddPage").valid();
+            if (isValid) {
+                var data = {
+                    ModuleId: '@Model.Id.ToString()',
                     Page: {
                         Name: $("#txtName").val(),
                         Title: $("#txtTitle").val(),
@@ -439,6 +437,45 @@
                 });
             }
         });
+
+        $("#btnAddDataView").click(function () {
+            AddLoadingOverlay("#pnlDataViews");
+            var isValid = $("#frmAddDataView").valid();
+            if (isValid) {
+                var data = {
+                    AppModuleId: '@Model.Id.ToString()',
+                    Name: $("#txtDataViewName").val(),
+                    Description: $("#txtDataViewDescription").val(),
+                    DataViewType: $("#ddDataViewType").val(),
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Create", "DataView")",
+                    contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (d) {
+                    RemoveLoadingOverlay("#pnlDataViews");
+                    if (d.IsSuccess == true) {
+                        $("#frmAddDataView")[0].reset();
+                        $("#pnlAddDataView").modal('toggle');
+                        alertSuccess("Success", "Successfully created data view!");
+                        setTimeout(function () {
+                            //document.location.href = "/DocumentTypes/Create/" + d.Result;
+                        }, 1000);
+                    }
+                    else {
+                        alertError("Error!", d.Message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    RemoveLoadingOverlay("#pnlDataViews");
+                    // TODO: Show error
+                }
+            });
+        }
+        });
+
     });
     </script>
 }

@@ -16,5 +16,6 @@ namespace softblocks.data.Model
         public List<AppModulePage> Pages { get; set; }
         public List<DocumentType> DocumentTypes { get; set; }
         public List<ModuleForm> Forms { get; set; }
+        public List<DataView> DataViews { get; set; }
     }
 }
