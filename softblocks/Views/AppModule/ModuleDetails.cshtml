@@ -200,6 +200,10 @@
                         <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDataViewDescription"></textarea>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputName">Document Type</label>
+                        <select id="ddDocumentTypeDataView" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputName">Data View Type</label>
                         <select id="ddDataViewType" class="form-control">
                             <option value="Tabular">Tabular</option>
@@ -324,6 +328,7 @@
                 success: function (d) {
                     $.each(d.Result, function (docTypeIndex, docTypeItem) {
                         $("#ddDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+                        $("#ddDocumentTypeDataView").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));                        
                     })
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -458,6 +463,7 @@
                     Name: $("#txtDataViewName").val(),
                     Description: $("#txtDataViewDescription").val(),
                     DataViewType: $("#ddDataViewType").val(),
+                    DocumentTypeId: $("#ddDocumentTypeDataView").val()
                 }
                 $.ajax({
                     type: "POST",

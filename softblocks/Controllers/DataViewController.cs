@@ -26,6 +26,7 @@ namespace softblocks.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<ActionResult> List(string appId)
         {
             if (!string.IsNullOrEmpty(appId))
@@ -44,6 +45,37 @@ namespace softblocks.Controllers
             return View();
         }
 
+        [Authorize]
+        public async Task<ActionResult> EditTabular(string appId, string id)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(id, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                return View(appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId));
+                            }
+                        }
+
+                        return View(appModule.DataViews);
+                    }
+                    return View(new DataView());
+                }
+            }
+            return View();
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<JsonResult> Create(ReqCreateDataView req)
         {
@@ -66,7 +98,8 @@ namespace softblocks.Controllers
                             Id = dataViewId,
                             Name = req.Name,
                             DataViewType = req.DataViewType,
-                            Description = req.Description
+                            Description = req.Description,
+                            DocumentTypeId = ObjectId.Parse(req.DocumentTypeId)
                         };
 
                         appModule.DataViews.Add(dataView);

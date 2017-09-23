@@ -13,7 +13,7 @@ namespace softblocks.data.Model
         public String Name { get; set; }
         public string Description { get; set; }
         public string DataViewType { get; set; }
-        public Tabular Tabular { get; set; }
-        
+        public ObjectId DocumentTypeId { get; set; }
+        public Tabular Tabular { get; set; }        
     }
 }
