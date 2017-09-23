@@ -273,11 +273,11 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(function () {
+    $(function () {
 
-            var LoadForList = function () {
-                AddLoadingOverlay("#pnlForms");
-                $('#pnlForms').load('@Url.Action("List", "ModuleForm", new { appId = Model.Id.ToString() })', function () {
+        var LoadForList = function () {
+            AddLoadingOverlay("#pnlForms");
+            $('#pnlForms').load('@Url.Action("List", "ModuleForm", new { appId = Model.Id.ToString() })', function () {
                     RemoveLoadingOverlay("#pnlForms");
                 });
                 $('#pnlForms').slimScroll({
@@ -285,25 +285,35 @@
                 });
             };
 
+        var LoadDataViewList = function () {
+            AddLoadingOverlay("#pnlDataViews");
+            $('#pnlDataViews').load('@Url.Action("List", "DataView", new { appId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlDataViews");
+            });
+            $('#pnlDataViews').slimScroll({
+                height: '250px'
+            });
+        };
+
         var LoadPages = function () {
             AddLoadingOverlay("#pnlPages");
             $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
-                    RemoveLoadingOverlay("#pnlPages");
-                });
-                $('#pnlPages').slimScroll({
-                    height: '250px'
-                });
-            }
+                RemoveLoadingOverlay("#pnlPages");
+            });
+            $('#pnlPages').slimScroll({
+                height: '250px'
+            });
+        }
 
-            var LoadDocumentTypes = function () {
-                AddLoadingOverlay("#pnlDocTypes");
-                $('#pnlDocTypes').load('@Url.Action("List", "DocumentTypes", new { appId = Model.Id.ToString() })', function () {
-                    RemoveLoadingOverlay("#pnlDocTypes");
-                });
-                $('#pnlDocTypes').slimScroll({
-                    height: '250px'
-                });
-            }
+        var LoadDocumentTypes = function () {
+            AddLoadingOverlay("#pnlDocTypes");
+            $('#pnlDocTypes').load('@Url.Action("List", "DocumentTypes", new { appId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlDocTypes");
+            });
+            $('#pnlDocTypes').slimScroll({
+                height: '250px'
+            });
+        }
 
         var GetDocumentType = function () {
             $.ajax({
@@ -327,6 +337,7 @@
         LoadPages();
         LoadDocumentTypes();
         LoadForList();
+        LoadDataViewList();
 
 
 
@@ -452,28 +463,29 @@
                     type: "POST",
                     url: "@Url.Action("Create", "DataView")",
                     contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify(data),
-                success: function (d) {
-                    RemoveLoadingOverlay("#pnlDataViews");
-                    if (d.IsSuccess == true) {
-                        $("#frmAddDataView")[0].reset();
-                        $("#pnlAddDataView").modal('toggle');
-                        alertSuccess("Success", "Successfully created data view!");
-                        setTimeout(function () {
-                            //document.location.href = "/DocumentTypes/Create/" + d.Result;
-                        }, 1000);
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        RemoveLoadingOverlay("#pnlDataViews");
+                        if (d.IsSuccess == true) {
+                            $("#frmAddDataView")[0].reset();
+                            $("#pnlAddDataView").modal('toggle');
+                            alertSuccess("Success", "Successfully created data view!");
+                            LoadDataViewList();
+                            setTimeout(function () {
+                                //document.location.href = "/DocumentTypes/Create/" + d.Result;
+                            }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        RemoveLoadingOverlay("#pnlDataViews");
+                        // TODO: Show error
                     }
-                    else {
-                        alertError("Error!", d.Message);
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    RemoveLoadingOverlay("#pnlDataViews");
-                    // TODO: Show error
-                }
-            });
-        }
+                });
+            }
         });
 
     });

@@ -26,6 +26,24 @@ namespace softblocks.Controllers
             return View();
         }
 
+        public async Task<ActionResult> List(string appId)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        return View(appModule.DataViews);
+                    }
+                    return View(new List<DataView>());
+                }
+            }
+            return View();
+        }
+
         [HttpPost]
         public async Task<JsonResult> Create(ReqCreateDataView req)
         {
