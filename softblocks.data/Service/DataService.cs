@@ -36,5 +36,10 @@ namespace softblocks.data.Service
             MongoCollection.InsertOneAsync(document);
         }
 
+        public async Task<List<BsonDocument>> ListAll()
+        {
+            var data = await MongoCollection.Find(new BsonDocument()).ToListAsync();
+            return data;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace softblocks.Models
     {
         public DataView DataView { get; set; }
         public List<Field> DocumentFields { get; set; }
+        public string Data { get; set; }
     }
 }

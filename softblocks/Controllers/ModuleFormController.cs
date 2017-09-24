@@ -20,11 +20,13 @@ namespace softblocks.Controllers
     {
         private IUserRepository _userRepository;
         private IAppModuleRepository _appModuleRepository;
+        private IOrganisationRepository _organisationRepository;
 
-        public ModuleFormController(IUserRepository _userRepository, IAppModuleRepository _appModuleRepository)
+        public ModuleFormController(IUserRepository _userRepository, IAppModuleRepository _appModuleRepository, IOrganisationRepository _organisationRepository)
         {
             this._userRepository = _userRepository;
             this._appModuleRepository = _appModuleRepository;
+            this._organisationRepository = _organisationRepository;
         }
 
         public ActionResult Index()
@@ -137,7 +139,9 @@ namespace softblocks.Controllers
                                 Result = appModule.Forms.FirstOrDefault(n => n.Id == formId)
                             };
 
-                            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, "TestCompany", "SampleCollection");
+                            var org = await _organisationRepository.Get(appModule.OrganisationId);
+
+                            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), appModule.Name);
                             var serializer = new JavaScriptSerializer();
                             //dataService.Add(serializer.Serialize(appModule));
                             dataService.Add(req.data);

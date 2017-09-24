@@ -1,10 +1,13 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using softblocks.data.Interface;
 using softblocks.data.Model;
+using softblocks.data.Service;
 using softblocks.Models;
 using softblocks.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,10 +18,12 @@ namespace softblocks.Controllers
     public class DataViewController : Controller
     {
         private IAppModuleRepository _appModuleRepository;
+        private IOrganisationRepository _organisationRepository;
 
-        public DataViewController(IAppModuleRepository _appModuleRepository)
+        public DataViewController(IAppModuleRepository _appModuleRepository, IOrganisationRepository _organisationRepository)
         {
             this._appModuleRepository = _appModuleRepository;
+            this._organisationRepository = _organisationRepository;
         }
 
         // GET: DataView
@@ -47,7 +52,7 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> RenderTabular(string appId, string id)
+        public async Task<ActionResult> RenderTabular(string appId, string id, string dataId)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -69,6 +74,14 @@ namespace softblocks.Controllers
                                 response.DataView = dataView;
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
                                 response.DocumentFields = await docTypeService.FindDocumentType(appId, dataView.DocumentTypeId);
+
+                                var org = await _organisationRepository.Get(appModule.OrganisationId);
+
+                                var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), appModule.Name);
+                                var data = await dataService.ListAll();
+                                var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+                                response.Data = data.ToJson(jsonWriterSettings);
+
                                 return View(response);
                             }
                         }
