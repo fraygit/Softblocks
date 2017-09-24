@@ -2,6 +2,7 @@
 using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.Models;
+using softblocks.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,41 @@ namespace softblocks.Controllers
                         return View(appModule.DataViews);
                     }
                     return View(new List<DataView>());
+                }
+            }
+            return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> RenderTabular(string appId, string id)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var response = new ResRenderTabular();
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(id, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                response.DataView = dataView;
+                                var docTypeService = new DocumentTypeServices(_appModuleRepository);
+                                response.DocumentFields = await docTypeService.FindDocumentType(appId, dataView.DocumentTypeId);
+                                return View(response);
+                            }
+                        }
+
+                        return View(response);
+                    }
+                    return View(new DataView());
                 }
             }
             return View();

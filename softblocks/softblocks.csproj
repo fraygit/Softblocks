@@ -174,6 +174,39 @@
     <Content Include="plugins\bower_components\blockUI\jquery.blockUI.js" />
     <Content Include="plugins\bower_components\bootstrap-datepicker\bootstrap-datepicker.min.css" />
     <Content Include="plugins\bower_components\bootstrap-datepicker\bootstrap-datepicker.min.js" />
+    <Content Include="plugins\bower_components\datatables\dataTables.bootstrap.js" />
+    <Content Include="plugins\bower_components\datatables\jquery.dataTables.min.css" />
+    <Content Include="plugins\bower_components\datatables\jquery.dataTables.min.js" />
+    <Content Include="plugins\bower_components\datatables\license.txt" />
+    <Content Include="plugins\bower_components\datatables\media\css\dataTables.bootstrap.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\dataTables.bootstrap.min.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\dataTables.foundation.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\dataTables.foundation.min.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\dataTables.jqueryui.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\dataTables.jqueryui.min.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\jquery.dataTables.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\jquery.dataTables.min.css" />
+    <Content Include="plugins\bower_components\datatables\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="plugins\bower_components\datatables\media\images\favicon.ico" />
+    <Content Include="plugins\bower_components\datatables\media\images\sort_asc.png" />
+    <Content Include="plugins\bower_components\datatables\media\images\sort_asc_disabled.png" />
+    <Content Include="plugins\bower_components\datatables\media\images\sort_both.png" />
+    <Content Include="plugins\bower_components\datatables\media\images\sort_desc.png" />
+    <Content Include="plugins\bower_components\datatables\media\images\sort_desc_disabled.png" />
+    <Content Include="plugins\bower_components\datatables\media\js\dataTables.bootstrap.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\dataTables.bootstrap.min.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\dataTables.foundation.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\dataTables.foundation.min.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\dataTables.jqueryui.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\dataTables.jqueryui.min.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\jquery.dataTables.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\jquery.dataTables.min.js" />
+    <Content Include="plugins\bower_components\datatables\media\js\jquery.js" />
+    <Content Include="plugins\bower_components\datatables\sort_asc.png" />
+    <Content Include="plugins\bower_components\datatables\sort_asc_disabled.png" />
+    <Content Include="plugins\bower_components\datatables\sort_both.png" />
+    <Content Include="plugins\bower_components\datatables\sort_desc.png" />
+    <Content Include="plugins\bower_components\datatables\sort_desc_disabled.png" />
     <Content Include="plugins\bower_components\jquery-validation\additional-methods.min.js" />
     <Content Include="plugins\bower_components\jquery-validation\jquery.validate.min.js" />
     <Content Include="scripts\luna.js" />
@@ -1292,6 +1325,7 @@
     <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResDropdown.cs" />
     <Compile Include="Models\ResRenderForm.cs" />
+    <Compile Include="Models\ResRenderTabular.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DocumentTypeServices.cs" />
   </ItemGroup>
@@ -1471,6 +1505,12 @@
     <Content Include="Views\Page\Edit.cshtml" />
     <Content Include="Views\DataView\List.cshtml" />
     <Content Include="Views\DataView\EditTabular.cshtml" />
+    <Content Include="Views\DataView\RenderTabular.cshtml" />
+    <Content Include="plugins\bower_components\datatables\.bower.json" />
+    <Content Include="plugins\bower_components\datatables\bower.json" />
+    <Content Include="plugins\bower_components\datatables\Contributing.md" />
+    <Content Include="plugins\bower_components\datatables\media\images\Sorting icons.psd" />
+    <Content Include="plugins\bower_components\datatables\Readme.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

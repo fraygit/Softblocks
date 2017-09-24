@@ -73,6 +73,13 @@
     <script type="text/javascript">
         $(function () {
 
+            var RenderTable = function () {
+                AddLoadingOverlay("#pnlTable");
+                $('#pnlTable').load('@Html.Raw(Url.Action("RenderTabular", "DataView", new { appId = ViewBag.AppId, id = Model.Id.ToString() }))', function () {
+                    RemoveLoadingOverlay("#pnlTable");
+                });
+            };
+
 
             var GetDocumentTypeFields = function () {
                 $.ajax({
@@ -104,29 +111,30 @@
                         type: "POST",
                         url: "@Url.Action("TabularAddColumn", "DataView")",
                         contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify(data),
-                    success: function (d) {
-                        if (d.IsSuccess == true) {
-                            $("#frmAddColumn")[0].reset();
-                            $("#pnlAddCol").modal('toggle');
-                            alertSuccess("Success", "Successfully added column!");
-                            RenderForm();
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#frmAddColumn")[0].reset();
+                                $("#pnlAddCol").modal('toggle');
+                                alertSuccess("Success", "Successfully added column!");
+                                RenderTable();
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            RemoveLoadingOverlay("#pnlTable");
+                            // TODO: Show error
                         }
-                        else {
-                            alertError("Error!", d.Message);
-                        }
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        RemoveLoadingOverlay("#pnlTable");
-                        // TODO: Show error
-                    }
-                });
-            }
+                    });
+                }
             });
 
 
             GetDocumentTypeFields();
+            RenderTable();
 
         });
     </script>
