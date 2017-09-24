@@ -77,6 +77,64 @@ namespace softblocks.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<JsonResult> TabularAddColumn(ReqTabularAddColumn req)
+        {
+            if (!string.IsNullOrEmpty(req.AppId))
+            {
+                var columnId = string.Empty;
+                var appModule = await _appModuleRepository.Get(req.AppId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(req.DataViewId, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                var dataColumnId = ObjectId.GenerateNewId();
+                                if (dataView.Tabular == null)
+                                {
+                                    dataView.Tabular = new Tabular();
+                                }
+                                if (dataView.Tabular.Columns == null)
+                                {
+                                    dataView.Tabular.Columns = new List<TabularColumns>();
+                                }
+                                dataView.Tabular.Columns.Add(new TabularColumns
+                                {
+                                    Id = dataColumnId,
+                                    FieldId = ObjectId.Parse(req.FieldId),
+                                    Order = req.Order
+                                });
+
+                                await _appModuleRepository.Update(req.AppId, appModule);
+                                columnId = dataColumnId.ToString();
+                            }
+                        }                        
+                    }
+                    var result = new JsonGenericResult
+                    {
+                        IsSuccess = true,
+                        Result = columnId
+                    };
+                    return Json(result);
+                }
+            }
+            var ErrorResult = new JsonGenericResult
+            {
+                IsSuccess = false,
+                Message = "No app selected."
+            };
+            return Json(ErrorResult);
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<JsonResult> Create(ReqCreateDataView req)
         {
             try

@@ -33,3 +33,4 @@ C:\Projects\Softblocks\SoftBlocksGit2\softblocks.data\bin\Debug\MongoDB.Driver.x
 C:\Projects\Softblocks\SoftBlocksGit2\softblocks.data\bin\Debug\MongoDB.Driver.Core.xml
 C:\Projects\Softblocks\SoftBlocksGit2\softblocks.data\obj\Debug\softblocks.data.dll
 C:\Projects\Softblocks\SoftBlocksGit2\softblocks.data\obj\Debug\softblocks.data.pdb
+C:\Projects\Softblocks\SoftBlocksGit2\softblocks.data\obj\Debug\softblocks.data.csprojResolveAssemblyReference.cache

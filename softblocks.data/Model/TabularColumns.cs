@@ -9,6 +9,7 @@ namespace softblocks.data.Model
 {
     public class TabularColumns
     {
+        public ObjectId Id { get; set; }
         public ObjectId FieldId { get; set; }
         public int Order { get; set; }
     }

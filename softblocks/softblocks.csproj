@@ -1289,6 +1289,7 @@
     <Compile Include="Models\ReqCreateDataView.cs" />
     <Compile Include="Models\ReqCreateDocumentType.cs" />
     <Compile Include="Models\ReqCreateForm.cs" />
+    <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResDropdown.cs" />
     <Compile Include="Models\ResRenderForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

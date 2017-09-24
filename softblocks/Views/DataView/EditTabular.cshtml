@@ -37,7 +37,7 @@
         <span class="pull-right"><button type="button" class="btn btn-info waves-effect" id="btnAddColumn" data-toggle="modal" data-target="#pnlAddCol">Add Column</button></span>
         <h3>Preview</h3>
 
-        <div class="row" id="pnlForm">
+        <div class="row" id="pnlTable">
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
                 <h4 class="modal-title">Add Column</h4>
             </div>
             <div class="modal-body">
-                <form id="frmAddForm">
+                <form id="frmAddColumn">
                     <div class="form-group">
                         <label for="exampleInputName">Field</label>
                         <select id="ddField" class="form-control"></select>
@@ -89,6 +89,42 @@
                     }
                 });
             };
+
+
+            $("#btnAdd").click(function () {
+                var isValid = $("#frmAddColumn").valid();
+                if (isValid) {
+                    var data = {
+                        AppId: '@ViewBag.AppId',
+                        DataViewId: '@Model.Id',
+                        FieldId: $("#ddField").val(),
+                        Order: $("#txtOrder").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("TabularAddColumn", "DataView")",
+                        contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            $("#frmAddColumn")[0].reset();
+                            $("#pnlAddCol").modal('toggle');
+                            alertSuccess("Success", "Successfully added column!");
+                            RenderForm();
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        RemoveLoadingOverlay("#pnlTable");
+                        // TODO: Show error
+                    }
+                });
+            }
+            });
+
 
             GetDocumentTypeFields();
 
