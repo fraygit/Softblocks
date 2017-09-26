@@ -77,6 +77,7 @@
                 AddLoadingOverlay("#pnlTable");
                 $('#pnlTable').load('@Html.Raw(Url.Action("RenderTabular", "DataView", new { appId = ViewBag.AppId, id = Model.Id.ToString() }))', function () {
                     RemoveLoadingOverlay("#pnlTable");
+                    window.SoftblockTabular.Init();
                 });
             };
 

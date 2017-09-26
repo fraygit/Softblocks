@@ -164,6 +164,7 @@
     <Content Include="assets\css\style.css" />
     <Content Include="assets\js\common.js" />
     <Content Include="assets\js\softblocks\page.js" />
+    <Content Include="assets\js\softblocks\tabular.js" />
     <Content Include="Global.asax" />
     <Content Include="images\a1.jpg" />
     <Content Include="images\a2.jpg" />

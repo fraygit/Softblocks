@@ -13,10 +13,13 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
-                            @if (Model.DataView.Tabular != null) {
-                                if (Model.DataView.Tabular.Columns != null) {
+                            @if (Model.DataView.Tabular != null)
+                            {
+                                if (Model.DataView.Tabular.Columns != null)
+                                {
                                     var sampleData = new List<string>();
-                                    <div class="table-responsive">
+                                    <div class="table-responsive softblock-tabular" data-data-view-id="@Model.DataView.Id">
+                                        <input type="hidden" id="softblock-data-@Model.DataView.Id" value="@Model.Data" />
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
@@ -26,7 +29,7 @@
                                                         {
                                                             sampleData.Add("sample data");
                                                             var documentField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);
-                                                            <th>@documentField.Name</th>
+                                                            <th class="data-view-columns" data-field-name="@documentField.Name" data-field-data-type="@documentField.DataType">@documentField.Name</th>
                                                         }
                                                     }
                                                 </tr>
