@@ -53,6 +53,45 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
+        public async Task<JsonResult> ListDataViews(string appId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(appId))
+                {
+                    var appModule = await _appModuleRepository.Get(appId);
+                    if (appModule != null)
+                    {
+                        if (appModule.Forms == null)
+                        {
+                            appModule.DataViews = new List<DataView>();
+                        }
+                        var result = new JsonGenericResult
+                        {
+                            IsSuccess = true,
+                            Result = appModule.DataViews
+                        };
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "No app selected."
+                };
+                return Json(ErrorResult);
+            }
+            catch (Exception ex)
+            {
+                return Json(new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [Authorize]
         public async Task<ActionResult> RenderTabular(string appId, string id, string dataId)
         {
             if (!string.IsNullOrEmpty(appId))

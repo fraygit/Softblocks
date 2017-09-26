@@ -65,10 +65,11 @@
                         <select id="ddPanelType" class="form-control">
                             <option value=""></option>
                             <option value="Forms">Form</option>
+                            <option value="Data View">Data View</option>
                         </select>
                     </div>
                     <div class="form-group" id="pnlFormDropdown" style="display:none;">
-                        <label for="exampleInputName">Forms</label>
+                        <label id="lblPanelType">Forms</label>
                         <select id="ddForeignId" class="form-control">
                         </select>
                     </div>
@@ -116,32 +117,51 @@
             };
             RenderPanels();*@
 
-            var RetrievePanelTypes = function (cb) {
-                $.ajax({
-                    type: "GET",
-                    url: "@Html.Raw(Url.Action("ListForms", "ModuleForm", new { appId = ViewBag.AppId }))",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (d) {
-                        $.each(d.Result, function (fieldIndex, fieldItem) {
-                            $("#ddForeignId").append($("<option></option>").attr("value", ConvertObjectId(fieldItem.Id)).text(fieldItem.Name));
-                        })
-                        cb();
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                    }
-                });
+            var RetrievePanelTypes = function (panelType, cb) {
+                $("#ddForeignId").empty();
+                switch (panelType) {
+                    case "Forms":
+                        $.ajax({
+                            type: "GET",
+                            url: "@Html.Raw(Url.Action("ListForms", "ModuleForm", new { appId = ViewBag.AppId }))",
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (d) {
+                                $.each(d.Result, function (fieldIndex, fieldItem) {
+                                    $("#ddForeignId").append($("<option></option>").attr("value", ConvertObjectId(fieldItem.Id)).text(fieldItem.Name));
+                                })
+                                cb();
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                            }
+                        });
+                        break;
+                    case "Data View":
+                        $.ajax({
+                            type: "GET",
+                            url: "@Html.Raw(Url.Action("ListDataViews", "DataView", new { appId = ViewBag.AppId }))",
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (d) {
+                                $.each(d.Result, function (dataViewIndex, dataViewItem) {
+                                    $("#ddForeignId").append($("<option></option>").attr("value", ConvertObjectId(dataViewItem.Id)).text(dataViewItem.Name));
+                                })
+                                cb();
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                            }
+                        });
+                        break;
+                }
+
             };
 
 
             $("#ddPanelType").change(function () {
-                switch ($("#ddPanelType").val()) {
-                    case "Forms":
-                        RetrievePanelTypes(function () {
-                            $("#pnlFormDropdown").slideDown('slow');
-                        });
-                        break;
-                }
+                RetrievePanelTypes($("#ddPanelType").val(), function () {
+                    $("#lblPanelType").text($("#ddPanelType").val());
+                    $("#pnlFormDropdown").slideDown('slow');
+                });
             });
 
 
