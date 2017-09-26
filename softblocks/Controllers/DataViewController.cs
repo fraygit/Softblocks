@@ -92,7 +92,7 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> RenderTabular(string appId, string id, string dataId)
+        public async Task<ActionResult> RenderTabular(string appId, string id)
         {
             if (!string.IsNullOrEmpty(appId))
             {

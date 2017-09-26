@@ -2,9 +2,13 @@
 
     var SoftblockPage = {
         RenderForm: function (element, appId, formId, cb) {
-            //$('#pnlForm').load('/ModuleForm/RenderForm?appId=' + appId + '&reqFormId=' + formId, function () {
-            //});
             $(element).load('/ModuleForm/RenderForm?appId=' + appId + '&reqFormId=' + formId, function () {
+                cb();
+            });
+        },
+
+        RenderTabular: function (element, appId, dataViewId, cb) {
+            $(element).load('/DataView/RenderTabular?appId=' + appId + '&id=' + dataViewId, function () {
                 cb();
             });
         },
@@ -89,6 +93,11 @@
                     $.each($(".field-date"), function (dateElIndex, dateElItem) {
                         $(dateElItem).datepicker();
                     });
+                });
+                break;
+            case "Data View":
+                SoftblockPage.RenderTabular(panelItem, appId, foreignId, function () {
+                    window.SoftblockTabular.Init();
                 });
                 break;
         }
