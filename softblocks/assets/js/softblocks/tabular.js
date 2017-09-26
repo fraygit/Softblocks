@@ -45,7 +45,9 @@
                     dataArray.push(arrRow);
                 });
 
-                var s = dataArray;
+                $("#softblock-tabular-" + dataViewId).DataTable({
+                    data: dataArray
+                });
 
             }); // each tabular panel
         }

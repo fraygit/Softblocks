@@ -20,7 +20,7 @@
                                     var sampleData = new List<string>();
                                     <div class="table-responsive softblock-tabular" data-data-view-id="@Model.DataView.Id">
                                         <input type="hidden" id="softblock-data-@Model.DataView.Id" value="@Model.Data" />
-                                        <table class="table table-striped">
+                                        <table class="table table-striped" id="softblock-tabular-@Model.DataView.Id">
                                             <thead>
                                                 <tr>
                                                     @foreach (var field in Model.DataView.Tabular.Columns.OrderBy(n => n.Order))
