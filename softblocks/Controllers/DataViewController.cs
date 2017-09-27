@@ -134,8 +134,7 @@ namespace softblocks.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<ActionResult> EditTabular(string appId, string id)
+        private async Task<DataView> GetDataView(string appId, string id)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -152,16 +151,99 @@ namespace softblocks.Controllers
                         {
                             if (appModule.DataViews.Any(n => n.Id == dataViewId))
                             {
-                                return View(appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId));
+                                return appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
                             }
                         }
-
-                        return View(appModule.DataViews);
                     }
-                    return View(new DataView());
                 }
             }
-            return View();
+            return new DataView();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> EditTabular(string appId, string id)
+        {
+            var dataView = await GetDataView(appId, id);
+            return View(dataView);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> EditDetail(string appId, string id)
+        {
+            var dataView = await GetDataView(appId, id);
+            return View(dataView);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> DetailAddComponent(ReqDetailAddComponent req)
+        {
+            if (!string.IsNullOrEmpty(req.AppId))
+            {
+                var columnId = string.Empty;
+                var appModule = await _appModuleRepository.Get(req.AppId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(req.DataViewId, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                var componentId = ObjectId.GenerateNewId();
+                                if (dataView.Detail == null)
+                                {
+                                    dataView.Detail = new Detail();
+                                }
+                                if (dataView.Detail.Components == null)
+                                {
+                                    dataView.Detail.Components = new List<DetailComponent>();
+                                }
+
+                                ObjectId? fieldId = null;
+                                if (req.ComponentType.Contains("Data"))
+                                {
+                                    ObjectId fieldIdContainer;
+                                    if (ObjectId.TryParse(req.FieldId, out fieldIdContainer))
+                                    {
+                                        fieldId = fieldIdContainer;
+                                    }
+                                }
+
+                                dataView.Detail.Components.Add(new DetailComponent
+                                {
+                                    ColWidth = req.ColWidth,
+                                    ComponentType = req.ComponentType,
+                                    FieldId = fieldId,
+                                    Order = req.Order,
+                                    Text = req.Text,
+                                    Id = componentId
+                                });
+
+                                await _appModuleRepository.Update(req.AppId, appModule);
+                                columnId = componentId.ToString();
+                            }
+                        }
+                    }
+                    var result = new JsonGenericResult
+                    {
+                        IsSuccess = true,
+                        Result = columnId
+                    };
+                    return Json(result);
+                }
+            }
+            var ErrorResult = new JsonGenericResult
+            {
+                IsSuccess = false,
+                Message = "No app selected."
+            };
+            return Json(ErrorResult);
         }
 
         [Authorize]

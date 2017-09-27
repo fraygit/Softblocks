@@ -73,6 +73,8 @@
     <Compile Include="Model\DataPanel.cs" />
     <Compile Include="Model\DataPanelForm.cs" />
     <Compile Include="Model\DataView.cs" />
+    <Compile Include="Model\Detail.cs" />
+    <Compile Include="Model\DetailComponent.cs" />
     <Compile Include="Model\Tabular.cs" />
     <Compile Include="Model\TabularColumns.cs" />
     <Compile Include="Model\DocumentType.cs" />

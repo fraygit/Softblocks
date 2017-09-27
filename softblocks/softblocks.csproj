@@ -1323,6 +1323,7 @@
     <Compile Include="Models\ReqCreateDataView.cs" />
     <Compile Include="Models\ReqCreateDocumentType.cs" />
     <Compile Include="Models\ReqCreateForm.cs" />
+    <Compile Include="Models\ReqDetailAddComponent.cs" />
     <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResDropdown.cs" />
     <Compile Include="Models\ResRenderForm.cs" />
@@ -1512,6 +1513,7 @@
     <Content Include="plugins\bower_components\datatables\Contributing.md" />
     <Content Include="plugins\bower_components\datatables\media\images\Sorting icons.psd" />
     <Content Include="plugins\bower_components\datatables\Readme.md" />
+    <Content Include="Views\DataView\EditDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
