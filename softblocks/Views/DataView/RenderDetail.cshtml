@@ -1,0 +1,35 @@
+﻿@model softblocks.Models.ResRenderTabular
+@{
+    Layout = null;
+}
+
+@if (Model.DataView != null && Model.DocumentFields != null) {
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                @Model.DataView.Name
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            @if (Model.DataView.Detail != null)
+                            {
+                                if (Model.DataView.Detail.Components != null)
+                                {
+                                    
+                                    
+                                
+                                <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong>
+                                    <br>
+                                    <p class="text-muted">Johnathan Deo</p>
+                                </div>                                    
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

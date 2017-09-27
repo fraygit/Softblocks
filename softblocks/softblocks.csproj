@@ -1514,6 +1514,7 @@
     <Content Include="plugins\bower_components\datatables\media\images\Sorting icons.psd" />
     <Content Include="plugins\bower_components\datatables\Readme.md" />
     <Content Include="Views\DataView\EditDetail.cshtml" />
+    <Content Include="Views\DataView\RenderDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -37,7 +37,7 @@
         <span class="pull-right"><button type="button" class="btn btn-info waves-effect" id="btnAddColumn" data-toggle="modal" data-target="#pnlAddComponent">Add Component</button></span>
         <h3>Preview</h3>
 
-        <div class="row" id="pnlTable">
+        <div class="row" id="pnlDetail">
         </div>
     </div>
 </div>
@@ -106,6 +106,13 @@
                 }
             });
 
+            var RenderDetail = function () {
+                AddLoadingOverlay("#pnlDetail");
+                $('#pnlDetail').load('@Html.Raw(Url.Action("RenderDetail", "DataView", new { appId = ViewBag.AppId, id = Model.Id.ToString() }))', function () {
+                    RemoveLoadingOverlay("#pnlDetail");
+                });
+            };
+
 
             var GetDocumentTypeFields = function () {
                 $.ajax({
@@ -146,7 +153,7 @@
                                 $("#frmAddComponent")[0].reset();
                                 $("#pnlAddComponent").modal('toggle');
                                 alertSuccess("Success", "Successfully added component!");
-                                RenderTable();
+                                RenderDetail();
                             }
                             else {
                                 alertError("Error!", d.Message);
@@ -162,7 +169,8 @@
 
 
             GetDocumentTypeFields();
-            
+            RenderDetail();
+
 
         });
     </script>
