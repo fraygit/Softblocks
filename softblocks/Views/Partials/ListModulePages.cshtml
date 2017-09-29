@@ -8,7 +8,7 @@
         <a href="index.html" class="waves-effect"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw fa-fw"></i> <span class="hide-menu"> @module.Name <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
         @if (module.Pages != null)
         {
-            foreach (var page in module.Pages)
+            foreach (var page in module.Pages.Where(n => n.IsDetailPage == false))
             {
                 <ul class="nav nav-second-level">
                     <li> 

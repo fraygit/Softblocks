@@ -240,6 +240,13 @@
                         <label for="exampleInputEmail1">Description</label>
                         <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
                     </div>
+                    <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkIsDetailPage">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Is this a detail page?</span>
+                        </label>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -356,7 +363,8 @@
                     Page: {
                         Name: $("#txtName").val(),
                         Title: $("#txtTitle").val(),
-                        Description: $("#txtDescription").val()
+                        Description: $("#txtDescription").val(),
+                        IsDetailPage: $('#chkIsDetailPage').prop("checked") == true
                     }
                 }
                 $.ajax({
