@@ -12,5 +12,7 @@ namespace softblocks.Models
         public string DataViewId { get; set; }
         public string FieldId { get; set; }
         public int Order { get; set; }
+        public bool IsLinkToDetailPage { get; set; }
+        public string PageId { get; set; }
     }
 }

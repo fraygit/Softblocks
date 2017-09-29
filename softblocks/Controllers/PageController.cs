@@ -46,6 +46,47 @@ namespace softblocks.Controllers
             return View();
         }
 
+        public async Task<JsonResult> List(string appId)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(appId))
+                {
+                    var appModule = await _appModuleRepository.Get(appId);
+                    if (appModule != null)
+                    {
+                        if (appModule.Pages == null)
+                        {
+                            appModule.Pages = new List<AppModulePage>();
+                        }
+                        var result = new JsonGenericResult
+                        {
+                            IsSuccess = true,
+                            Result = appModule.Pages
+                        };
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                var ErrorResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = "Module cannot be found."
+                };
+                return Json(ErrorResult);
+            }
+            catch (Exception ex)
+            {
+                var ErrorResult1 = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+                return Json(ErrorResult1);
+            }
+        }
+            
+
+
         [HttpPost]
         public async Task<JsonResult> AddPanel(ReqAddPanel req)
         {

@@ -319,12 +319,19 @@ namespace softblocks.Controllers
                                 {
                                     dataView.Tabular.Columns = new List<TabularColumns>();
                                 }
-                                dataView.Tabular.Columns.Add(new TabularColumns
+                                var tabularColumn = new TabularColumns
                                 {
                                     Id = dataColumnId,
                                     FieldId = ObjectId.Parse(req.FieldId),
-                                    Order = req.Order
-                                });
+                                    Order = req.Order,
+                                    IsLinkToDetailPage = req.IsLinkToDetailPage
+                                };
+                                if (req.IsLinkToDetailPage)
+                                {
+                                    tabularColumn.PageId = ObjectId.Parse(req.PageId);
+                                }
+
+                                dataView.Tabular.Columns.Add(tabularColumn);
 
                                 await _appModuleRepository.Update(req.AppId, appModule);
                                 columnId = dataColumnId.ToString();

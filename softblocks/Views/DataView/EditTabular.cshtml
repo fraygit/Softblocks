@@ -55,6 +55,17 @@
                         <label for="exampleInputName">Field</label>
                         <select id="ddField" class="form-control"></select>
                     </div>
+                    <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkIsLink">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Show link to detail page?</span>
+                        </label>
+                    </div>
+                    <div class="form-group" id="pnlDDDetailPages" style="display:none;">
+                        <label for="exampleInputName">Detail Page</label>
+                        <select id="ddDetailPages" class="form-control"></select>
+                    </div>
                     <div class="form-group">
                         <label for="exampleInputName">Order</label>
                         <input type="text" class="form-control" id="txtOrder" />
@@ -72,6 +83,32 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
+
+            $("#chkIsLink").change(function () {
+                var isLink = $("#chkIsLink").prop("checked") == true;
+                if (isLink) {
+                    $("#pnlDDDetailPages").slideDown("slow");
+                }
+                else {
+                    $("#pnlDDDetailPages").slideUp("slow");
+                }
+            });
+
+            var GetPages = function () {
+                $.ajax({
+                    type: "GET",
+                    url: "@Html.Raw(Url.Action("List", "Page", new { appId = ViewBag.AppId }))",
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (d) {
+                        $.each(d.Result, function (fieldIndex, fieldItem) {
+                            $("#ddDetailPages").append($("<option></option>").attr("value", ConvertObjectId(fieldItem.PageId)).text(fieldItem.Name));
+                        })
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                    }
+                });
+            };
 
             var RenderTable = function () {
                 AddLoadingOverlay("#pnlTable");
@@ -102,11 +139,19 @@
             $("#btnAdd").click(function () {
                 var isValid = $("#frmAddColumn").valid();
                 if (isValid) {
+
+                    var pageId = '';
+                    if ($("#chkIsLink").prop("checked") == true) {
+                        pageId = $("#ddDetailPages").val();
+                    }
+
                     var data = {
                         AppId: '@ViewBag.AppId',
                         DataViewId: '@Model.Id',
                         FieldId: $("#ddField").val(),
-                        Order: $("#txtOrder").val()
+                        Order: $("#txtOrder").val(),
+                        IsLinkToDetailPage: $("#chkIsLink").prop("checked") == true,
+                        PageId: pageId
                     }
                     $.ajax({
                         type: "POST",
@@ -136,6 +181,7 @@
 
             GetDocumentTypeFields();
             RenderTable();
+            GetPages();
 
         });
     </script>
