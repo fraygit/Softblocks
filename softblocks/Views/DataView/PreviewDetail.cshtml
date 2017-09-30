@@ -3,11 +3,12 @@
     Layout = null;
 }
 
-@if (Model.DataView != null && Model.DocumentFields != null) {
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 softblock-detail" data-softblock-data="@Model.Data">
+@if (Model.DataView != null && Model.DocumentFields != null)
+{
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 softblock-preview-detail" data-softblock-data="@Model.Data">
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                @Model.DataView.Name  
+                @Model.DataView.Name
             </div>
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
@@ -19,8 +20,8 @@
                                 {
                                     foreach (var component in Model.DataView.Detail.Components)
                                     {
-                                        if (Model.DocumentFields.Any(n => n.Id == component.FieldId)) 
-                                        { 
+                                        if (Model.DocumentFields.Any(n => n.Id == component.FieldId))
+                                        {
                                             var field = Model.DocumentFields.FirstOrDefault(n => n.Id == component.FieldId);
                                             <div class="col-lg-@component.ColWidth col-md-@component.ColWidth b-r detail-component" data-field-name="@field.Name" data-field-data-type="@field.DataType">
                                                 <strong>@field.Name</strong>

@@ -7,8 +7,8 @@
             });
         },
 
-        RenderDataView: function (element, appId, dataViewId, cb) {
-            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId, function () {
+        RenderDataView: function (element, appId, dataViewId, isPreview, cb) {
+            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId + '&isPreview=' + isPreview, function () {
                 cb();
             });
         },
@@ -84,6 +84,7 @@
         var foreignId = $(panelItem).data("foreign-id");
         var appId = $(panelItem).data("app-id");
         var panelId = $(panelItem).data("panel-Id");
+        var isPreview = $(panelItem).data("is-preview");
         switch (panelType) {
             case "Forms":
                 SoftblockPage.RenderForm(panelItem, appId, foreignId, function () {
@@ -96,8 +97,9 @@
                 });
                 break;
             case "Data View":
-                SoftblockPage.RenderDataView(panelItem, appId, foreignId, function () {
+                SoftblockPage.RenderDataView(panelItem, appId, foreignId, isPreview, function () {
                     window.SoftblockTabular.Init();
+                    window.SoftblockDetail.Init();
                 });
                 break;
         }

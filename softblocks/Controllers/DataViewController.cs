@@ -92,6 +92,42 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
+        public async Task<ActionResult> PreviewDetail(string appId, string id)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var response = new ResRenderTabular();
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(id, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                response.DataView = dataView;
+                                var docTypeService = new DocumentTypeServices(_appModuleRepository);
+                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+
+                                return View(response);
+                            }
+                        }
+
+                        return View(response);
+                    }
+                    return View(new DataView());
+                }
+            }
+            return View();
+        }
+
+        [Authorize]
         public async Task<ActionResult> RenderDetail(string appId, string id)
         {
             if (!string.IsNullOrEmpty(appId))
@@ -115,12 +151,16 @@ namespace softblocks.Controllers
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
                                 response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
 
-                                //var org = await _organisationRepository.Get(appModule.OrganisationId);
+                                var dataId = TempData["id"].ToString();
+                                var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
 
-                                //var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), appModule.Name);
-                                //var data = await dataService.ListAll();
-                                //var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-                                //response.Data = data.ToJson(jsonWriterSettings);
+                                var org = await _organisationRepository.Get(appModule.OrganisationId);
+
+                                var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
+                                var data = await dataService.Get(dataId);
+
+                                var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+                                response.Data = data.ToJson(jsonWriterSettings);
 
                                 return View(response);
                             }
@@ -136,7 +176,7 @@ namespace softblocks.Controllers
 
 
         [Authorize]
-        public async Task<ActionResult> RenderDataView(string appId, string id)
+        public async Task<ActionResult> RenderDataView(string appId, string id, string isPreview)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -161,7 +201,14 @@ namespace softblocks.Controllers
                                         return RedirectToAction("RenderTabular", new { appId = appId, id = id });
                                         break;
                                     case "Detail":
-                                        return RedirectToAction("RenderDetail", new { appId = appId, id = id });
+                                        if (isPreview.ToLower() == "true")
+                                        {
+                                            return RedirectToAction("PreviewDetail", new { appId = appId, id = id });
+                                        }
+                                        else
+                                        {
+                                            return RedirectToAction("RenderDetail", new { appId = appId, id = id });
+                                        }
                                         break;
                                 }
                             }

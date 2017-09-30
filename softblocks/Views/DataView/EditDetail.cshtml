@@ -108,7 +108,7 @@
 
             var RenderDetail = function () {
                 AddLoadingOverlay("#pnlDetail");
-                $('#pnlDetail').load('@Html.Raw(Url.Action("RenderDetail", "DataView", new { appId = ViewBag.AppId, id = Model.Id.ToString() }))', function () {
+                $('#pnlDetail').load('@Html.Raw(Url.Action("PreviewDetail", "DataView", new { appId = ViewBag.AppId, id = Model.Id.ToString() }))', function () {
                     RemoveLoadingOverlay("#pnlDetail");
                 });
             };

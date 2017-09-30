@@ -41,5 +41,13 @@ namespace softblocks.data.Service
             var data = await MongoCollection.Find(new BsonDocument()).ToListAsync();
             return data;
         }
+
+        public async Task<BsonDocument> Get(string id)
+        {
+            //var data = await MongoCollection.Find(new BsonDocument());
+            //return data;
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(id));
+            return await MongoCollection.Find(filter).FirstOrDefaultAsync();
+        }
     }
 }
