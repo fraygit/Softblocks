@@ -17,13 +17,18 @@
                             {
                                 if (Model.DataView.Detail.Components != null)
                                 {
-                                    
-                                    
-                                
-                                <div class="col-md-3 col-xs-6 b-r"> <strong>Full Name</strong>
-                                    <br>
-                                    <p class="text-muted">Johnathan Deo</p>
-                                </div>                                    
+                                    foreach (var component in Model.DataView.Detail.Components)
+                                    {
+                                        if (Model.DocumentFields.Any(n => n.Id == component.FieldId)) 
+                                        { 
+                                            var field = Model.DocumentFields.FirstOrDefault(n => n.Id == component.FieldId);
+                                            <div class="col-lg-@component.ColWidth col-md-@component.ColWidth b-r">
+                                                <strong>@field.Name</strong>
+                                                <br>
+                                                <p class="text-muted">sample data</p>
+                                            </div>
+                                        }
+                                    }
                                 }
                             }
                         </div>

@@ -33,7 +33,7 @@
                         var pageId = $(colItem).data("field-link-page").toLowerCase();
                         var linkCol = {
                                     "render": function (data, type, row) {
-                                        return "<a href='/Page?id=" + row[0] + "&moduleId=" + appId + "&pageId=" + pageId + "'>" + row[colIndex + 1] + "</a>";
+                                        return "<a class='data-table-link' href='/Page?id=" + row[0] + "&moduleId=" + appId + "&pageId=" + pageId + "'>" + row[colIndex + 1] + "</a>";
                                     },
                                     "targets": colIndex + 1
                         }
