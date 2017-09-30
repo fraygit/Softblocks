@@ -134,6 +134,47 @@ namespace softblocks.Controllers
             return View();
         }
 
+
+        [Authorize]
+        public async Task<ActionResult> RenderDataView(string appId, string id)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var response = new ResRenderTabular();
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(id, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                switch (dataView.DataViewType)
+                                {
+                                    case "Tabular":
+                                        return RedirectToAction("RenderTabular", new { appId = appId, id = id });
+                                        break;
+                                    case "Detail":
+                                        return RedirectToAction("RenderDetail", new { appId = appId, id = id });
+                                        break;
+                                }
+                            }
+                        }
+
+                        return View(response);
+                    }
+                    return View(new DataView());
+                }
+            }
+            return View();
+        }
+
         [Authorize]
         public async Task<ActionResult> RenderTabular(string appId, string id)
         {

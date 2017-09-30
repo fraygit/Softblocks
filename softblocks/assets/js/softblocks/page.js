@@ -7,8 +7,8 @@
             });
         },
 
-        RenderTabular: function (element, appId, dataViewId, cb) {
-            $(element).load('/DataView/RenderTabular?appId=' + appId + '&id=' + dataViewId, function () {
+        RenderDataView: function (element, appId, dataViewId, cb) {
+            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId, function () {
                 cb();
             });
         },
@@ -96,7 +96,7 @@
                 });
                 break;
             case "Data View":
-                SoftblockPage.RenderTabular(panelItem, appId, foreignId, function () {
+                SoftblockPage.RenderDataView(panelItem, appId, foreignId, function () {
                     window.SoftblockTabular.Init();
                 });
                 break;
