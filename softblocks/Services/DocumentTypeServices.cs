@@ -18,7 +18,7 @@ namespace softblocks.Services
             this._appModuleRepository = _appModuleRepository;
         }
 
-        private List<Field> FindDocumentType(List<Field> fields,  ObjectId documentTypeId)
+        private List<Field> FindDocumentTypeFields(List<Field> fields,  ObjectId documentTypeId)
         {
             if (fields != null)
             {
@@ -30,14 +30,14 @@ namespace softblocks.Services
                     }
                     else
                     {
-                        return FindDocumentType(field.Fields, documentTypeId);
+                        return FindDocumentTypeFields(field.Fields, documentTypeId);
                     }
                 }
             }
             return null;
         }
 
-        public async Task<List<Field>> FindDocumentType(string appModuleId, ObjectId documentTypeId)
+        public async Task<List<Field>> FindDocumentTypeFields(string appModuleId, ObjectId documentTypeId)
         {
             var app = await _appModuleRepository.Get(appModuleId);
             if (app != null)
@@ -52,11 +52,53 @@ namespace softblocks.Services
                     {
                         foreach (var document in app.DocumentTypes)
                         {
-                            var fields = FindDocumentType(document.Fields, documentTypeId);
+                            var fields = FindDocumentTypeFields(document.Fields, documentTypeId);
                             if (fields != null)
                             {
                                 return fields;
                             }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private string FindDocumentTypeName(List<Field> fields, ObjectId documentTypeId)
+        {
+            if (fields != null)
+            {
+                foreach (var field in fields.Where(n => n.DataType == "Document Type"))
+                {
+                    if (field.Id == documentTypeId)
+                    {
+                        return field.Name;
+                    }
+                    else
+                    {
+                        return FindDocumentTypeName(field.Fields, documentTypeId);
+                    }
+                }
+            }
+            return null;
+        }
+
+        public async Task<string> FindDocumentTypeName(string appModuleId, ObjectId documentTypeId)
+        {
+            var app = await _appModuleRepository.Get(appModuleId);
+            if (app != null)
+            {
+                if (app.DocumentTypes != null)
+                {
+                    if (app.DocumentTypes.Any(n => n.Id == documentTypeId))
+                    {
+                        return app.DocumentTypes.FirstOrDefault(n => n.Id == documentTypeId).Name;
+                    }
+                    else
+                    {
+                        foreach (var document in app.DocumentTypes)
+                        {
+                            return FindDocumentTypeName(document.Fields, documentTypeId);
                         }
                     }
                 }

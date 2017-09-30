@@ -113,7 +113,7 @@ namespace softblocks.Controllers
                                 var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
                                 response.DataView = dataView;
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentType(appId, dataView.DocumentTypeId);
+                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
 
                                 //var org = await _organisationRepository.Get(appModule.OrganisationId);
 
@@ -156,11 +156,13 @@ namespace softblocks.Controllers
                                 var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
                                 response.DataView = dataView;
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentType(appId, dataView.DocumentTypeId);
+                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
 
                                 var org = await _organisationRepository.Get(appModule.OrganisationId);
 
-                                var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), appModule.Name);
+                                var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
+
+                                var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
                                 var data = await dataService.ListAll();
                                 var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
                                 response.Data = data.ToJson(jsonWriterSettings);

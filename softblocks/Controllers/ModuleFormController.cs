@@ -85,7 +85,7 @@ namespace softblocks.Controllers
                                 response.Form = form;
 
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentType(appId, form.DocumentTypeId);
+                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, form.DocumentTypeId);
                                 return View(response);
                             }
                         }
@@ -133,15 +133,19 @@ namespace softblocks.Controllers
                         ObjectId formId;
                         if (ObjectId.TryParse(req.foreignId, out formId))
                         {
+                            var form =  appModule.Forms.FirstOrDefault(n => n.Id == formId);
                             var result = new JsonGenericResult
                             {
                                 IsSuccess = true,
-                                Result = appModule.Forms.FirstOrDefault(n => n.Id == formId)
+                                Result = form
                             };
 
                             var org = await _organisationRepository.Get(appModule.OrganisationId);
 
-                            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), appModule.Name);
+                            var docTypeService = new DocumentTypeServices(_appModuleRepository);
+                            var documentName = await docTypeService.FindDocumentTypeName(req.appId, form.DocumentTypeId);
+
+                            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
                             var serializer = new JavaScriptSerializer();
                             //dataService.Add(serializer.Serialize(appModule));
                             dataService.Add(req.data);
