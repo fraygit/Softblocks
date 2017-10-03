@@ -10,32 +10,49 @@
             <div class="panel-heading">
                 @Model.Form.Name
             </div>
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body">
-                    <div class="row">
-                        <form id="frm-@Model.Form.Id">
-                            @foreach (var field in Model.Form.Fields.OrderBy(n => n.Order))
+            <form id="frm-@Model.Form.Id">
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+
+                            @if (Model.Form.Fields != null)
                             {
-                                if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
+                                foreach (var field in Model.Form.Fields.OrderBy(n => n.Order))
                                 {
-                                    var docField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);
-                                    switch (docField.DataType)
+                                    if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
                                     {
-                                        case "Text":
-                                            <div class="col-md-@field.ColWidth">
-                                                <div class="form-group">
-                                                    <span class="pull-right">
-                                                        <a href="#" class=""><i class="fa fa-pencil"></i></a>
-                                                        &nbsp;
-                                                        <a href="javascript:alert('sdf');"><i class="fa fa-times"></i></a>
-                                                        &nbsp;
-                                                    </span>
-                                                    <label class="control-label">@docField.Name</label>
-                                                    <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field" placeholder="@docField.Name">
+                                        var docField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);
+                                        switch (docField.DataType)
+                                        {
+                                            case "Text":
+                                                <div class="col-md-@field.ColWidth">
+                                                    <div class="form-group">
+                                                        <span class="pull-right">
+                                                            <a href="#" class=""><i class="fa fa-pencil"></i></a>
+                                                            &nbsp;
+                                                            <a href="javascript:alert('sdf');"><i class="fa fa-times"></i></a>
+                                                            &nbsp;
+                                                        </span>
+                                                        <label class="control-label">@docField.Name</label>
+                                                        <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field" placeholder="@docField.Name">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            break;
-                                        case "Date":
+                                                break;
+                                            case "Integer":
+                                                <div class="col-md-@field.ColWidth">
+                                                    <div class="form-group">
+                                                        <span class="pull-right">
+                                                            <a href="#" class=""><i class="fa fa-pencil"></i></a>
+                                                            &nbsp;
+                                                            <a href="javascript:alert('sdf');"><i class="fa fa-times"></i></a>
+                                                            &nbsp;
+                                                        </span>
+                                                        <label class="control-label">@docField.Name</label>
+                                                        <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field" placeholder="@docField.Name">
+                                                    </div>
+                                                </div>
+                                                break;
+                                            case "Date":
                                             <div class="col-md-@field.ColWidth">
                                                 <div class="form-group">
                                                     <span class="pull-right">
@@ -50,21 +67,24 @@
                                                         <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field field-date" placeholder="dd/MM/yyyy">
                                                         <span class="input-group-addon"><i class="icon-calender"></i></span>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
-                                            break;
+                                                break;
+                                        }
                                     }
                                 }
                             }
-                        </form>
+
+                        </div>
+                        <div class="row">
+                            <button type="button" class="btn btn-info waves-effect form-submit-btn" id="btnSubmit">Submit</button>
+                        </div>
                     </div>
-                    <div class="row">
-                        <button type="button" class="btn btn-info waves-effect form-submit-btn" id="btnSubmit">Submit</button>
-                    </div>
+                    <div class="panel-footer"> Panel Footer </div>
                 </div>
-                <div class="panel-footer"> Panel Footer </div>
-            </div>
+            </form>
+
         </div>
     </div>
 }

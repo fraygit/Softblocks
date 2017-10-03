@@ -96,7 +96,14 @@ namespace softblocks.Controllers
                                 response.Form = form;
 
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, form.DocumentTypeId);
+                                if (form.SubDocumentTypeId != null)
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, form.SubDocumentTypeId.Value);
+                                }
+                                else
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, form.DocumentTypeId);
+                                }
                                 return View(response);
                             }
                         }
