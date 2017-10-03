@@ -96,7 +96,7 @@ namespace softblocks.Controllers
                                 response.Form = form;
 
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                if (form.SubDocumentTypeId != null)
+                                if (form.SubDocumentTypeId != null && form.SubDocumentTypeId != ObjectId.Empty)
                                 {
                                     response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, form.SubDocumentTypeId.Value);
                                 }
