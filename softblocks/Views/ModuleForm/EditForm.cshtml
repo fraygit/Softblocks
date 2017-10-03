@@ -115,7 +115,7 @@
             var GetDocumentTypeFields = function () {
                 $.ajax({
                     type: "GET",
-                    url: "@Html.Raw(Url.Action("ListFields", "DocumentTypes", new { documentId = Model.DocumentTypeId, appId = ViewBag.AppId }))",
+                    url: "@Html.Raw(Url.Action("ListFields", "DocumentTypes", new { documentId = Model.SubDocumentTypeId != null ? Model.SubDocumentTypeId : Model.DocumentTypeId, appId = ViewBag.AppId }))",
                     contentType: "application/json",
                     dataType: "json",
                     success: function (d) {

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MongoDB.Bson;
+using softblocks.Services;
 
 namespace softblocks.Controllers
 {
@@ -171,15 +172,15 @@ namespace softblocks.Controllers
                     appModule.DocumentTypes = new List<DocumentType>();
                 }
 
-                if (appModule.DocumentTypes.Any(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()))
+
+                var docService = new DocumentTypeServices(_appModuleRepository);
+                var fields = await docService.FindDocumentTypeFields(appId, ObjectId.Parse(documentId));
+                var result = new JsonGenericResult
                 {
-                    var result = new JsonGenericResult
-                    {
-                        IsSuccess = true,
-                        Result = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()).Fields
-                    };
-                    return Json(result, JsonRequestBehavior.AllowGet);
-                }
+                    IsSuccess = true,
+                    Result = fields
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             var errorResult = new JsonGenericResult
             {
