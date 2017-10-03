@@ -46,12 +46,23 @@ namespace softblocks.Controllers
                         ViewBag.AppId = appModule.Id.ToString();
                         ViewBag.AppName = appModule.Name;
 
+
                         ObjectId moduleFormId;
                         if (ObjectId.TryParse(formId, out moduleFormId))
                         {
                             if (appModule.Forms.Any(n => n.Id == moduleFormId))
                             {
-                                return View(appModule.Forms.FirstOrDefault(n => n.Id == moduleFormId));
+                                var form = appModule.Forms.FirstOrDefault(n => n.Id == moduleFormId);
+                                var docSrvc = new DocumentTypeServices(_appModuleRepository);
+                                var documentName = await docSrvc.FindDocumentTypeName(appId, form.DocumentTypeId);
+                                ViewBag.SubDocumentName = "None";
+                                if (form.SubDocumentTypeId != null)
+                                {
+                                    var sudDocName = await docSrvc.FindDocumentTypeName(appId, form.SubDocumentTypeId.Value);
+                                    ViewBag.SubDocumentName = sudDocName;
+                                }
+                                ViewBag.DocumentName = documentName;
+                                return View(form);
                             }
                         }
 
@@ -316,13 +327,25 @@ namespace softblocks.Controllers
                                 return Json(ErrorResult1);
                             }
                             var formId = ObjectId.GenerateNewId();
-                            appModule.Forms.Add(new ModuleForm
+                            var newForm = new ModuleForm
                             {
                                 Id = formId,
                                 Name = req.Name,
                                 Description = req.Description,
-                                DocumentTypeId = documentTypeId
-                            });
+                                DocumentTypeId = documentTypeId,
+                                SubDocumentTypeId = null
+                            };
+
+                            if (!string.IsNullOrEmpty(req.SubDocumentTypeId))
+                            {
+                                ObjectId subDocumentTypeId;
+                                if (ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId))
+                                {
+                                    newForm.SubDocumentTypeId = subDocumentTypeId;
+                                }
+                            }
+
+                            appModule.Forms.Add(newForm);
                             await _appModuleRepository.Update(req.AppModuleId, appModule);
                             var result = new JsonGenericResult
                             {

@@ -172,6 +172,10 @@
                         <select id="ddDocumentType" class="form-control">
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Sub Document Type</label>
+                        <select id="ddSubDocumentType" class="form-control"></select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -336,7 +340,9 @@
                 success: function (d) {
                     $.each(d.Result, function (docTypeIndex, docTypeItem) {
                         $("#ddDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
-                        $("#ddDocumentTypeDataView").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));                        
+                        $("#ddDocumentTypeDataView").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+
+                        GetSubDocumentType($("#ddDocumentType").val());
                     })
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -345,12 +351,36 @@
             });
         };
 
+        var GetSubDocumentType = function (selectedDocumentTypeId) {
+            $.ajax({
+                type: "GET",
+                url: "/DocumentTypes/GetSubDocuments?appId=@Model.Id.ToString()&documentId=" + selectedDocumentTypeId,
+                contentType: "application/json",
+            dataType: "json",
+            success: function (d) {
+                $("#ddSubDocumentType").empty();
+                $("#ddSubDocumentType").append($("<option></option>").attr("value", "").text("- none -"));
+                for (var key in d) {
+                    $("#ddSubDocumentType").append($("<option></option>").attr("value", d[key]).text(key));
+                }
+                //$("#ddSubDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+            },
+            error: function (xhr, textStatus, errorThrown) {
+            }
+
+        });
+        };
+
         GetDocumentType();
 
         LoadPages();
         LoadDocumentTypes();
         LoadForList();
         LoadDataViewList();
+
+        $("#ddDocumentType").change(function () {
+            GetSubDocumentType($("#ddDocumentType").val());
+        });
 
 
 
@@ -437,7 +467,8 @@
                     Name: $("#txtFormName").val(),
                     Description: $("#txtFormDescription").val(),
                     AppModuleId: $("#pnlData").data("app-module-id"),
-                    DocumentTypeId: $("#ddDocumentType").val()
+                    DocumentTypeId: $("#ddDocumentType").val(),
+                    SubDocumentTypeId: $("#ddSubDocumentType").val()
                 }
                 $.ajax({
                     type: "POST",

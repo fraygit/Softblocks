@@ -98,7 +98,11 @@ namespace softblocks.Services
                     {
                         foreach (var document in app.DocumentTypes)
                         {
-                            return FindDocumentTypeName(document.Fields, documentTypeId);
+                            var docName = FindDocumentTypeName(document.Fields, documentTypeId);
+                            if (docName != null)
+                            {
+                                return docName;
+                            }
                         }
                     }
                 }

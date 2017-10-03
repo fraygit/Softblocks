@@ -15,5 +15,6 @@ namespace softblocks.data.Model
         public string Description { get; set; }
         public ObjectId DocumentTypeId { get; set; }
         public List<FormField> Fields { get; set; }
+        public ObjectId? SubDocumentTypeId { get; set; }
     }
 }

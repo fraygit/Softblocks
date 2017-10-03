@@ -82,6 +82,42 @@ namespace softblocks.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public async Task<JsonResult> GetSubDocuments(string documentId, string appId)
+        {
+            var parentDocumentTypes = new Dictionary<string, string>();
+            var appModule = await _appModuleRepository.Get(appId);
+            if (appModule != null)
+            {
+                if (appModule.DocumentTypes == null)
+                {
+                    appModule.DocumentTypes = new List<DocumentType>();
+                }
+
+                if (appModule.DocumentTypes.Any(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()))
+                {
+                    var documentType = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim());
+                    if (documentType.Fields != null)
+                    {
+                        if (documentType.Fields.Any())
+                        {
+                            parentDocumentTypes = GetAllDocumentTypes(documentType.Fields, parentDocumentTypes);
+                        }
+                    }
+                }
+            }
+
+
+            var result = new JsonGenericResult
+            {
+                IsSuccess = true,
+                Result = appModule.DocumentTypes.FirstOrDefault(n => n.Id.ToString().ToLower().Trim() == documentId.ToLower().Trim()).Fields
+            };
+            return Json(parentDocumentTypes, JsonRequestBehavior.AllowGet);
+        }
+
+        
+
         public async Task<ActionResult> ParentDocumentTypes(string documentId, string appId)
         {
             var parentDocumentTypes = new Dictionary<string, string>();
