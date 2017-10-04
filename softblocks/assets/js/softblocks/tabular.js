@@ -66,6 +66,7 @@
                 renderLink.push({"visible": false, "targets": [0]}); // hide id column
 
                 $("#softblock-tabular-" + dataViewId).DataTable({
+                    destroy: true,
                     data: dataArray,
                     "columnDefs": renderLink
                 });

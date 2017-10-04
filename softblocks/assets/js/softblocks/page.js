@@ -73,6 +73,8 @@
                         dataType: "json",
                         success: function (d) {
                             if (d.IsSuccess == true) {
+                                alertSuccess("Success", "Successfully submitted!");
+                                window.RenderPagePanels();
                             }
                             else {
                                 alertError("Error!", d.Message);
@@ -87,33 +89,36 @@
         }
     };
 
-    $.each($(".page-panel"), function (panelIndex, panelItem) {
 
-        var panelType = $(panelItem).data("panel-type");
-        var foreignId = $(panelItem).data("foreign-id");
-        var appId = $(panelItem).data("app-id");
-        var panelId = $(panelItem).data("panel-Id");
-        var isPreview = $(panelItem).data("is-preview");
-        switch (panelType) {
-            case "Forms":
-                SoftblockPage.RenderForm(panelItem, appId, foreignId, function () {
-                    SoftblockPage.SubmitEvent(appId, foreignId, panelId);
+    window.RenderPagePanels = function () {
+        $.each($(".page-panel"), function (panelIndex, panelItem) {
 
-                    //DATE PICKER
-                    $.each($(".field-date"), function (dateElIndex, dateElItem) {
-                        $(dateElItem).datepicker();
+            var panelType = $(panelItem).data("panel-type");
+            var foreignId = $(panelItem).data("foreign-id");
+            var appId = $(panelItem).data("app-id");
+            var panelId = $(panelItem).data("panel-Id");
+            var isPreview = $(panelItem).data("is-preview");
+            switch (panelType) {
+                case "Forms":
+                    SoftblockPage.RenderForm(panelItem, appId, foreignId, function () {
+                        SoftblockPage.SubmitEvent(appId, foreignId, panelId);
+
+                        //DATE PICKER
+                        $.each($(".field-date"), function (dateElIndex, dateElItem) {
+                            $(dateElItem).datepicker();
+                        });
                     });
-                });
-                break;
-            case "Data View":
-                SoftblockPage.RenderDataView(panelItem, appId, foreignId, isPreview, function () {
-                    window.SoftblockTabular.Init();
-                    window.SoftblockDetail.Init();
-                });
-                break;
-        }
-    });
-
+                    break;
+                case "Data View":
+                    SoftblockPage.RenderDataView(panelItem, appId, foreignId, isPreview, function () {
+                        window.SoftblockTabular.Init();
+                        window.SoftblockDetail.Init();
+                    });
+                    break;
+            }
+        });
+    }
+    window.RenderPagePanels();
 
 
 
