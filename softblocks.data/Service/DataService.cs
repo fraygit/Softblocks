@@ -68,6 +68,14 @@ namespace softblocks.data.Service
             return data;
         }
 
+        public async Task<BsonArray> ListAll(ObjectId id, string subDocumentName)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            var document = await MongoCollection.Find(filter).FirstOrDefaultAsync();
+
+            return document[subDocumentName].AsBsonArray;
+        }
+
         public async Task<BsonDocument> Get(string id)
         {
             //var data = await MongoCollection.Find(new BsonDocument());

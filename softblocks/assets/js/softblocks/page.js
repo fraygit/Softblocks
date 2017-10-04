@@ -8,7 +8,10 @@
         },
 
         RenderDataView: function (element, appId, dataViewId, isPreview, cb) {
-            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId + '&isPreview=' + isPreview, function () {
+            var pageDetails = $("#page-details");
+            var rootDataId = $(pageDetails).data("root-id");
+
+            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId + '&isPreview=' + isPreview + '&dataId=' + rootDataId, function () {
                 cb();
             });
         },

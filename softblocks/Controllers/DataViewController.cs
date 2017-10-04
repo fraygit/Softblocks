@@ -149,7 +149,15 @@ namespace softblocks.Controllers
                                 var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
                                 response.DataView = dataView;
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+
+                                if (dataView.SubDocumentTypeId.HasValue)
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.SubDocumentTypeId.Value);
+                                }
+                                else
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+                                }                                
 
                                 var dataId = TempData["id"].ToString();
                                 var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
@@ -176,7 +184,7 @@ namespace softblocks.Controllers
 
 
         [Authorize]
-        public async Task<ActionResult> RenderDataView(string appId, string id, string isPreview)
+        public async Task<ActionResult> RenderDataView(string appId, string id, string isPreview, string dataId)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -198,7 +206,7 @@ namespace softblocks.Controllers
                                 switch (dataView.DataViewType)
                                 {
                                     case "Tabular":
-                                        return RedirectToAction("RenderTabular", new { appId = appId, id = id });
+                                        return RedirectToAction("RenderTabular", new { appId = appId, id = id, dataId = dataId });
                                         break;
                                     case "Detail":
                                         if (isPreview.ToLower() == "true")
@@ -223,7 +231,7 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> RenderTabular(string appId, string id)
+        public async Task<ActionResult> RenderTabular(string appId, string id, string dataId)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -244,16 +252,34 @@ namespace softblocks.Controllers
                                 var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
                                 response.DataView = dataView;
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+
+                                if (dataView.SubDocumentTypeId.HasValue)
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.SubDocumentTypeId.Value);
+                                }
+                                else
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+                                }
 
                                 var org = await _organisationRepository.Get(appModule.OrganisationId);
 
-                                var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
+                                var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);                                
 
                                 var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
-                                var data = await dataService.ListAll();
+
                                 var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-                                response.Data = data.ToJson(jsonWriterSettings);
+                                if (dataView.SubDocumentTypeId.HasValue)
+                                {
+                                    var subDocumentName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
+                                    var suDocData = await dataService.ListAll(ObjectId.Parse(dataId), subDocumentName);
+                                    response.Data = suDocData.ToJson(jsonWriterSettings);
+                                }
+                                else
+                                {
+                                    var data = await dataService.ListAll();
+                                    response.Data = data.ToJson(jsonWriterSettings);
+                                }
 
                                 return View(response);
                             }
