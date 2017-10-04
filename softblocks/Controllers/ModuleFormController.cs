@@ -163,10 +163,19 @@ namespace softblocks.Controllers
                             var docTypeService = new DocumentTypeServices(_appModuleRepository);
                             var documentName = await docTypeService.FindDocumentTypeName(req.appId, form.DocumentTypeId);
 
+
                             var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
                             var serializer = new JavaScriptSerializer();
-                            //dataService.Add(serializer.Serialize(appModule));
-                            dataService.Add(req.data);
+
+                            if (form.SubDocumentTypeId != null && form.SubDocumentTypeId != ObjectId.Empty)
+                            {
+                                var subDocumentName = await docTypeService.FindDocumentTypeName(req.appId, form.SubDocumentTypeId.Value);
+                                await dataService.Add(req.data, req.RootDataId, subDocumentName);
+                            }
+                            else
+                            {
+                                dataService.Add(req.data);
+                            }
 
                             return Json(result);
                         }

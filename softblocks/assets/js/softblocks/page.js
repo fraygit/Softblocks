@@ -48,13 +48,18 @@
 
         SubmitEvent: function (appId, foreignId, panelId) {
             $.each($(".form-submit-btn"), function (btnIndex, btnItem) {
+
+                var pageDetails = $("#page-details");
+                var rootDataId = $(pageDetails).data("root-id");
+
                 $(btnItem).click(function () {
 
                     var formDataValues = SoftblockPage.ExtractFormValues(foreignId);
                     var reqParam = {
                         appId : appId,
                         foreignId: foreignId,
-                        data: formDataValues
+                        data: formDataValues,
+                        RootDataId: rootDataId
                     }
 
                     $.ajax({
@@ -80,6 +85,7 @@
     };
 
     $.each($(".page-panel"), function (panelIndex, panelItem) {
+
         var panelType = $(panelItem).data("panel-type");
         var foreignId = $(panelItem).data("foreign-id");
         var appId = $(panelItem).data("app-id");

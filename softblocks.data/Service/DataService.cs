@@ -36,6 +36,32 @@ namespace softblocks.data.Service
             MongoCollection.InsertOneAsync(document);
         }
 
+        public async Task Add(string data, string parentId, string subDocumentName)
+        {
+            var document = BsonSerializer.Deserialize<BsonDocument>(data);
+            document.Add("_id", ObjectId.GenerateNewId());
+
+
+            var parentDocument = await Get(parentId);
+
+            if (parentDocument[subDocumentName, null] == null)
+            {
+                var documents = new BsonArray();
+                documents.Add(document);
+                parentDocument.Add(subDocumentName, documents);
+            }
+            else
+            {
+                var subDoc = parentDocument[subDocumentName].AsBsonArray;
+                subDoc.Add(document);
+            }
+
+            var rootId = ObjectId.Parse(parentId);
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("_id", rootId);
+            var result = await MongoCollection.ReplaceOneAsync(filter, parentDocument);
+        }
+
         public async Task<List<BsonDocument>> ListAll()
         {
             var data = await MongoCollection.Find(new BsonDocument()).ToListAsync();

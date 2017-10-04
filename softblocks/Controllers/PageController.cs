@@ -33,6 +33,8 @@ namespace softblocks.Controllers
 
             TempData["id"] = id;
 
+            ViewBag.Id = id;
+
             ObjectId pageObjectId;
             if (ObjectId.TryParse(pageId, out pageObjectId))
             {

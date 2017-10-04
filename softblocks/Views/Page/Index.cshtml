@@ -6,6 +6,8 @@
 
 </div>
 
+<div id="page-details" data-root-id="@ViewBag.Id"></div>
+
 <div class="row">
     @if (Model.Panels != null) { 
         foreach (var panel in Model.Panels.OrderBy(n => n.Order))
