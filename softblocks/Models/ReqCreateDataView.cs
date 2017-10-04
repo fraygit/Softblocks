@@ -12,5 +12,6 @@ namespace softblocks.Models
         public string Description { get; set; }
         public string DataViewType { get; set; }
         public string DocumentTypeId { get; set; }
+        public string SubDocumentTypeId { get; set; }
     }
 }

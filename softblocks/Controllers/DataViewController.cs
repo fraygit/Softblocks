@@ -284,7 +284,16 @@ namespace softblocks.Controllers
                         {
                             if (appModule.DataViews.Any(n => n.Id == dataViewId))
                             {
-                                return appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                var docService = new DocumentTypeServices(_appModuleRepository);
+                                ViewBag.DocumentTypeName = await docService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
+                                ViewBag.SubDocumentTypeName = "none";
+                                if (dataView.SubDocumentTypeId.HasValue)
+                                {
+                                    ViewBag.SubDocumentTypeName = await docService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
+                                }
+
+                                return dataView;
                             }
                         }
                     }
@@ -470,6 +479,11 @@ namespace softblocks.Controllers
                             Description = req.Description,
                             DocumentTypeId = ObjectId.Parse(req.DocumentTypeId)
                         };
+
+                        if (!string.IsNullOrEmpty(req.SubDocumentTypeId))
+                        {
+                            dataView.SubDocumentTypeId = ObjectId.Parse(req.SubDocumentTypeId);
+                        }
 
                         appModule.DataViews.Add(dataView);
                         await _appModuleRepository.Update(req.AppModuleId, appModule);

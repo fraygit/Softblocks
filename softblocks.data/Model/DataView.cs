@@ -14,6 +14,7 @@ namespace softblocks.data.Model
         public string Description { get; set; }
         public string DataViewType { get; set; }
         public ObjectId DocumentTypeId { get; set; }
+        public ObjectId? SubDocumentTypeId { get; set; }
         public Tabular Tabular { get; set; }
         public Detail Detail { get; set; }
     }
