@@ -1324,6 +1324,7 @@
     <Compile Include="Models\ReqCreateDataView.cs" />
     <Compile Include="Models\ReqCreateDocumentType.cs" />
     <Compile Include="Models\ReqCreateForm.cs" />
+    <Compile Include="Models\ReqData.cs" />
     <Compile Include="Models\ReqDetailAddComponent.cs" />
     <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResDropdown.cs" />

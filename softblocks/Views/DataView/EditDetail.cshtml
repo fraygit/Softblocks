@@ -25,6 +25,18 @@
                                 <input type="text" id="firstName" class="form-control" placeholder="John doe" value="@Model.Name">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Document Type</label>
+                                <p class="text-muted">@ViewBag.DocumentTypeName</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Sub Document Type</label>
+                                <p class="text-muted">@ViewBag.SubDocumentTypeName</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,7 +129,7 @@
             var GetDocumentTypeFields = function () {
                 $.ajax({
                     type: "GET",
-                    url: "@Html.Raw(Url.Action("ListFields", "DocumentTypes", new { documentId = Model.DocumentTypeId, appId = ViewBag.AppId }))",
+                    url: "@Html.Raw(Url.Action("ListFields", "DocumentTypes", new { documentId = Model.SubDocumentTypeId.HasValue ? Model.SubDocumentTypeId.Value : Model.DocumentTypeId, appId = ViewBag.AppId }))",
                     contentType: "application/json",
                     dataType: "json",
                     success: function (d) {

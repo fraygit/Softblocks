@@ -113,7 +113,15 @@ namespace softblocks.Controllers
                                 var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
                                 response.DataView = dataView;
                                 var docTypeService = new DocumentTypeServices(_appModuleRepository);
-                                response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+
+                                if (dataView.SubDocumentTypeId.HasValue)
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.SubDocumentTypeId.Value);
+                                }
+                                else
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+                                }
 
                                 return View(response);
                             }
@@ -127,8 +135,34 @@ namespace softblocks.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<JsonResult> FetchData(ReqData req)
+        {
+            var appModule = await _appModuleRepository.Get(req.AppId);
+            var docTypeService = new DocumentTypeServices(_appModuleRepository);
+
+            ObjectId documentTypeId;
+            ObjectId.TryParse(req.DocumentTypeId, out documentTypeId);
+
+            var documentName = await docTypeService.FindDocumentTypeName(req.AppId, documentTypeId);
+            var org = await _organisationRepository.Get(appModule.OrganisationId);
+
+            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
+            //var data = await dataService.Get(dataId, "");
+            var data = await dataService.Get(req.DataId);
+            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+
+            var result = new JsonGenericResult
+            {
+                IsSuccess = true,
+                Result = data.ToJson(jsonWriterSettings)
+            };
+            return Json(result);
+                        
+        }
+
         [Authorize]
-        public async Task<ActionResult> RenderDetail(string appId, string id)
+        public async Task<ActionResult> RenderDetail(string appId, string id, string dataId)
         {
             if (!string.IsNullOrEmpty(appId))
             {
@@ -136,10 +170,12 @@ namespace softblocks.Controllers
                 var appModule = await _appModuleRepository.Get(appId);
                 if (appModule != null)
                 {
-                    if (appModule.Forms != null)
+                    if (appModule.DataViews != null)
                     {
                         ViewBag.AppId = appModule.Id.ToString();
                         ViewBag.AppName = appModule.Name;
+                        ViewBag.DataId = dataId;
+                        ViewBag.DataParentId = id;
 
                         ObjectId dataViewId;
                         if (ObjectId.TryParse(id, out dataViewId))
@@ -159,16 +195,16 @@ namespace softblocks.Controllers
                                     response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
                                 }                                
 
-                                var dataId = TempData["id"].ToString();
-                                var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
+                                //var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
 
-                                var org = await _organisationRepository.Get(appModule.OrganisationId);
+                                //var org = await _organisationRepository.Get(appModule.OrganisationId);
 
-                                var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
-                                var data = await dataService.Get(dataId);
+                                //var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
+                                ////var data = await dataService.Get(dataId, "");
+                                //var data = await dataService.Get(dataId);
 
-                                var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-                                response.Data = data.ToJson(jsonWriterSettings);
+                                //var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+                                //response.Data = data.ToJson(jsonWriterSettings);
 
                                 return View(response);
                             }
@@ -196,6 +232,8 @@ namespace softblocks.Controllers
                     {
                         ViewBag.AppId = appModule.Id.ToString();
                         ViewBag.AppName = appModule.Name;
+                        ViewBag.DataId = dataId;
+                        ViewBag.DataParentId = id;
 
                         ObjectId dataViewId;
                         if (ObjectId.TryParse(id, out dataViewId))
@@ -215,7 +253,7 @@ namespace softblocks.Controllers
                                         }
                                         else
                                         {
-                                            return RedirectToAction("RenderDetail", new { appId = appId, id = id });
+                                            return RedirectToAction("RenderDetail", new { appId = appId, id = id, dataId = dataId });
                                         }
                                         break;
                                 }
@@ -271,9 +309,12 @@ namespace softblocks.Controllers
                                 var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
                                 if (dataView.SubDocumentTypeId.HasValue)
                                 {
-                                    var subDocumentName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
-                                    var suDocData = await dataService.ListAll(ObjectId.Parse(dataId), subDocumentName);
-                                    response.Data = suDocData.ToJson(jsonWriterSettings);
+                                    if (dataId != null)
+                                    {
+                                        var subDocumentName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
+                                        var suDocData = await dataService.ListAll(ObjectId.Parse(dataId), subDocumentName);
+                                        response.Data = suDocData.ToJson(jsonWriterSettings);
+                                    }
                                 }
                                 else
                                 {

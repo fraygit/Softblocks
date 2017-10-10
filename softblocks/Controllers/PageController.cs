@@ -25,15 +25,16 @@ namespace softblocks.Controllers
 
         // GET: Page
         [Authorize]
-        public async Task<ActionResult> Index(string moduleId, string pageId, string id)
+        public async Task<ActionResult> Index(string moduleId, string pageId, string id, string rootIds)
         {
             var module = await _appModuleRepository.Get(moduleId);
             var pageSelected = new AppModulePage();
             ViewBag.AppId = moduleId;
 
-            TempData["id"] = id;
+            //TempData["id"] = id;
 
             ViewBag.Id = id;
+            ViewBag.RootDataId = rootIds;
 
             ObjectId pageObjectId;
             if (ObjectId.TryParse(pageId, out pageObjectId))

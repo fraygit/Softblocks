@@ -9,9 +9,9 @@
 
         RenderDataView: function (element, appId, dataViewId, isPreview, cb) {
             var pageDetails = $("#page-details");
-            var rootDataId = $(pageDetails).data("root-id");
+            var dataId = $(pageDetails).data("data-id");
 
-            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId + '&isPreview=' + isPreview + '&dataId=' + rootDataId, function () {
+            $(element).load('/DataView/RenderDataView?appId=' + appId + '&id=' + dataViewId + '&isPreview=' + isPreview + '&dataId=' + dataId, function () {
                 cb();
             });
         },
@@ -53,7 +53,7 @@
             $.each($(".form-submit-btn"), function (btnIndex, btnItem) {
 
                 var pageDetails = $("#page-details");
-                var rootDataId = $(pageDetails).data("root-id");
+                var rootDataId = $(pageDetails).data("data-id");
 
                 $(btnItem).click(function () {
 
