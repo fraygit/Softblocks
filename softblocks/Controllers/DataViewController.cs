@@ -149,7 +149,21 @@ namespace softblocks.Controllers
 
             var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
             //var data = await dataService.Get(dataId, "");
-            var data = await dataService.Get(req.DataId);
+
+            BsonDocument data;
+
+            if (!string.IsNullOrEmpty(req.SubDocumentTypeId) && !string.IsNullOrEmpty(req.DataParentId))
+            {
+                ObjectId subDocumentTypeId;
+                ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId);
+                documentName = await docTypeService.FindDocumentTypeName(req.AppId, subDocumentTypeId);
+                data = await dataService.Get(req.DataId, documentName);
+            }
+            else
+            {
+                data = await dataService.Get(req.DataId);
+            }
+
             var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
 
             var result = new JsonGenericResult

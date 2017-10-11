@@ -1,5 +1,15 @@
 ﻿$(function () {
 
+    window.getParameterByName = function (name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
     window.SoftblockDetail = {
         Render: function (element, appId, formId, cb) {
             //$('#pnlForm').load('/ModuleForm/RenderForm?appId=' + appId + '&reqFormId=' + formId, function () {
@@ -17,7 +27,7 @@
                 var documentTypeID = $(detailItem).data("document-type-id");
                 var subDocumentTypeID = $(detailItem).data("sub-document-type-id");
                 var dataId = $(detailItem).data("data-id");
-                var parentDataId = $(detailItem).data("data-parent-id");                
+                var parentDataId = window.getParameterByName("rootIds");
 
                 var reqParam = {
                     AppId: appId,
