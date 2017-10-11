@@ -1,15 +1,5 @@
 ﻿$(function () {
 
-    window.getParameterByName = function (name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
     window.SoftblockDetail = {
         Render: function (element, appId, formId, cb) {
             //$('#pnlForm').load('/ModuleForm/RenderForm?appId=' + appId + '&reqFormId=' + formId, function () {
@@ -46,17 +36,19 @@
                     success: function (d) {
                         var rawData = JSON.parse(d.Result);
 
+                        var document = RetrieveDocument(rawData, dataId);
+
                         var components = $(detailItem).find(".detail-component");
                         $.each(components, function (componentIndex, componentItem) {
                             var dataType = $(componentItem).data("field-data-type");
                             var fieldName = $(componentItem).data("field-name");
                             switch (dataType) {
                                 case "Text":
-                                    var textHtml = "<strong>" + fieldName + "</strong><br><p class='text-muted'>" + rawData[fieldName] + "</p>";
+                                    var textHtml = "<strong>" + fieldName + "</strong><br><p class='text-muted'>" + document[fieldName] + "</p>";
                                     $(componentItem).html(textHtml);
                                     break;
                                 case "Date":
-                                    var dateHtml = "<strong>" + fieldName + "</strong><br><p class='text-muted'>" + new Date(rawData["Date Created"].$date) + "</p>";
+                                    var dateHtml = "<strong>" + fieldName + "</strong><br><p class='text-muted'>" + new Date(document[fieldName].$date) + "</p>";
                                     $(componentItem).html(dateHtml);
                                     break;
                             }
