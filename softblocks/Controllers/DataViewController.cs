@@ -152,7 +152,7 @@ namespace softblocks.Controllers
 
             BsonDocument data;
 
-            if (!string.IsNullOrEmpty(req.SubDocumentTypeId) && !string.IsNullOrEmpty(req.DataParentId))
+            if (!string.IsNullOrEmpty(req.SubDocumentTypeId))
             {
                 ObjectId subDocumentTypeId;
                 ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId);
@@ -173,6 +173,63 @@ namespace softblocks.Controllers
             };
             return Json(result);
                         
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> FetchListData(ReqData req)
+        {
+            var appModule = await _appModuleRepository.Get(req.AppId);
+            var docTypeService = new DocumentTypeServices(_appModuleRepository);
+
+            ObjectId documentTypeId;
+            ObjectId.TryParse(req.DocumentTypeId, out documentTypeId);
+
+            var documentName = await docTypeService.FindDocumentTypeName(req.AppId, documentTypeId);
+            var org = await _organisationRepository.Get(appModule.OrganisationId);
+
+            var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
+            //var data = await dataService.Get(dataId, "");
+
+            Object data = null;
+
+            //if (!string.IsNullOrEmpty(req.SubDocumentTypeId))
+            //{
+            //    ObjectId subDocumentTypeId;
+            //    ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId);
+            //    documentName = await docTypeService.FindDocumentTypeName(req.AppId, subDocumentTypeId);
+            //    data = await dataService.Get(req.DataId, documentName);
+            //}
+            //else
+            //{
+            //    data = await dataService.ListAll();
+            //}
+
+            var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+
+            if (!string.IsNullOrEmpty(req.SubDocumentTypeId))
+            {
+                if (req.DataId != null)
+                {
+                    ObjectId subDocumentTypeId;
+                    ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId);
+                    var subDocumentName = await docTypeService.FindDocumentTypeName(req.AppId, subDocumentTypeId);
+                    var suDocData = await dataService.ListAll(ObjectId.Parse(req.DataId), subDocumentName);
+                    data = suDocData;
+                }
+            }
+            else
+            {
+                data = await dataService.ListAll();
+            }
+
+
+            var result = new JsonGenericResult
+            {
+                IsSuccess = true,
+                Result = data.ToJson(jsonWriterSettings)
+            };
+            return Json(result);
+
         }
 
         [Authorize]
@@ -295,6 +352,7 @@ namespace softblocks.Controllers
                     {
                         ViewBag.AppId = appModule.Id.ToString();
                         ViewBag.AppName = appModule.Name;
+                        ViewBag.DataId = dataId;
 
                         ObjectId dataViewId;
                         if (ObjectId.TryParse(id, out dataViewId))
@@ -314,27 +372,27 @@ namespace softblocks.Controllers
                                     response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
                                 }
 
-                                var org = await _organisationRepository.Get(appModule.OrganisationId);
+                                //var org = await _organisationRepository.Get(appModule.OrganisationId);
 
-                                var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);                                
+                                //var documentName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);                                
 
-                                var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
+                                //var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
 
-                                var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-                                if (dataView.SubDocumentTypeId.HasValue)
-                                {
-                                    if (dataId != null)
-                                    {
-                                        var subDocumentName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
-                                        var suDocData = await dataService.ListAll(ObjectId.Parse(dataId), subDocumentName);
-                                        response.Data = suDocData.ToJson(jsonWriterSettings);
-                                    }
-                                }
-                                else
-                                {
-                                    var data = await dataService.ListAll();
-                                    response.Data = data.ToJson(jsonWriterSettings);
-                                }
+                                //var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+                                //if (dataView.SubDocumentTypeId.HasValue)
+                                //{
+                                //    if (dataId != null)
+                                //    {
+                                //        var subDocumentName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
+                                //        var suDocData = await dataService.ListAll(ObjectId.Parse(dataId), subDocumentName);
+                                //        response.Data = suDocData.ToJson(jsonWriterSettings);
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    var data = await dataService.ListAll();
+                                //    response.Data = data.ToJson(jsonWriterSettings);
+                                //}
 
                                 return View(response);
                             }
