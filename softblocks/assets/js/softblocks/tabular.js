@@ -17,6 +17,7 @@
 
                 var pageDetails = $("#page-details");
                 var rootDataId = $(pageDetails).data("data-id");
+                var documentName = $(tabItem).data("document-type-name");
 
                 var data = $($(tabItem).find("#softblock-data-" + dataViewId)).val();
                 //var rawDataObj = JSON.parse(data);
@@ -48,7 +49,7 @@
                         var pageId = $(colItem).data("field-link-page").toLowerCase();
                         var linkCol = {
                                     "render": function (data, type, row) {
-                                        return "<a class='data-table-link' href='/Page?id=" + row[0] + "&moduleId=" + appId + "&pageId=" + pageId + "&rootIds=" + rootDataId + "'>" + row[colIndex + 1] + "</a>";
+                                        return "<a class='data-table-link' href='/Page?id=" + row[0] + "&moduleId=" + appId + "&pageId=" + pageId + "&rootIds=" + rootDataId + "&documentname=" + documentName + "'>" + row[colIndex + 1] + "</a>";
                                     },
                                     "targets": colIndex + 1
                         }

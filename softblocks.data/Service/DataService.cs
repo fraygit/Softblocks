@@ -36,27 +36,61 @@ namespace softblocks.data.Service
             MongoCollection.InsertOneAsync(document);
         }
 
-        public async Task Add(string data, string parentId, string subDocumentName)
+        public async Task Add(string data, string parentId, string subDocumentName, string parentDocumentName)
         {
             var document = BsonSerializer.Deserialize<BsonDocument>(data);
             document.Add("_id", ObjectId.GenerateNewId());
 
 
-            var parentDocument = await Get(parentId);
+            //var parentDocument = await Get(parentId);
+            var parentDocument = string.IsNullOrEmpty(parentDocumentName) ? await Get(parentId) : await Get(parentId, parentDocumentName);
 
-            if (parentDocument[subDocumentName, null] == null)
+            if (string.IsNullOrEmpty(parentDocumentName))
             {
-                var documents = new BsonArray();
-                documents.Add(document);
-                parentDocument.Add(subDocumentName, documents);
+                if (parentDocument[subDocumentName, null] == null)
+                {
+                    var documents = new BsonArray();
+                    documents.Add(document);
+                    parentDocument.Add(subDocumentName, documents);
+                }
+                else
+                {
+                    var subDoc = parentDocument[subDocumentName].AsBsonArray;
+                    subDoc.Add(document);
+                }
             }
             else
             {
-                var subDoc = parentDocument[subDocumentName].AsBsonArray;
-                subDoc.Add(document);
+                foreach (BsonElement field in parentDocument)
+                {
+                    if (field.Name == parentDocumentName)
+                    {
+                        var parentSubDocuments = field.Value as BsonArray;
+                        foreach (BsonDocument parentSubDocument in parentSubDocuments)
+                        {
+                            var a = parentSubDocument["_id"].ToString();
+                            if (parentSubDocument["_id"].ToString() == parentId)
+                            {
+                                if (parentSubDocument[subDocumentName, null] == null)
+                                {
+                                    var newSubDocument = new BsonArray();
+                                    newSubDocument.Add(document);
+                                    parentSubDocument.Add(subDocumentName, document);
+                                }
+                                else
+                                {
+                                    var subDoc2 = parentSubDocument[subDocumentName].AsBsonArray;
+                                    subDoc2.Add(document);
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
-            var rootId = ObjectId.Parse(parentId);
+            //var rootId = ObjectId.Parse(parentId);
+            var rootId = parentDocument["_id"].AsObjectId;
             var builder = Builders<BsonDocument>.Filter;
             var filter = builder.Eq("_id", rootId);
             var result = await MongoCollection.ReplaceOneAsync(filter, parentDocument);
@@ -86,7 +120,7 @@ namespace softblocks.data.Service
 
         public async Task<BsonDocument> Get(string id, string subDocumentName)
         {
-            var filter = Builders<BsonDocument>.Filter.Eq("Orders._id", ObjectId.Parse(id));
+            var filter = Builders<BsonDocument>.Filter.Eq(subDocumentName + "._id", ObjectId.Parse(id));
 
            
 

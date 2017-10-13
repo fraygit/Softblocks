@@ -163,6 +163,8 @@ namespace softblocks.Controllers
                             var docTypeService = new DocumentTypeServices(_appModuleRepository);
                             var documentName = await docTypeService.FindDocumentTypeName(req.appId, form.DocumentTypeId);
 
+                            var parentDocumentName = documentName == req.ParentDocumentName ? "" : req.ParentDocumentName;
+
 
                             var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
                             var serializer = new JavaScriptSerializer();
@@ -170,7 +172,7 @@ namespace softblocks.Controllers
                             if (form.SubDocumentTypeId != null && form.SubDocumentTypeId != ObjectId.Empty)
                             {
                                 var subDocumentName = await docTypeService.FindDocumentTypeName(req.appId, form.SubDocumentTypeId.Value);
-                                await dataService.Add(req.data, req.RootDataId, subDocumentName);
+                                await dataService.Add(req.data, req.RootDataId, subDocumentName, parentDocumentName);
                             }
                             else
                             {

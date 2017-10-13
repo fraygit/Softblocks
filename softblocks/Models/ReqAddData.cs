@@ -11,5 +11,6 @@ namespace softblocks.Models
         public string foreignId { get; set; }
         public string data { get; set; }
         public string RootDataId { get; set; }
+        public string ParentDocumentName { get; set; }
     }
 }

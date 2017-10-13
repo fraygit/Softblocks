@@ -54,6 +54,7 @@
 
                 var pageDetails = $("#page-details");
                 var rootDataId = $(pageDetails).data("data-id");
+                var parentDocumentName = $(pageDetails).data("parent-document-name");
 
                 $(btnItem).click(function () {
 
@@ -62,7 +63,8 @@
                         appId : appId,
                         foreignId: foreignId,
                         data: formDataValues,
-                        RootDataId: rootDataId
+                        RootDataId: rootDataId,
+                        ParentDocumentName: parentDocumentName
                     }
 
                     $.ajax({

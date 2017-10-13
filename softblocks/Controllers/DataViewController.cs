@@ -366,10 +366,12 @@ namespace softblocks.Controllers
                                 if (dataView.SubDocumentTypeId.HasValue)
                                 {
                                     response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.SubDocumentTypeId.Value);
+                                    ViewBag.DocumentTypeName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
                                 }
                                 else
                                 {
                                     response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+                                    ViewBag.DocumentTypeName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
                                 }
 
                                 //var org = await _organisationRepository.Get(appModule.OrganisationId);

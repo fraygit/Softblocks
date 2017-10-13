@@ -18,7 +18,7 @@
                                 if (Model.DataView.Tabular.Columns != null)
                                 {
                                     var sampleData = new List<string>();
-                                    <div class="table-responsive softblock-tabular" data-data-view-id="@Model.DataView.Id" data-app-id="@ViewBag.AppId" data-document-type-id="@Model.DataView.DocumentTypeId" data-sub-document-type-id="@Model.DataView.SubDocumentTypeId" data-data-id="@ViewBag.DataId">
+                                    <div class="table-responsive softblock-tabular" data-data-view-id="@Model.DataView.Id" data-app-id="@ViewBag.AppId" data-document-type-id="@Model.DataView.DocumentTypeId" data-sub-document-type-id="@Model.DataView.SubDocumentTypeId" data-data-id="@ViewBag.DataId" data-document-type-name="@ViewBag.DocumentTypeName">
                                         <input type="hidden" id="softblock-data-@Model.DataView.Id" value="@Model.Data" />
                                         <table class="table table-striped" id="softblock-tabular-@Model.DataView.Id">
                                             <thead>
