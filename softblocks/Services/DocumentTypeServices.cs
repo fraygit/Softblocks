@@ -64,6 +64,52 @@ namespace softblocks.Services
             return null;
         }
 
+        private string FindParentDocumentTypeName(string subDocumentName, List<Field> fields, string parentName)
+        {
+            foreach (var field in fields)
+            {
+                if (field.Name == subDocumentName)
+                {
+                    return parentName;
+                }
+                else
+                {
+                    if (field.Fields != null) 
+                    {
+                        return FindParentDocumentTypeName(subDocumentName, field.Fields, field.Name);
+                    }                    
+                }
+            }
+            return null;
+        }
+
+        public async Task<string> FindParentDocumentTypeName(string appModuleId, ObjectId documentTypeId, string subDocumentName)
+        {
+            var app = await _appModuleRepository.Get(appModuleId);
+            if (app != null)
+            {
+                if (app.DocumentTypes != null)
+                {
+                    if (app.DocumentTypes.Any(n => n.Id == documentTypeId))
+                    {
+                        var documentType = app.DocumentTypes.FirstOrDefault(n => n.Id == documentTypeId);
+                        foreach (var field in documentType.Fields)
+                        {
+                            if (field.Fields != null)
+                            {
+                                var name = FindParentDocumentTypeName(subDocumentName, field.Fields, field.Name);
+                                if (name != null)
+                                {
+                                    return name;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return "";
+        }
+
         private string FindDocumentTypeName(List<Field> fields, ObjectId documentTypeId)
         {
             if (fields != null)

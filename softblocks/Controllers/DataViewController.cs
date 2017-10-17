@@ -213,7 +213,10 @@ namespace softblocks.Controllers
                     ObjectId subDocumentTypeId;
                     ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId);
                     var subDocumentName = await docTypeService.FindDocumentTypeName(req.AppId, subDocumentTypeId);
-                    var suDocData = await dataService.ListAll(ObjectId.Parse(req.DataId), subDocumentName);
+
+                    var parentSubDocumentName = await docTypeService.FindParentDocumentTypeName(req.AppId, documentTypeId, subDocumentName);
+
+                    var suDocData = await dataService.ListAll(ObjectId.Parse(req.DataId), subDocumentName, parentSubDocumentName);
                     data = suDocData;
                 }
             }

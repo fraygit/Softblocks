@@ -36,6 +36,35 @@ namespace softblocks.data.Service
             MongoCollection.InsertOneAsync(document);
         }
 
+        //private void UpdateSubDocument(BsonDocument parentDocument, string parentDocumentName, BsonDocument document, string parentId)
+        //{
+        //    foreach (BsonElement field in parentDocument)
+        //    {
+        //        if (field.Name == parentDocumentName)
+        //        {
+        //            var parentSubDocuments = field.Value as BsonArray;
+        //            foreach (BsonDocument parentSubDocument in parentSubDocuments)
+        //            {
+        //                var a = parentSubDocument["_id"].ToString();
+        //                if (parentSubDocument["_id"].ToString() == parentId)
+        //                {
+        //                    if (parentSubDocument[subDocumentName, null] == null)
+        //                    {
+        //                        var newSubDocument = new BsonArray();
+        //                        newSubDocument.Add(document);
+        //                        parentSubDocument.Add(subDocumentName, document);
+        //                    }
+        //                    else
+        //                    {
+        //                        var subDoc2 = parentSubDocument[subDocumentName].AsBsonArray;
+        //                        subDoc2.Add(document);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
         public async Task Add(string data, string parentId, string subDocumentName, string parentDocumentName)
         {
             var document = BsonSerializer.Deserialize<BsonDocument>(data);
@@ -75,7 +104,7 @@ namespace softblocks.data.Service
                                 {
                                     var newSubDocument = new BsonArray();
                                     newSubDocument.Add(document);
-                                    parentSubDocument.Add(subDocumentName, document);
+                                    parentSubDocument.Add(subDocumentName, newSubDocument);
                                 }
                                 else
                                 {
@@ -84,6 +113,10 @@ namespace softblocks.data.Service
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        var type = field.GetType().ToString();
                     }
                 }
 
@@ -102,12 +135,58 @@ namespace softblocks.data.Service
             return data;
         }
 
-        public async Task<BsonArray> ListAll(ObjectId id, string subDocumentName)
+        public async Task<BsonArray> ListAll(ObjectId id, string subDocumentName, string parentDocumentName)
         {
             var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
             var document = await MongoCollection.Find(filter).FirstOrDefaultAsync();
 
+            if (!string.IsNullOrEmpty(parentDocumentName))
+            {
+                var filter2 = Builders<BsonDocument>.Filter.Eq(parentDocumentName + "._id", id);
+                var parentDocument = await MongoCollection.Find(filter2).FirstOrDefaultAsync();
+                var nested = GetSubDocument(parentDocument, id, subDocumentName);
+                if (nested != null)
+                {
+                    return nested;
+                }
+            }
+
+
             return document[subDocumentName].AsBsonArray;
+
+
+            //var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            //var document = await MongoCollection.Find(filter).FirstOrDefaultAsync();
+            //return GetSubDocument(document, id, subDocumentName);
+        }
+
+        private BsonArray GetSubDocument(BsonDocument document, ObjectId parentId, string subDocumentName)
+        {
+            foreach (BsonElement element in document)
+            {
+                if (element.Name == "_id")
+                {
+                    if (element.Value.ToString() == parentId.ToString())
+                    {
+                        return document[subDocumentName].AsBsonArray;
+                    }
+                }
+                else
+                {
+                    if (element.Value.IsBsonArray)
+                    {
+                        foreach (BsonDocument subElem in element.Value.AsBsonArray)
+                        {
+                            var nestedSubDocument = GetSubDocument(subElem, parentId, subDocumentName);
+                            if (nestedSubDocument != null)
+                            {
+                                return nestedSubDocument;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         public async Task<BsonDocument> Get(string id)

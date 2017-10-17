@@ -81,7 +81,7 @@
                                         eval("value = new Date(rawDataItem['" + colItem.FieldName + "'].$date)");
                                         break;
                                     default:
-                                        eval("value = rawDataItem." + colItem.FieldName);
+                                        eval("value = rawDataItem['" + colItem.FieldName + "']");
                                         break;
                                 }
                                 arrRow.push(value);
