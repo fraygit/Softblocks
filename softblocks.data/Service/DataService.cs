@@ -200,10 +200,8 @@ namespace softblocks.data.Service
         public async Task<BsonDocument> Get(string id, string subDocumentName)
         {
             var filter = Builders<BsonDocument>.Filter.Eq(subDocumentName + "._id", ObjectId.Parse(id));
-
-           
-
-            return await MongoCollection.Find(filter).FirstOrDefaultAsync();
+            var document = await MongoCollection.Find(filter).FirstOrDefaultAsync();
+            return document;
         }
     }
 }

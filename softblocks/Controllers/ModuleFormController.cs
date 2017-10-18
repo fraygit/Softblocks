@@ -172,7 +172,21 @@ namespace softblocks.Controllers
                             if (form.SubDocumentTypeId != null && form.SubDocumentTypeId != ObjectId.Empty)
                             {
                                 var subDocumentName = await docTypeService.FindDocumentTypeName(req.appId, form.SubDocumentTypeId.Value);
-                                await dataService.Add(req.data, req.RootDataId, subDocumentName, parentDocumentName);
+
+                                var rootDocumentName = await docTypeService.FindDocumentTypeName(req.appId, form.DocumentTypeId);
+
+                                var parentHeirarchy = await docTypeService.FindSubDocumentHierarchy(req.appId, form.DocumentTypeId, subDocumentName, rootDocumentName);
+                                parentHeirarchy = parentHeirarchy.Replace(subDocumentName, "");
+                                if (parentHeirarchy.Length > 1)
+                                {
+                                    if (parentHeirarchy.Substring(parentHeirarchy.Length - 1, 1) == ".")
+                                    {
+                                        parentHeirarchy = parentHeirarchy.Substring(0, parentHeirarchy.Length - 1);
+                                    }
+                                }
+
+                                //await dataService.Add(req.data, req.RootDataId, subDocumentName, parentDocumentName);
+                                await dataService.Add(req.data, req.RootDataId, subDocumentName, parentHeirarchy);
                             }
                             else
                             {

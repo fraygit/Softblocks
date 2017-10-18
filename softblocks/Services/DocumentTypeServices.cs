@@ -64,6 +64,29 @@ namespace softblocks.Services
             return null;
         }
 
+        public async Task<string> FindSubDocumentHierarchy(string appModuleId, ObjectId documentTypeId, string subDocumentName, string rootDocumentName)
+        {
+            var parentName = await FindParentDocumentTypeName(appModuleId, documentTypeId, subDocumentName);
+            if (string.IsNullOrEmpty(parentName)) //root
+            {
+                return subDocumentName;
+            }
+            else
+            {
+                var name = subDocumentName;
+                while (true)
+                {
+                    name = parentName + "." + name;
+                    parentName = await FindParentDocumentTypeName(appModuleId, documentTypeId, parentName);
+                    if (string.IsNullOrEmpty(parentName)) // root
+                    {
+                        break;
+                    }
+                }
+                return name;
+            }
+        }
+
         private string FindParentDocumentTypeName(string subDocumentName, List<Field> fields, string parentName)
         {
             foreach (var field in fields)

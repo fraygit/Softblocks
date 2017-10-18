@@ -145,6 +145,7 @@ namespace softblocks.Controllers
             ObjectId.TryParse(req.DocumentTypeId, out documentTypeId);
 
             var documentName = await docTypeService.FindDocumentTypeName(req.AppId, documentTypeId);
+            var rootDocumentName = documentName;
             var org = await _organisationRepository.Get(appModule.OrganisationId);
 
             var dataService = new DataService(ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString, org.Id.ToString(), documentName);
@@ -157,7 +158,10 @@ namespace softblocks.Controllers
                 ObjectId subDocumentTypeId;
                 ObjectId.TryParse(req.SubDocumentTypeId, out subDocumentTypeId);
                 documentName = await docTypeService.FindDocumentTypeName(req.AppId, subDocumentTypeId);
-                data = await dataService.Get(req.DataId, documentName);
+
+                var subDocumentHierarchy = await docTypeService.FindSubDocumentHierarchy(req.AppId, documentTypeId, documentName, rootDocumentName);
+
+                data = await dataService.Get(req.DataId, subDocumentHierarchy);
             }
             else
             {
