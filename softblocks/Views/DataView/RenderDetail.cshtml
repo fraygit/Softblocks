@@ -1,0 +1,40 @@
+﻿@model softblocks.Models.ResRenderTabular
+@{
+    Layout = null;
+}
+
+@if (Model.DataView != null && Model.DocumentFields != null) {
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 softblock-detail" data-softblock-data="@Model.Data" data-app-id="@ViewBag.AppId" data-document-type-id="@Model.DataView.DocumentTypeId" data-sub-document-type-id="@Model.DataView.SubDocumentTypeId" data-data-id="@ViewBag.DataId" data-data-parent-id="@ViewBag.DataParentId">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                @Model.DataView.Name  
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            @if (Model.DataView.Detail != null)
+                            {
+                                if (Model.DataView.Detail.Components != null)
+                                {
+                                    foreach (var component in Model.DataView.Detail.Components)
+                                    {
+                                        if (Model.DocumentFields.Any(n => n.Id == component.FieldId)) 
+                                        { 
+                                            var field = Model.DocumentFields.FirstOrDefault(n => n.Id == component.FieldId);
+                                            <div class="col-lg-@component.ColWidth col-md-@component.ColWidth b-r detail-component" data-field-name="@field.Name" data-field-data-type="@field.DataType">
+                                                <strong>@field.Name</strong>
+                                                <br>
+                                                <p class="text-muted">sample data</p>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

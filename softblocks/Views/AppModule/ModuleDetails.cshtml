@@ -1,0 +1,570 @@
+﻿@model softblocks.data.Model.AppModule
+
+<span id="pnlData" data-app-module-id="@Model.Id"></span>
+
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Module - @Model.Name</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <ol class="breadcrumb">
+            <li><a href="/AppModule">Modules</a></li>
+            <li class="active">@Model.Name</li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="white-box">
+            <ul class="nav customtab nav-tabs" role="tablist">
+                <li role="presentation" class="nav-item"><a href="#home1" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> User Interface</span></a></li>
+                <li role="presentation" class="nav-item"><a href="#profile1" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Data Components</span></a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active show" id="home1" aria-expanded="true">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-inverse">
+                                <div class="panel-heading">
+                                    Pages
+                                    <div class="panel-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlAddPage" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="table-responsive">
+                                        <div id="pnlPages">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer"> Panel Footer </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="profile1" aria-expanded="false">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-inverse">
+                                <div class="panel-heading">
+                                    Document Types
+                                    <div class="panel-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlCreate" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Document Types</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="table-responsive">
+                                        <div id="pnlDocTypes">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer"> Panel Footer </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-inverse">
+                                <div class="panel-heading">
+                                    Forms
+                                    <div class="panel-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlAddForm" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Forms</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="table-responsive">
+                                        <div id="pnlForms">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer"> Panel Footer </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-inverse">
+                                <div class="panel-heading">
+                                    Data View
+                                    <div class="panel-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlAddDataView" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Data View</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="table-responsive">
+                                        <div id="pnlDataViews">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer"> Panel Footer </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="messages1" aria-expanded="false">
+                    <div class="col-md-6">
+                        <h3>Come on you have a lot message</h3>
+                        <h4>you can use it with the small code</h4>
+                    </div>
+                    <div class="col-md-5 pull-right">
+                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="settings1" aria-expanded="false">
+                    <div class="col-md-6">
+                        <h3>Just do Settings</h3>
+                        <h4>you can use it with the small code</h4>
+                    </div>
+                    <div class="col-md-5 pull-right">
+                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>                        
+
+        </div>
+    </div>
+
+
+<div class="modal fade" id="pnlAddForm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add Form</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddForm">
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="txtFormName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtFormDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Document Type</label>
+                        <select id="ddDocumentType" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Sub Document Type</label>
+                        <select id="ddSubDocumentType" class="form-control"></select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddForm">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="pnlAddDataView" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add Data View</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddDataView">
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="txtDataViewName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDataViewDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Document Type</label>
+                        <select id="ddDocumentTypeDataView" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Sub Document Type</label>
+                        <select id="ddSubDocumentTypeDataView" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Data View Type</label>
+                        <select id="ddDataViewType" class="form-control">
+                            <option value="Tabular">Tabular</option>
+                            <option value="Detail">Detail</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddDataView">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pnlAddPage" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add Page</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddPage">
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="txtName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Title</label>
+                        <input type="text" class="form-control" id="txtTitle" placeholder="Page Title" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
+                    </div>
+                    <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkIsDetailPage">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Is this a detail page?</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddPage">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pnlCreate" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Create Document Type</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmCreateDocumentType">
+                    <div class="form-group">
+                        <label for="exampleInputName">Document Type Name</label>
+                        <input type="text" class="form-control" id="txtDocumentName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDocDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnCreateDocumentType">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+    $(function () {
+
+        var LoadForList = function () {
+            AddLoadingOverlay("#pnlForms");
+            $('#pnlForms').load('@Url.Action("List", "ModuleForm", new { appId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlForms");
+            });
+            $('#pnlForms').slimScroll({
+                height: '250px'
+            });
+        };
+
+        var LoadDataViewList = function () {
+            AddLoadingOverlay("#pnlDataViews");
+            $('#pnlDataViews').load('@Url.Action("List", "DataView", new { appId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlDataViews");
+            });
+            $('#pnlDataViews').slimScroll({
+                height: '250px'
+            });
+        };
+
+        var LoadPages = function () {
+            AddLoadingOverlay("#pnlPages");
+            $('#pnlPages').load('@Url.Action("PageList", "AppModule", new { moduleId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlPages");
+            });
+            $('#pnlPages').slimScroll({
+                height: '250px'
+            });
+        }
+
+        var LoadDocumentTypes = function () {
+            AddLoadingOverlay("#pnlDocTypes");
+            $('#pnlDocTypes').load('@Url.Action("List", "DocumentTypes", new { appId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlDocTypes");
+            });
+            $('#pnlDocTypes').slimScroll({
+                height: '250px'
+            });
+        }
+
+        var GetDocumentType = function () {
+            $.ajax({
+                type: "GET",
+                url: "@Html.Raw(Url.Action("GetDocumentTypes", "DocumentTypes", new { appModuleId = Model.Id.ToString(), parentId = "0" }))",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (d) {
+                    $.each(d.Result, function (docTypeIndex, docTypeItem) {
+                        $("#ddDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+                        $("#ddDocumentTypeDataView").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+
+                        GetSubDocumentType($("#ddDocumentType").val());
+                        GetSubDocumentTypeForDataView($("#ddDocumentTypeDataView").val());
+                    })
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                }
+
+            });
+        };
+
+        var GetSubDocumentTypeForDataView = function (selectedDocumentTypeId) {
+            $.ajax({
+                type: "GET",
+                url: "/DocumentTypes/GetSubDocuments?appId=@Model.Id.ToString()&documentId=" + selectedDocumentTypeId,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (d) {
+                    $("#ddSubDocumentTypeDataView").empty();
+                    $("#ddSubDocumentTypeDataView").append($("<option></option>").attr("value", "").text("- none -"));
+                    for (var key in d) {
+                        $("#ddSubDocumentTypeDataView").append($("<option></option>").attr("value", d[key]).text(key));
+                    }
+                    //$("#ddSubDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                }
+
+            });
+        };
+
+
+        var GetSubDocumentType = function (selectedDocumentTypeId) {
+            $.ajax({
+                type: "GET",
+                url: "/DocumentTypes/GetSubDocuments?appId=@Model.Id.ToString()&documentId=" + selectedDocumentTypeId,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (d) {
+                    $("#ddSubDocumentType").empty();
+                    $("#ddSubDocumentType").append($("<option></option>").attr("value", "").text("- none -"));
+                    for (var key in d) {
+                        $("#ddSubDocumentType").append($("<option></option>").attr("value", d[key]).text(key));
+                    }
+                    //$("#ddSubDocumentType").append($("<option></option>").attr("value", ConvertObjectId(docTypeItem.Id)).text(docTypeItem.Name));
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                }
+
+            });
+        };
+
+        GetDocumentType();
+
+        LoadPages();
+        LoadDocumentTypes();
+        LoadForList();
+        LoadDataViewList();
+
+        $("#ddDocumentType").change(function () {
+            GetSubDocumentType($("#ddDocumentType").val());
+        });
+
+        $("#ddDocumentTypeDataView").change(function () {
+            GetSubDocumentTypeForDataView($("#ddDocumentTypeDataView").val());
+        });
+
+
+
+        $("#btnAddPage").click(function () {
+            AddLoadingOverlay("#pnlPages");
+            var isValid = $("#frmAddPage").valid();
+            if (isValid) {
+                var data = {
+                    ModuleId: '@Model.Id.ToString()',
+                    Page: {
+                        Name: $("#txtName").val(),
+                        Title: $("#txtTitle").val(),
+                        Description: $("#txtDescription").val(),
+                        IsDetailPage: $('#chkIsDetailPage').prop("checked") == true
+                    }
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddPage", "AppModule")",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        RemoveLoadingOverlay("#pnlPages");
+                        if (d.IsSuccess == true) {
+                            $("#frmAddPage")[0].reset();
+                            $("#pnlAddPage").modal('toggle');
+                            alertSuccess("Success", "Successfully created page!");
+                            LoadPages();
+                            setTimeout(function () {
+                                //document.location.href = "/DocumentTypes/Create/" + d.Result;
+                            }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        RemoveLoadingOverlay("#pnlPages");
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+
+
+        $("#btnCreateDocumentType").click(function () {
+            var isValid = $("#frmCreateDocumentType").valid();
+            if (isValid) {
+                var data = {
+                    Name: $("#txtDocumentName").val(),
+                    Description: $("#txtDocDescription").val(),
+                    AppModuleId: $("#pnlData").data("app-module-id")
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/DocumentTypes/Create",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            $("#frmCreateDocumentType")[0].reset();
+                            alertSuccess("Success", "Successfully created document type!");
+                            setTimeout(function () {
+                                document.location.href = "/DocumentTypes/Create/?id=" + d.Result + "&appId=" + $("#pnlData").data("app-module-id");
+                            }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+
+        $("#btnAddForm").click(function () {
+            var isValid = $("#frmAddForm").valid();
+            if (isValid) {
+                var data = {
+                    Name: $("#txtFormName").val(),
+                    Description: $("#txtFormDescription").val(),
+                    AppModuleId: $("#pnlData").data("app-module-id"),
+                    DocumentTypeId: $("#ddDocumentType").val(),
+                    SubDocumentTypeId: $("#ddSubDocumentType").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/ModuleForm/Create",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            $("#frmCreateDocumentType")[0].reset();
+                            alertSuccess("Success", "Successfully created form!");
+                            $("#pnlAddForm").modal('toggle');
+                            LoadForList();
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+
+        $("#btnAddDataView").click(function () {
+            AddLoadingOverlay("#pnlDataViews");
+            var isValid = $("#frmAddDataView").valid();
+            if (isValid) {
+                var data = {
+                    AppModuleId: '@Model.Id.ToString()',
+                    Name: $("#txtDataViewName").val(),
+                    Description: $("#txtDataViewDescription").val(),
+                    DataViewType: $("#ddDataViewType").val(),
+                    DocumentTypeId: $("#ddDocumentTypeDataView").val(),
+                    SubDocumentTypeId: $("#ddSubDocumentTypeDataView").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Create", "DataView")",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        RemoveLoadingOverlay("#pnlDataViews");
+                        if (d.IsSuccess == true) {
+                            $("#frmAddDataView")[0].reset();
+                            $("#pnlAddDataView").modal('toggle');
+                            alertSuccess("Success", "Successfully created data view!");
+                            LoadDataViewList();
+                            setTimeout(function () {
+                                //document.location.href = "/DocumentTypes/Create/" + d.Result;
+                            }, 1000);
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        RemoveLoadingOverlay("#pnlDataViews");
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+
+    });
+    </script>
+}

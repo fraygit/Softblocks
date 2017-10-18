@@ -1,0 +1,18 @@
+﻿@model List<softblocks.data.Model.DocumentType>
+
+@{
+    Layout = null;
+}
+
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Document Type</label>
+    <select id="ddDocumentType" class="form-control">
+        <option value="">- Select Document Type - </option>
+        @foreach (var documentType in Model)
+        {
+            <option value="@documentType.Id">@documentType.Name</option>
+        }
+    </select>
+</div>
+

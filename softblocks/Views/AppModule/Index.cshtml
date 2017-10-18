@@ -1,0 +1,32 @@
+﻿
+
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Modules</h4>
+    </div>
+    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <a href="/AppModule/Create" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Add New Module</a>
+    </div>    
+</div>
+
+<div id="pblCreateOrg">
+    <div id="pnlModuleList"></div>
+
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            var LoadModuleList = function () {
+                //$("#pnlModuleList").addClass("ld-loading");
+                $('#pnlModuleList').load('@Url.Action("ModuleList", "AppModule")', function () {
+                    //$("#pnlModuleList").removeClass("ld-loading");
+                });
+            }
+
+            LoadModuleList();
+        });
+    </script>
+}

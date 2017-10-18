@@ -1,0 +1,23 @@
+﻿@model List<softblocks.data.Model.AppModule>
+@{
+    Layout = null;
+}
+
+
+
+@foreach (var appModule in Model)
+{ 
+    <div class="col-md-4 col-sm-8">
+        <div class="white-box">
+            <div class="r-icon-stats">
+                <i class="fa fa-dashboard bg-megna"></i>
+                <div class="bodystate">
+                    <a href="@Url.Action("ModuleDetails", "AppModule", new { moduleId=appModule.Id.ToString() })"><h4>@appModule.Name</h4></a>
+                    <span class="text-muted">@appModule.Description</span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

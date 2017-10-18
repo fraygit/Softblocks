@@ -1,0 +1,31 @@
+﻿@model List<softblocks.data.Model.ModuleForm>
+@{
+    Layout = null;
+}
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="width:10px;">&nbsp;</th>
+            <th style="width:10px;">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var form in Model)
+            {
+                <tr>
+                    <td>@form.Name</td>
+                    <td>@form.Description</td>
+                    <td><a href="/ModuleForm/EditForm/?formId=@form.Id&appId=@ViewBag.AppId"><i class="fa fa-pencil"></i></a></td>
+                    <td><a href=""><i class="fa fa-trash"></i></a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+

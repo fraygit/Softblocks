@@ -1,0 +1,40 @@
+﻿@model List<softblocks.data.Model.DataView>
+@{
+    Layout = null;
+}
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="width:10px;">&nbsp;</th>
+            <th style="width:10px;">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var dataView in Model)
+            {
+                <tr>
+                    <td>@dataView.Name</td>
+                    <td>@dataView.Description</td>
+                    @switch (dataView.DataViewType)
+                    {
+                        case "Tabular":
+                            <td><a href="/DataView/EditTabular/?id=@dataView.Id&appId=@ViewBag.AppId"><i class="fa fa-pencil"></i></a></td>
+                            break;
+                        case "Detail":
+                            <td><a href="/DataView/EditDetail/?id=@dataView.Id&appId=@ViewBag.AppId"><i class="fa fa-pencil"></i></a></td>
+                            break;
+                        default:
+                            <td>&nbsp;</td>
+                            break;
+                    }                    
+                    <td><a href=""><i class="fa fa-trash"></i></a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

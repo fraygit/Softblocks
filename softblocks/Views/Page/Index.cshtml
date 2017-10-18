@@ -1,0 +1,20 @@
+﻿@model softblocks.data.Model.AppModulePage
+<div class="row bg-title">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">@Model.Name</h4>
+    </div>
+
+</div>
+
+<div id="page-details" data-data-id="@ViewBag.Id" data-parent-document-name="@ViewBag.ParentDocumentName"></div>
+
+<div class="row">
+    @if (Model.Panels != null) { 
+        foreach (var panel in Model.Panels.OrderBy(n => n.Order))
+        {
+            <div class="col-lg-@panel.ColWidth col-md-@panel.ColWidth page-panel" data-app-id="@ViewBag.AppId" data-foreign-id="@panel.ForeignId" data-panel-type="@panel.PanelType">
+
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,31 @@
+﻿@model softblocks.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+        <div class="login-box login-sidebar">
+            <div class="white-box">
+                @Html.Partial("Validate", new softblocks.Models.PageLogin())
+
+            </div>
+        </div>
+
+@section Scripts{
+    @if (Model.InvalidUser)
+    {
+        <script type="text/javascript">
+
+            $.toast({
+                heading: 'Error',
+                text: 'Invalid username or password!',
+                position: 'top-right',
+                loaderBg: '#ff6849',
+                icon: 'error',
+                hideAfter: 3000,
+                stack: 6
+            });
+        </script>
+    }
+
+    
+}

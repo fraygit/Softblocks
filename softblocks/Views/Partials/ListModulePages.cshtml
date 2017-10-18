@@ -1,0 +1,38 @@
+﻿@model List<softblocks.data.Model.AppModule>
+
+
+<li class="nav-small-cap m-t-10">Apps</li>
+@foreach (var module in Model)
+{
+    <li>
+        <a href="index.html" class="waves-effect"><i class="zmdi zmdi-view-dashboard zmdi-hc-fw fa-fw"></i> <span class="hide-menu"> @module.Name <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+        @if (module.Pages != null)
+        {
+            foreach (var page in module.Pages.Where(n => n.IsDetailPage == false))
+            {
+                <ul class="nav nav-second-level">
+                    <li> 
+                        <a href="@Url.Action("Index", "Page", new { moduleId = module.Id.ToString(), pageId = page.PageId.ToString() })">@page.Name</a>    
+                    </li>
+                </ul>
+            }
+        }
+    </li>
+}
+<li>
+    <a href="#" class="waves-effect"><i class="zmdi zmdi-local-grocery-store zmdi-hc-fw fa-fw"></i> <span class="hide-menu">App Store</span></a>
+</li>
+
+
+@*@foreach (var module in Model) { 
+    <li class="nav-category">
+        @module.Name
+    </li>
+    if (module.Pages != null) {
+        foreach (var page in module.Pages) { 
+            <li>
+                <a href="@Url.Action("Index", "Page", new { moduleId = module.Id.ToString(), pageId = page.PageId.ToString() })">@page.Name</a>
+            </li>
+        }
+    }
+}*@

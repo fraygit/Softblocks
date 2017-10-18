@@ -1,0 +1,90 @@
+﻿@model softblocks.data.Model.DataPanel
+
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="@Url.Action("Index", "AppModule")">Modules</a> / Detail
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="view-header">
+                    <div class="header-icon">
+                        <i class="pe page-header-icon pe-7s-note2"></i>
+                    </div>
+                    <div class="header-title">
+                        <h3>Data Panel - @Model.Name</h3>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" id="pblCreateOrg">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        @Model.Name
+                    </div>
+                    <div class="panel-body">
+
+                        <p>A module is system of forms, document types and workflow.</p>
+
+                        <form id="frmCreateOrg">
+                            <div class="form-group">
+                                <label for="exampleInputName">Name</label>
+                                <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="" value="@Model.Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Description</label>
+                                <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription">@Model.Description</textarea>
+                            </div>
+                            <div id="pnlDocumentTypeDropdown"></div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Type</label>
+                                <select id="ddDataPanelType" class="form-control">
+                                    <option @(Model.Type == "Form" ? "selected" : "" )>Form</option>
+                                    <option @(Model.Type == "Table" ? "selected" : "")>Table</option>
+                                </select>
+                            </div>
+                            <!--<button type="button" class="btn btn-default" id="btnCreate">Create</button>-->
+                            <button type="button" class="btn btn-default" id="btnCreate">Save</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" id="pblCreateOrg">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        
+                    </div>
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var LoadDocumentTypeDropdown = function () {
+                $("#pnlDocumentTypeDropdown").load('@Url.Action("DropdownList", "DocumentTypes")');
+            }
+
+            LoadDocumentTypeDropdown();
+
+        });
+    </script>
+}
