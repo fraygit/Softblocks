@@ -26,13 +26,13 @@
             <div class="hpanel">
                 <div class="panel-body">
                     <ul class="mailbox-list">
-                        <li class="active">
-                            <a href="#">
+                        <li >
+                            <a href="/AppModule/ModuleDetails?moduleId=@ViewBag.AppId">
                                 <i class="fa fa-television"></i> User Interface
                             </a>
                         </li>
-                        <li>
-                            <a href="/AppModule/DataComponents?moduleId=@ViewBag.AppId"><i class="fa fa-table"></i> Data Components</a>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-table"></i> Data Components</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-share-square-o"></i> Work Flow</a>
@@ -55,22 +55,77 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="hpanel">
-                <div class="panel-heading hbuilt">
-                    <div class="pull-right">
-                        <a data-toggle="modal" data-target="#pnlAddPage" role="menuitem" class="btn btn-default btn-xs"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hpanel">
+                        <div class="panel-heading hbuilt">
+                            <div class="panel-tools">
+                                <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                            </div>
+                            <div class="pull-right">
+                                <a data-toggle="modal" data-target="#pnlCreate" role="menuitem" class="btn btn-success btn-xs"><i class="icon wb-reply" aria-hidden="true"></i> Add</a>
+                            </div>
+                            Document Types
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <div id="pnlDocTypes">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    Pages
+
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="table-responsive">
-                            <div id="pnlPages">
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hpanel">
+                        <div class="panel-heading hbuilt">
+                            <div class="panel-tools">
+                                <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                            </div>
+                            <div class="pull-right">
+                                <a data-toggle="modal" data-target="#pnlAddForm" role="menuitem" class="btn btn-success btn-xs"><i class="icon wb-reply" aria-hidden="true"></i> Add</a>
+                            </div>
+                            Forms
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <div id="pnlForms">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hpanel">
+                        <div class="panel-heading hbuilt">
+                            <div class="panel-tools">
+                                <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                            </div>
+                            <div class="pull-right">
+                                <a data-toggle="modal" data-target="#pnlAddDataView" role="menuitem" class="btn btn-success btn-xs"><i class="icon wb-reply" aria-hidden="true"></i> Add</a>
+                            </div>
+                            Data View
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <div id="pnlDataViews">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -79,137 +134,142 @@
 
 @*<div class="row">
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="white-box">
-            <ul class="nav customtab nav-tabs" role="tablist">
-                <li role="presentation" class="nav-item"><a href="#home1" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> User Interface</span></a></li>
-                <li role="presentation" class="nav-item"><a href="#profile1" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Data Components</span></a></li>
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active show" id="home1" aria-expanded="true">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <div class="panel panel-inverse">
-                                <div class="panel-heading">
-                                    Pages
-                                    <div class="panel-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
-                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
-                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlAddPage" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a></li>
-                                            </ul>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <ul class="nav customtab nav-tabs" role="tablist">
+                    <li role="presentation" class="nav-item"><a href="#home1" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> User Interface</span></a></li>
+                    <li role="presentation" class="nav-item"><a href="#profile1" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-user"></i></span> <span class="hidden-xs">Data Components</span></a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active show" id="home1" aria-expanded="true">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="panel panel-inverse">
+                                    <div class="panel-heading">
+                                        Pages
+                                        <div class="panel-action">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                                <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                    <li role="presentation"><a data-toggle="modal" data-target="#pnlAddPage" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Page</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-wrapper collapse in">
 
+                                    </div>
+                                    <div class="panel-footer"> Panel Footer </div>
                                 </div>
-                                <div class="panel-footer"> Panel Footer </div>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="profile1" aria-expanded="false">
-                    <div class="row">
+                    <div role="tabpanel" class="tab-pane fade" id="profile1" aria-expanded="false">
+                        <div class="row">
 
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <div class="panel panel-inverse">
-                                <div class="panel-heading">
-                                    Document Types
-                                    <div class="panel-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
-                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
-                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlCreate" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Document Types</a></li>
-                                            </ul>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="panel panel-inverse">
+                                    <div class="panel-heading">
+                                        Document Types
+                                        <div class="panel-action">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                                <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                    <li role="presentation"><a data-toggle="modal" data-target="#pnlCreate" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Document Types</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel-wrapper collapse in">
-                                    <div class="table-responsive">
-                                        <div id="pnlDocTypes">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="table-responsive">
+                                            <div id="pnlDocTypes">
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="panel-footer"> Panel Footer </div>
                                 </div>
-                                <div class="panel-footer"> Panel Footer </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <div class="panel panel-inverse">
-                                <div class="panel-heading">
-                                    Forms
-                                    <div class="panel-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
-                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
-                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlAddForm" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Forms</a></li>
-                                            </ul>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="panel panel-inverse">
+                                    <div class="panel-heading">
+                                        Forms
+                                        <div class="panel-action">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                                <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                    <li role="presentation"><a data-toggle="modal" data-target="#pnlAddForm" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Forms</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel-wrapper collapse in">
-                                    <div class="table-responsive">
-                                        <div id="pnlForms">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="table-responsive">
+                                            <div id="pnlForms">
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="panel-footer"> Panel Footer </div>
                                 </div>
-                                <div class="panel-footer"> Panel Footer </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <div class="panel panel-inverse">
-                                <div class="panel-heading">
-                                    Data View
-                                    <div class="panel-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
-                                            <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
-                                                <li role="presentation"><a data-toggle="modal" data-target="#pnlAddDataView" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Data View</a></li>
-                                            </ul>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="panel panel-inverse">
+                                    <div class="panel-heading">
+                                        Data View
+                                        <div class="panel-action">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button">Options<span class="caret"></span></a>
+                                                <ul class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu">
+                                                    <li role="presentation"><a data-toggle="modal" data-target="#pnlAddDataView" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Add Data View</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel-wrapper collapse in">
-                                    <div class="table-responsive">
-                                        <div id="pnlDataViews">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="table-responsive">
+                                            <div id="pnlDataViews">
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="panel-footer"> Panel Footer </div>
                                 </div>
-                                <div class="panel-footer"> Panel Footer </div>
                             </div>
+
                         </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="messages1" aria-expanded="false">
+                        <div class="col-md-6">
+                            <h3>Come on you have a lot message</h3>
+                            <h4>you can use it with the small code</h4>
+                        </div>
+                        <div class="col-md-5 pull-right">
+                            <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="settings1" aria-expanded="false">
+                        <div class="col-md-6">
+                            <h3>Just do Settings</h3>
+                            <h4>you can use it with the small code</h4>
+                        </div>
+                        <div class="col-md-5 pull-right">
+                            <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
 
-                    </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="messages1" aria-expanded="false">
-                    <div class="col-md-6">
-                        <h3>Come on you have a lot message</h3>
-                        <h4>you can use it with the small code</h4>
-                    </div>
-                    <div class="col-md-5 pull-right">
-                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="settings1" aria-expanded="false">
-                    <div class="col-md-6">
-                        <h3>Just do Settings</h3>
-                        <h4>you can use it with the small code</h4>
-                    </div>
-                    <div class="col-md-5 pull-right">
-                        <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a.</p>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>                        
-
+            </div>
         </div>
-    </div>
+
+
+
+
+*@
 
 
 <div class="modal fade" id="pnlAddForm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -230,8 +290,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputName">Document Type</label>
-                        <select id="ddDocumentType" class="form-control">
-                        </select>
+                        <select id="ddDocumentType" class="form-control"></select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputName">Sub Document Type</label>
@@ -246,7 +305,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="pnlAddDataView" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
@@ -287,7 +345,7 @@
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 <div class="modal fade" id="pnlAddPage" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
