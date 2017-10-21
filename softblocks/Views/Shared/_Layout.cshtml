@@ -21,6 +21,21 @@
                                               
     <!-- Primary HOMER style -->
     @Styles.Render("~/bundles/homer/css")
+
+    @Styles.Render("~/bundles/datatables/css")
+    @Styles.Render("~/bundles/sweetAlert/css")
+    @Styles.Render("~/bundles/toastr/css")
+
+    
+    <style type="text/css">
+        .profile-picture{
+            padding: 16.5px 20px!important;
+        }
+
+        .toast-message {
+            color: black!important;
+        }
+    </style>
 </head>
 <body class="@Html.PageClass()">
 
@@ -54,6 +69,18 @@
     @Scripts.Render("~/bundles/jquery/js")
     @Scripts.Render("~/bundles/bootstrap/js")
     @Scripts.Render("~/bundles/homer/js")
+
+    @Scripts.Render("~/bundles/datatables/js")
+    @Scripts.Render("~/bundles/sweetAlert/js")
+    @Scripts.Render("~/bundles/toastr/js")
+    @Scripts.Render("~/bundles/datepicker/js")
+    @Scripts.Render("~/bundles/validation/js")
+
+
+    <script src="/scripts/softblocks/common.js"></script>
+    <script src="/scripts/softblocks/detail.js"></script>
+    <script src="/scripts/softblocks/page.js"></script>
+    <script src="/scripts/softblocks/tabular.js"></script>
 
     <!-- Handler for local scripts -->
     @RenderSection("scripts", required: false)

@@ -1,5 +1,30 @@
 ﻿@model softblocks.data.Model.AppModulePage
 
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/AppModule">Apps</a></li>
+                    <li><a href="/AppModule/ModuleDetails?moduleId=@ViewBag.AppId">@ViewBag.AppName</a></li>
+                    <li><a href="/AppModule/ModuleDetails?moduleId=@ViewBag.AppId">User Interface</a></li>
+                    <li class="active">
+                        <span>@Model.Name</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                @Model.Name
+            </h2>
+            <small>Page description</small>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+
+</div>
+
 <div class="row bg-title">
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <h4 class="page-title">Page</h4>

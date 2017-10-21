@@ -4,8 +4,26 @@
 }
 
 
-
 @foreach (var appModule in Model)
+{
+    <div class="col-md-3">
+        <div class="hpanel">
+            <div class="panel-body">
+                <div class="text-center">
+                    <h2 class="m-b-xs">@appModule.Name</h2>
+                    <p class="font-bold text-success">Lorem ipsum</p>
+                    <div class="m">
+                        <i class="pe-7s-science fa-5x"></i>
+                    </div>
+                    <a href="@Url.Action("ModuleDetails", "AppModule", new { moduleId=appModule.Id.ToString() })" class="btn btn-success btn-sm">Configure</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@*@foreach (var appModule in Model)
 { 
     <div class="col-md-4 col-sm-8">
         <div class="white-box">
@@ -18,6 +36,6 @@
             </div>
         </div>
     </div>
-}
+}*@
 
 

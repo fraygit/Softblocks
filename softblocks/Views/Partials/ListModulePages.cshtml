@@ -1,7 +1,25 @@
 ﻿@model List<softblocks.data.Model.AppModule>
 
 
-<li class="nav-small-cap m-t-10">Apps</li>
+
+
+@foreach (var module in Model)
+{
+    <li class="@Html.IsSelected(controller: "Organisation")">
+        <a href="#"><span class="nav-label">@module.Name</span><span class="fa arrow"></span> </a>
+        <ul class="nav nav-second-level">
+            @if (module.Pages != null)
+            {
+                foreach (var page in module.Pages.Where(n => n.IsDetailPage == false))
+                {
+                    <li class="@Html.IsSelected(action: "PanelsDesign")"><a href="@Url.Action("Index", "Page", new { moduleId = module.Id.ToString(), pageId = page.PageId.ToString() })">@page.Name</a></li>
+                }
+            }
+        </ul>
+    </li>
+}
+
+@*<li class="nav-small-cap m-t-10">Apps</li>
 @foreach (var module in Model)
 {
     <li>
@@ -21,7 +39,7 @@
 }
 <li>
     <a href="#" class="waves-effect"><i class="zmdi zmdi-local-grocery-store zmdi-hc-fw fa-fw"></i> <span class="hide-menu">App Store</span></a>
-</li>
+</li>*@
 
 
 @*@foreach (var module in Model) { 

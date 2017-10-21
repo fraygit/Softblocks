@@ -2,27 +2,76 @@
 
 
 <div id="navigation">
-    <div class="profile-picture">
-        <div class="stats-label text-color">
-            <span class="font-extra-bold font-uppercase">Robert Razer</span>
+    @if (!string.IsNullOrEmpty(Model.OrganisationName))
+    {
+        <div class="profile-picture">
+            <a href="/">
+                <img src="/Images/logo1.jpg" class="img-circle m-b" alt="logo" height="85px;">
+            </a>
+            <div class="stats-label text-color">
+                <span class="font-extra-bold font-uppercase">@Model.OrganisationName</span>
 
-            <div class="dropdown">
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                    <small class="text-muted">Account <b class="caret"></b></small>
-                </a>
-                <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                    <li><a href="contacts.html">Contacts</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="analytics.html">Analytics</a></li>
-                    <li class="divider"></li>
-                    <li><a href="login.html">Logout</a></li>
-                </ul>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <small class="text-muted">Organisation <b class="caret"></b></small>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="contacts.html">Users</a></li>
+                        <li><a href="profile.html">Documents</a></li>
+                        <li class="divider"></li>
+                        <li><a href="login.html">Switch Organisation</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    }
 
     <ul class="nav metismenu" id="side-menu">
+
         <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Index", "AppStore")"> <span class="nav-label">Dashboard</span> <span class="pull-right"><i class="fa fa-desktop"></i></span> </a>
+        </li>
+
+        @*@if (!string.IsNullOrEmpty(Model.OrganisationName))
+        {
+
+            <li class="@Html.IsSelected(controller: "Organisation")">
+                <a href="#"><span class="nav-label">@Model.OrganisationName</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                    <li class="@Html.IsSelected(action: "PanelsDesign")"><a href="@Url.Action("PanelsDesign", "Interface")">Users</a></li>
+                    <li class="@Html.IsSelected(action: "PanelsDesign")"><a href="@Url.Action("PanelsDesign", "Interface")">Documents</a></li>
+                    <li class="@Html.IsSelected(action: "PanelsDesign")"><a href="@Url.Action("PanelsDesign", "Interface")">Switch organisation</a></li>
+                </ul>
+            </li>
+        }*@
+
+        @Html.Action("ListModulePages", "Partials")
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Index", "AppStore")"> <span class="nav-label">App Store</span> <span class="pull-right"><i class="fa fa-shopping-cart"></i></span> </a>
+        </li>
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Inbox</span> <span class="pull-right"><i class="fa fa-envelope"></i></span> </a>
+        </li>
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Calendar</span> <span class="pull-right"><i class="fa fa-calendar"></i></span> </a>
+        </li>
+
+        <li class="@Html.IsSelected(controller: "AppModule")">
+            <a href="#"><span class="nav-label">Developer</span><span class="fa arrow"></span> </a>
+            <ul class="nav nav-second-level collapse" aria-expanded="false">
+                <li class=""><a href="/AppModule">Apps <span class="pull-right"><i class="fa fa-cubes"></i></span></a></li>
+            </ul>
+        </li>
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Logout</span> <span class="pull-right"><i class="fa fa-power-off"></i></span> </a>
+        </li>
+
+
+        @*<li class="@Html.IsSelected(controller: "Dashboard")">
             <a href="@Url.Action("Index", "Dashboard")"> <span class="nav-label">Dashboard</span> <span class="label label-success pull-right">v.1</span> </a>
         </li>
         <li class="@Html.IsSelected(controller: "Analytics")">
@@ -134,7 +183,7 @@
         </li>
         <li class="@Html.IsSelected(controller: "LandingPage")">
             <a href="@Url.Action("Index", "LandingPage")"> <span class="nav-label">Landing page</span></a>
-        </li>
+        </li>*@
     </ul>
 </div>
 
