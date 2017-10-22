@@ -33,6 +33,10 @@
                         var dateValue = $(formFieldItem).datepicker('getDate');
                         dataString += '"' + fieldName + '": ISODate("' + dateValue.toISOString() + '")';
                         break;
+                    case "Integer":
+                        value = $(formFieldItem).val();
+                        dataString += '"' + fieldName + '": ' + '"' + value + '"';
+                        break;
                 }
 
                 if (dataString.length > 0) {
@@ -115,6 +119,7 @@
                     SoftblockPage.RenderDataView(panelItem, appId, foreignId, isPreview, function () {
                         window.SoftblockTabular.Init();
                         window.SoftblockDetail.Init();
+                        window.SoftblockLineChart.Init();
                     });
                     break;
             }

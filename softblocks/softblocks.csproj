@@ -176,6 +176,7 @@
     <Content Include="scripts\luna.js" />
     <Content Include="scripts\softblocks\common.js" />
     <Content Include="scripts\softblocks\detail.js" />
+    <Content Include="scripts\softblocks\lineChart.js" />
     <Content Include="scripts\softblocks\page.js" />
     <Content Include="scripts\softblocks\tabular.js" />
     <Content Include="styles\pe-icons\helper.css" />
@@ -290,6 +291,8 @@
     <Content Include="Views\Shared\_Right_Sidebar.cshtml" />
     <Content Include="Views\AppStore\Index.cshtml" />
     <Content Include="Views\AppModule\DataComponents.cshtml" />
+    <Content Include="Views\DataView\EditLineChart.cshtml" />
+    <Content Include="Views\DataView\RenderLineChart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

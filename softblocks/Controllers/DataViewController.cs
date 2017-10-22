@@ -334,7 +334,58 @@ namespace softblocks.Controllers
                                             return RedirectToAction("RenderDetail", new { appId = appId, id = id, dataId = dataId });
                                         }
                                         break;
+                                    case "Line Chart":
+                                        return RedirectToAction("RenderLineChart", new { appId = appId, id = id, dataId = dataId });
+                                        break;
                                 }
+                            }
+                        }
+
+                        return View(response);
+                    }
+                    return View(new DataView());
+                }
+            }
+            return View();
+        }
+
+
+        [Authorize]
+        public async Task<ActionResult> RenderLineChart(string appId, string id, string dataId)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var response = new ResRenderTabular();
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ViewBag.AppName = appModule.Name;
+                        ViewBag.DataId = dataId;
+
+                        ObjectId dataViewId;
+                        if (ObjectId.TryParse(id, out dataViewId))
+                        {
+                            if (appModule.DataViews.Any(n => n.Id == dataViewId))
+                            {
+                                var dataView = appModule.DataViews.FirstOrDefault(n => n.Id == dataViewId);
+                                response.DataView = dataView;
+                                var docTypeService = new DocumentTypeServices(_appModuleRepository);
+
+                                if (dataView.SubDocumentTypeId.HasValue)
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.SubDocumentTypeId.Value);
+                                    ViewBag.DocumentTypeName = await docTypeService.FindDocumentTypeName(appId, dataView.SubDocumentTypeId.Value);
+                                }
+                                else
+                                {
+                                    response.DocumentFields = await docTypeService.FindDocumentTypeFields(appId, dataView.DocumentTypeId);
+                                    ViewBag.DocumentTypeName = await docTypeService.FindDocumentTypeName(appId, dataView.DocumentTypeId);
+                                }
+
+                                return View(response);
                             }
                         }
 
@@ -452,6 +503,13 @@ namespace softblocks.Controllers
 
         [Authorize]
         public async Task<ActionResult> EditTabular(string appId, string id)
+        {
+            var dataView = await GetDataView(appId, id);
+            return View(dataView);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> EditLineChart(string appId, string id)
         {
             var dataView = await GetDataView(appId, id);
             return View(dataView);
