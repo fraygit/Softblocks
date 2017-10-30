@@ -204,6 +204,7 @@
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ScreenshotController.cs" />
     <Compile Include="Custom\SoftblocksMembershipProvider.cs" />
     <Compile Include="Custom\SoftblocksRoleProvider.cs" />
     <Compile Include="Global.asax.cs">
@@ -293,6 +294,7 @@
     <Content Include="Views\AppModule\DataComponents.cshtml" />
     <Content Include="Views\DataView\EditLineChart.cshtml" />
     <Content Include="Views\DataView\RenderLineChart.cshtml" />
+    <Content Include="Views\Screenshot\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -37,6 +37,10 @@
                         value = $(formFieldItem).val();
                         dataString += '"' + fieldName + '": ' + '"' + value + '"';
                         break;
+                    case "Rich Text":
+                        value = $(formFieldItem).summernote('code');
+                        dataString += '"' + fieldName + '": ' + '"' + value + '"';
+                        break;
                 }
 
                 if (dataString.length > 0) {
@@ -112,6 +116,10 @@
                         //DATE PICKER
                         $.each($(".field-date"), function (dateElIndex, dateElItem) {
                             $(dateElItem).datepicker();
+                        });
+
+                        $.each($(".field-rich-text"), function (rtIndex, rtItem) {
+                            $(rtItem).summernote();
                         });
                     });
                     break;

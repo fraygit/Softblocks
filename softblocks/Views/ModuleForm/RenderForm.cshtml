@@ -33,20 +33,28 @@
                                             </div>
                                             break;
                                         case "Integer":
-                                        <div class="col-md-@field.ColWidth">
-                                            <div class="form-group">
-                                                <label class="control-label">@docField.Name</label>
-                                                <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field" placeholder="@docField.Name">
+                                            <div class="col-md-@field.ColWidth">
+                                                <div class="form-group">
+                                                    <label class="control-label">@docField.Name</label>
+                                                    <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field" placeholder="@docField.Name">
+                                                </div>
                                             </div>
-                                        </div>
                                             break;
                                         case "Date":
-                                        <div class="col-md-@field.ColWidth">
-                                            <div class="form-group">
-                                                <label class="control-label">@docField.Name</label>
-                                                <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field field-date" placeholder="dd/MM/yyyy">
+                                            <div class="col-md-@field.ColWidth">
+                                                <div class="form-group">
+                                                    <label class="control-label">@docField.Name</label>
+                                                    <input type="text" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType" class="form-control form-field field-date" placeholder="dd/MM/yyyy">
+                                                </div>
                                             </div>
-                                        </div>
+                                            break;
+                                        case "Rich Text":
+                                            <div class="col-md-@field.ColWidth">
+                                                <div class="form-group">
+                                                    <label class="control-label">@docField.Name</label>
+                                                    <div class="field-rich-text form-field" id="@docField.Id" data-field-name="@docField.Name" data-field-data-type="@docField.DataType"></div>
+                                                </div>
+                                            </div>
                                             break;
                                     }
                                 }

@@ -56,7 +56,14 @@
 
                             $.each(rawData._v, function (rawDataIndex, rawDataItem) {
                                 if (!isNaN(rawDataItem[yField])) {
-                                    dataLabels.push(rawDataItem[xField]);
+                                    if (typeof (rawDataItem[xField]) == "object") {
+                                        var dateValue = rawDataItem[xField].$date;
+                                        var date = moment(dateValue);
+                                        dataLabels.push(moment(dateValue).format("D MMM YY"));
+                                    }
+                                    else {
+                                        dataLabels.push(rawDataItem[xField]);
+                                    }
                                     dataArray.push(Number(rawDataItem[yField]));
                                 }
                             });
@@ -68,7 +75,7 @@
                                 data: {
                                     labels: dataLabels,
                                     datasets: [{
-                                        label: 'Grades',
+                                        label: yField,
                                         data: dataArray,
                                         borderColor: ["#468d25"],
                                         backgroundColor: ["#62cb31"]
