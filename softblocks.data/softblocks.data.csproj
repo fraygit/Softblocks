@@ -65,6 +65,7 @@
     <Compile Include="Interface\IAppModuleRepository.cs" />
     <Compile Include="Interface\IDataPanelRepository.cs" />
     <Compile Include="Interface\IDocumentTypeRepository.cs" />
+    <Compile Include="Interface\IDropdownRepository.cs" />
     <Compile Include="Interface\IModuleMenuRepository.cs" />
     <Compile Include="Interface\IOrganisationRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Model\DataView.cs" />
     <Compile Include="Model\Detail.cs" />
     <Compile Include="Model\DetailComponent.cs" />
+    <Compile Include="Model\Dropdown.cs" />
     <Compile Include="Model\Tabular.cs" />
     <Compile Include="Model\TabularColumns.cs" />
     <Compile Include="Model\DocumentType.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Repository\AppModuleRepositoty.cs" />
     <Compile Include="Repository\DataPanelRepository.cs" />
     <Compile Include="Repository\DocumentTypeRepository.cs" />
+    <Compile Include="Repository\DropdownRepository.cs" />
     <Compile Include="Repository\ModuleMenuRepository.cs" />
     <Compile Include="Repository\OrganisationRepositoty.cs" />
     <Compile Include="Repository\UserRepository.cs" />
