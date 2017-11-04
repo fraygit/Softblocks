@@ -382,17 +382,23 @@
                 <form id="frmAddDropdown">
                     <div class="form-group">
                         <label for="exampleInputName">Name</label>
-                        <input type="text" class="form-control" id="txtDataViewName" placeholder="Name" required="">
+                        <input type="text" class="form-control" id="txtDropdownName" placeholder="Name" required="">
                     </div>
                     <hr />
                     <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName">Order</label>
+                                <input type="text" class="form-control" id="txtDropdownItemOrder" placeholder="Sort" required="">
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="exampleInputName">Item Name</label>
                                 <input type="text" class="form-control" id="txtDropdownItemName" placeholder="Name" required="">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label style="width:100%;">&nbsp;</label>
                             <button type="button" class="btn btn-info waves-effect" id="btnAddDDItem">Add</button>
                             &nbsp;
@@ -405,7 +411,8 @@
                                 <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped" id="tbl-dropdown">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
+                                            <th>Item Name</th>
+                                            <th>Sort</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -618,27 +625,66 @@
             $("#tbl-dropdown").DataTable({
                 destroy: true,
                 data: ddItems,
-                columns: [{ title: "Item Name" }]
+                columns: [{ title: "Item Name" }, { title: "Order" }]
             });
         });
 
         $("#btnAddDDItem").click(function () {
             var ddItem = $("#txtDropdownItemName").val();
+            var ddOrder = $("#txtDropdownItemOrder").val();
             var row = [];
             row.push(ddItem);
+            row.push(ddOrder);
             ddItems.push(row);
 
             $("#tbl-dropdown").DataTable({
                 destroy: true,
                 data: ddItems,
-                columns: [{title: "Item Name"}]
+                columns: [{ title: "Item Name" }, { title: "Item Sort" } ]
             });
 
             $("#txtDropdownItemName").val('');
         });
 
         $("#btnAddDropdown").click(function () {
-            ddItems = [];
+            var items = [];
+            $.each(ddItems, function (ddIndex, ddItem) {
+                items.push({
+                    Name: ddItem[0],
+                    Order: parseInt(ddItem[1])
+                });
+            });
+
+            var addDropdownParam = {
+                Name: $("#txtDropdownName").val(),
+                AppId: '@Model.Id.ToString()',
+                Items: items
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddDropdown", "Drodown")",
+                contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(addDropdownParam),
+            success: function (d) {
+                alertSuccess("Success", "Successfully created dropdown!");
+                ddItems = [];
+                $("#tbl-dropdown").DataTable({
+                    destroy: true,
+                    data: ddItems,
+                    columns: [{ title: "Item Name" }, { title: "Order" }]
+                });
+
+                $("#pnlAddDropdown").modal('toggle');
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                RemoveLoadingOverlay("#pnlPages");
+                // TODO: Show error
+            }
+        });
+
+            
         });
 
 

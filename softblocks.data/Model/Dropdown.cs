@@ -1,4 +1,5 @@
-﻿using softblocks.data.Entities.Base;
+﻿using MongoDB.Bson;
+using softblocks.data.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace softblocks.data.Model
     public class Dropdown : MongoEntity
     {
         public string Name { get; set; }
-        public string AppModuleId { get; set; }
-        public List<string> Items { get; set; }
+        public ObjectId AppModuleId { get; set; }
+        public List<DropdownItem> Items { get; set; }
     }
 }

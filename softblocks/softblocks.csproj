@@ -197,6 +197,7 @@
     <Compile Include="Controllers\DataPanelController.cs" />
     <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
+    <Compile Include="Controllers\DrodownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleFormController.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Models\PageLogin.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ReqAddData.cs" />
+    <Compile Include="Models\ReqAddDropdown.cs" />
     <Compile Include="Models\ReqAddField.cs" />
     <Compile Include="Models\ReqAddFormField.cs" />
     <Compile Include="Models\ReqAddPage.cs" />
@@ -304,6 +306,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Drodown\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\softblocks.data\softblocks.data.csproj">
