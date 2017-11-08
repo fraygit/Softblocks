@@ -194,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppModuleController.cs" />
     <Compile Include="Controllers\AppStoreController.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\DataPanelController.cs" />
     <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
@@ -298,6 +299,8 @@
     <Content Include="Views\DataView\RenderLineChart.cshtml" />
     <Content Include="Views\Screenshot\Index.cshtml" />
     <Content Include="Views\Dropdown\List.cshtml" />
+    <Content Include="Views\Dropdown\Edit.cshtml" />
+    <Content Include="Views\Calendar\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
