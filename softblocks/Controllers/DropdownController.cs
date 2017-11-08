@@ -34,10 +34,37 @@ namespace softblocks.Controllers
                 var appModule = await _appModuleRepository.Get(appId);
                 if (appModule != null)
                 {
-                    if (appModule.Forms != null)
+                    if (appModule.Dropdowns != null)
                     {
                         ViewBag.AppId = appModule.Id.ToString();
                         return View(appModule.Dropdowns);
+                    }
+                    return View(new List<Dropdown>());
+                }
+            }
+            return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Edit(string id, string appId)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Dropdowns != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        ObjectId dropdownId;
+                        if (ObjectId.TryParse(id, out dropdownId))
+                        {
+                            if (appModule.Dropdowns.Any(n => n.Id == dropdownId))
+                            {
+                                var dropdown = appModule.Dropdowns.FirstOrDefault(n => n.Id == dropdownId);
+                                return View(dropdown);
+                            }
+                        }                        
                     }
                     return View(new List<Dropdown>());
                 }
