@@ -11,11 +11,11 @@ using System.Web.Mvc;
 
 namespace softblocks.Controllers
 {
-    public class DrodownController : Controller
+    public class DropdownController : Controller
     {
         private IAppModuleRepository _appModuleRepository;
 
-        public DrodownController(IAppModuleRepository _appModuleRepository)
+        public DropdownController(IAppModuleRepository _appModuleRepository)
         {
             this._appModuleRepository = _appModuleRepository;
         }
@@ -23,6 +23,25 @@ namespace softblocks.Controllers
         // GET: Drodown
         public ActionResult Index()
         {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> List(string appId)
+        {
+            if (!string.IsNullOrEmpty(appId))
+            {
+                var appModule = await _appModuleRepository.Get(appId);
+                if (appModule != null)
+                {
+                    if (appModule.Forms != null)
+                    {
+                        ViewBag.AppId = appModule.Id.ToString();
+                        return View(appModule.Dropdowns);
+                    }
+                    return View(new List<Dropdown>());
+                }
+            }
             return View();
         }
 

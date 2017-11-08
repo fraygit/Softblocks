@@ -540,6 +540,17 @@
                 height: '250px'
             });
         }
+        
+        var LoadDropdopwn = function () {
+            AddLoadingOverlay("#pnlDropdown");
+            $('#pnlDropdown').load('@Url.Action("List", "Dropdown", new { appId = Model.Id.ToString() })', function () {
+                RemoveLoadingOverlay("#pnlDropdown");
+            });
+            $('#pnlDropdown').slimScroll({
+                height: '250px'
+            });
+        }
+
 
         var GetDocumentType = function () {
             $.ajax({
@@ -609,6 +620,7 @@
         LoadDocumentTypes();
         LoadForList();
         LoadDataViewList();
+        LoadDropdopwn();
 
         $("#ddDocumentType").change(function () {
             GetSubDocumentType($("#ddDocumentType").val());
@@ -640,7 +652,7 @@
             $("#tbl-dropdown").DataTable({
                 destroy: true,
                 data: ddItems,
-                columns: [{ title: "Item Name" }, { title: "Item Sort" } ]
+                columns: [{ title: "Item Name" }, { title: "Item Sort" }]
             });
 
             $("#txtDropdownItemName").val('');
@@ -663,28 +675,29 @@
 
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("AddDropdown", "Drodown")",
+                url: "@Url.Action("AddDropdown", "Dropdown")",
                 contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(addDropdownParam),
-            success: function (d) {
-                alertSuccess("Success", "Successfully created dropdown!");
-                ddItems = [];
-                $("#tbl-dropdown").DataTable({
-                    destroy: true,
-                    data: ddItems,
-                    columns: [{ title: "Item Name" }, { title: "Order" }]
-                });
+                dataType: "json",
+                data: JSON.stringify(addDropdownParam),
+                success: function (d) {
+                    alertSuccess("Success", "Successfully created dropdown!");
+                    ddItems = [];
+                    $("#tbl-dropdown").DataTable({
+                        destroy: true,
+                        data: ddItems,
+                        columns: [{ title: "Item Name" }, { title: "Order" }]
+                    });
 
-                $("#pnlAddDropdown").modal('toggle');
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                RemoveLoadingOverlay("#pnlPages");
-                // TODO: Show error
-            }
-        });
+                    $("#pnlAddDropdown").modal('toggle');
+                    LoadDropdopwn();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    RemoveLoadingOverlay("#pnlPages");
+                    // TODO: Show error
+                }
+            });
 
-            
+
         });
 
 

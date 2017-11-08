@@ -197,7 +197,7 @@
     <Compile Include="Controllers\DataPanelController.cs" />
     <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
-    <Compile Include="Controllers\DrodownController.cs" />
+    <Compile Include="Controllers\DropdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleFormController.cs" />
@@ -297,6 +297,7 @@
     <Content Include="Views\DataView\EditLineChart.cshtml" />
     <Content Include="Views\DataView\RenderLineChart.cshtml" />
     <Content Include="Views\Screenshot\Index.cshtml" />
+    <Content Include="Views\Dropdown\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -306,7 +307,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Drodown\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\softblocks.data\softblocks.data.csproj">
