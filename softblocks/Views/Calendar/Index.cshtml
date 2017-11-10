@@ -1,4 +1,6 @@
-﻿<div class="normalheader  small-header">
+﻿
+
+<div class="normalheader  small-header">
     <div class="hpanel">
         <div class="panel-body">
             <div id="hbreadcrumb" class="pull-right">
@@ -19,6 +21,26 @@
 
 <div class="content">
 
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="">
+                <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-success"><i class="fa fa-calendar"></i> Create <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:AddEvent('Personal');">Personal Event</a></li>
+                        <li><a href="javascript:AddEvent('Organisation');">Organisation Event</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            &nbsp;
+        </div>
+    </div>
+
     <div class="row animate-panel" data-effect="fadeInDown" data-child="element">
         <div class="col-lg-12 col-md-12">
             <div class="hpanel">
@@ -26,8 +48,70 @@
                     Calendar
                 </div>
                 <div class="panel-body" style="display: block;">
-                    <div id="pnlCalendar"></div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div id="pnlCalendar"></div>
+                        </div>
+                    </div>                    
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="pnlAddEvent" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="modalTitle">Add Event</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddEvent">
+                    <input type="hidden" id="hdnType" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">Title</label>
+                                <input type="text" class="form-control" id="txtTitle" placeholder="Name" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">Details</label>
+                                <textarea id="txtDetails" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputName">Start Date</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtStartDate" required="" placeholder="Date time"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" id="btnStartDate">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputName">End Date</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtEndDate" placeholder="Date time"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" id="btnEndDate">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddEvent">Add</button>
             </div>
         </div>
     </div>
@@ -38,5 +122,67 @@
         $('#pnlCalendar').fullCalendar({
             "defaultView": "month"
         })
+
+        $("#txtStartDate").datetimepicker();
+        $("#txtEndDate").datetimepicker();
+
+        $("#btnStartDate").click(function () {
+            $("#txtStartDate").data("DateTimePicker").toggle();
+        });
+
+        $("#btnEndDate").click(function () {
+            $("#txtEndDate").data("DateTimePicker").toggle();
+        });
+
+        function AddEvent(eventType) {
+            $("#hdnType").val(eventType);
+            $("#modalTitle").text("Add " + eventType + " event");
+            $("#pnlAddEvent").modal("show");
+        }
+
+        $("#btnAddEvent").click(function () {
+            var isValid = $("#frmAddEvent").valid();
+            if (isValid) {
+                if (!isBlank($("#txtStartDate").val())) {
+
+                    var startDate = $("#txtStartDate").data("DateTimePicker").date();
+                    var endDate = $("#txtEndDate").data("DateTimePicker").date();
+
+                    var data = {
+                        Event: {
+                            Title: $("#txtTitle").val(),
+                            Details: $("#txtDetails").val(),
+                            StartDate: startDate != null ? startDate._d : null,
+                            EndDate: endDate != null ? endDate._d : null,
+                            EventType: $("#hdnType").val()
+                        }
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddEvent", "Calendar")",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                alertSuccess("Success", "Successfully added event!");
+                                $("#pnlAddEvent").modal("hide");
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alertError("Error!", "Error adding event");
+                        }
+                    });
+                }
+                else {
+                    alertError("Error!", "Please input start date!");
+                }
+            }
+        });
+
     </script>
 }

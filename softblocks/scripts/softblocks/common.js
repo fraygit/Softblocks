@@ -30,15 +30,16 @@ function alertSuccess(title, message) {
 }
 
 function alertError(title, message) {
-    $.toast({
-        heading: title,
-        text: message,
-        position: 'top-right',
-        loaderBg: '#ff6849',
-        icon: 'error',
-        hideAfter: 2000,
-        stack: 6
-    });
+    toastr.options = {
+        "debug": false,
+        "newestOnTop": false,
+        "positionClass": "toast-top-right",
+        "closeButton": true,
+        "debug": false,
+        "toastClass": "animated fadeInDown"
+    };
+
+    toastr.error(message);
 }
 
 function ConvertObjectId(mongoId) {
@@ -90,4 +91,8 @@ function RetrieveDocument(jsonBsonDoc, id) {
         }
     }
     return null;
+}
+
+function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
 }

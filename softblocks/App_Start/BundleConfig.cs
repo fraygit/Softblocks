@@ -168,6 +168,16 @@ namespace softblocks.App_Start
             bundles.Add(new StyleBundle("~/bundles/datepicker/css").Include(
                       "~/Vendor/bootstrap-datepicker-master/dist/css/bootstrap-datepicker3.min.css"));
 
+
+            // DateTimepicker
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker/js").Include(
+                      "~/Vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"));
+
+            // DateTimepicker style
+            bundles.Add(new StyleBundle("~/bundles/datetimepicker/css").Include(
+                      "~/Vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"));
+
+
             // Datepicker
             bundles.Add(new ScriptBundle("~/bundles/summernote/js").Include(
                       "~/Vendor/summernote/dist/summernote.min.js"));
