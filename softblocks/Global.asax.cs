@@ -31,6 +31,7 @@ namespace softblocks
             container.Register<IDocumentTypeRepository, DocumentTypeRepository>(Lifestyle.Scoped);
             container.Register<IModuleMenuRepository, ModuleMenuRepository>(Lifestyle.Scoped);
             container.Register<IDataPanelRepository, DataPanelRepository>(Lifestyle.Scoped);
+            container.Register<ICalendarEventRepository, CalendarEventRepository>(Lifestyle.Scoped);
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();
