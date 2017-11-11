@@ -117,12 +117,79 @@
     </div>
 </div>
 
+<div class="modal fade" id="pnlEventDetails" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="modalTitle">Event Details</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddEvent">
+                    <input type="hidden" id="hdnType" />
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 b-r">
+                            <strong>Title</strong>
+                            <br>
+                            <p class="text-muted" id="lblTitle"></p>
+                        </div>
+                        <div class="col-sm-3 col-xs-3 b-r">
+                            <strong>Start</strong>
+                            <br>
+                            <p class="text-muted" id="lblStart"></p>
+                        </div>
+                        <div class="col-sm-3 col-xs-3 b-r">
+                            <strong>End</strong>
+                            <br>
+                            <p class="text-muted" id="lblEnd"></p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 b-r">
+                            <strong>Details</strong>
+                            <br>
+                            <p class="text-muted" id="lblDetails"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script type="text/javascript">
+
         $('#pnlCalendar').fullCalendar({
             "defaultView": "month",
             "events": '@Url.Action("Events", "Calendar")',
-            "timezone": "local"
+            "timezone": "local",
+            "eventClick": function (calEvent, jsEvent, view) {
+
+                $.ajax({
+                    type: "GET",
+                    url: "Calendar/Details?eventId=" + calEvent.id,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            $("#lblTitle").text(d.Result.Title);
+                            $("#lblDetails").text(d.Result.Details);
+                            $("#lblStart").text(d.Result.StartDate);
+                            $("#lblEnd").text(d.Result.EndDate);
+                            $("#pnlEventDetails").modal("show");
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alertError("Error!", "Error adding event");
+                    }
+                });
+
+                
+            }
         })
 
         $("#txtStartDate").datetimepicker();

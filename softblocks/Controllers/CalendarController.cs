@@ -29,6 +29,28 @@ namespace softblocks.Controllers
 
         [Authorize]
         [HttpGet]
+        public async Task<JsonResult> Details(string eventId)
+        {
+            var eventDetails = await _calendarEventRepository.Get(eventId);
+            if (eventDetails != null)
+            {
+                var result = new JsonGenericResult
+                {
+                    IsSuccess = true,
+                    Result = eventDetails
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            var ErrorResult = new JsonGenericResult
+            {
+                IsSuccess = false,
+                Message = "Error."
+            };
+            return Json(ErrorResult);
+        }
+
+        [Authorize]
+        [HttpGet]
         public async Task<JsonResult> Events(DateTime start, DateTime end)
         {
             var events = new List<ResEvent>();
@@ -41,8 +63,10 @@ namespace softblocks.Controllers
                 {
                     events.Add(new ResEvent
                     {
+                        id = ev.Id.ToString(),
                         title = ev.Title,
                         start = ev.StartDate,
+                        end = ev.EndDate,
                         color = "#62cb31"
                     });
                 }
@@ -51,8 +75,10 @@ namespace softblocks.Controllers
                 {
                     events.Add(new ResEvent
                     {
+                        id = ev.Id.ToString(),
                         title = ev.Title,
                         start = ev.StartDate,
+                        end = ev.EndDate,
                         color = "#3498db"
                     });
                 }
