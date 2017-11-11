@@ -9,5 +9,6 @@ namespace softblocks.Models
     {
         public string title { get; set; }
         public DateTime start { get; set; }
+        public string color { get; set; }
     }
 }

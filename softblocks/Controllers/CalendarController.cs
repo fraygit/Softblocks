@@ -42,9 +42,21 @@ namespace softblocks.Controllers
                     events.Add(new ResEvent
                     {
                         title = ev.Title,
-                        start = ev.StartDate                        
+                        start = ev.StartDate,
+                        color = "#62cb31"
                     });
                 }
+                eventsCalendar = await _calendarEventRepository.GetByUser(start, end, ObjectId.Parse(user.CurrentOrganisation));
+                foreach (var ev in eventsCalendar)
+                {
+                    events.Add(new ResEvent
+                    {
+                        title = ev.Title,
+                        start = ev.StartDate,
+                        color = "#3498db"
+                    });
+                }
+
                 return Json(events, JsonRequestBehavior.AllowGet);
             }
 
