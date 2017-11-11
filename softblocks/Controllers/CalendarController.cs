@@ -28,6 +28,35 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public async Task<JsonResult> Events(DateTime start, DateTime end)
+        {
+            var events = new List<ResEvent>();
+
+            var user = await _userRepository.GetUser(User.Identity.Name);
+            if (user != null)
+            {
+                var eventsCalendar = await _calendarEventRepository.GetByUser(start, end, user.Id);
+                foreach (var ev in eventsCalendar)
+                {
+                    events.Add(new ResEvent
+                    {
+                        title = ev.Title,
+                        start = ev.StartDate                        
+                    });
+                }
+                return Json(events, JsonRequestBehavior.AllowGet);
+            }
+
+            events.Add(new ResEvent
+            {
+                title = "test",
+                start = new DateTime(2017, 11, 2, 14, 23, 0)
+            });
+            return Json(events, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<JsonResult> AddEvent(ReqAddEvent req)
         {

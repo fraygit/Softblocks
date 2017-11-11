@@ -120,7 +120,9 @@
 @section Scripts {
     <script type="text/javascript">
         $('#pnlCalendar').fullCalendar({
-            "defaultView": "month"
+            "defaultView": "month",
+            "events": '@Url.Action("Events", "Calendar")',
+            "timezone": "local"
         })
 
         $("#txtStartDate").datetimepicker();
@@ -167,6 +169,7 @@
                         success: function (d) {
                             if (d.IsSuccess == true) {
                                 alertSuccess("Success", "Successfully added event!");
+                                $('#pnlCalendar').fullCalendar("refetchEvents");
                                 $("#pnlAddEvent").modal("hide");
                             }
                             else {

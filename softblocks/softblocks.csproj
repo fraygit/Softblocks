@@ -232,6 +232,7 @@
     <Compile Include="Models\ReqDetailAddComponent.cs" />
     <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResDropdown.cs" />
+    <Compile Include="Models\ResEvent.cs" />
     <Compile Include="Models\ResRenderForm.cs" />
     <Compile Include="Models\ResRenderTabular.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
