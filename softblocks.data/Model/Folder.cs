@@ -12,7 +12,9 @@ namespace softblocks.data.Model
     {
         public ObjectId ForeignId { get; set; }
         public string FolderType { get; set; } // Personal, Organisation
-        public int Parent { get; set; }
+        public ObjectId Parent { get; set; }
         public string Name { get; set; }
+        public DateTime Created { get; set; }
+        public ObjectId CreatedBy { get; set; }
     }
 }

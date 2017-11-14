@@ -1,0 +1,155 @@
+﻿@model List<softblocks.data.Model.Folder>
+
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">
+                        <span>Library</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Library
+            </h2>
+            <small>Page description</small>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+
+    <div id="divData" data-parent-id="@ViewBag.ParentId"></div>
+
+    <div class="row">
+        <div class="col-lg-2 col-md-2">
+            <div class="">
+                <div class="btn-group btn-block">
+                    <button data-toggle="dropdown" class="btn btn-success btn-block"><i class="fa fa-folder"></i> Add Folder <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:AddFolder('Personal');">Personal</a></li>
+                        <li><a href="javascript:AddFolder('Organisation');">Organisation</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <button class="btn btn-success btn-block"><i class="fa fa-file"></i> Add File</button>
+        </div>
+        @if (!string.IsNullOrEmpty(ViewBag.GrandParent))
+        { 
+            <div class="col-lg-8 col-md-8">
+                <a class="btn btn-info pull-right" href="@Url.Action("Index", "Library", new { parent = ViewBag.GrandParent })"><i class="fa fa-level-up"></i> Up</a>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 col-md-2">
+        &nbsp;
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <p class="text-center"><strong>Personal Folder</strong></p>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+
+        @if (Model != null) { 
+            foreach (var folder in Model) { 
+                <div class="col-lg-3 col-md-3">
+                    <div class="hpanel hgreen contact-panel">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <strong><i class="fa fa-folder"></i></strong>
+                                </div>
+                                <div class="col-xs-8">
+                                    <strong><a href="@Url.Action("Index", "Library", new { parent = folder.Id })">@folder.Name</a></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="pnlAddFolder" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="modalTitle">Add Folder</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddFolder">
+                    <input type="hidden" id="hdnType" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">Name</label>
+                                <input type="text" class="form-control" id="txtFolderName" placeholder="Name" required="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddFolder">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function AddFolder(folderType) {
+            $("#hdnType").val(folderType);
+            $("#modalTitle").text("Add " + folderType + " Folder");
+            $("#pnlAddFolder").modal("show");
+        }
+
+        $("#btnAddFolder").click(function () {
+            var isValid = $("#frmAddFolder").valid();
+            if (isValid) {
+                var data = {
+                    Name: $("#txtFolderName").val(),
+                    Parent: $("#divData").data("parent-id"),
+                    FolderType: $("#hdnType").val()
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddFolder", "Library")",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            alertSuccess("Success", "Successfully added folder!");
+                            $("#pnlAddFolder").modal("hide");
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alertError("Error!", "Error adding event");
+                    }
+                });
+            }
+        });
+    </script>
+}

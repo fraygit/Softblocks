@@ -200,6 +200,7 @@
     <Compile Include="Controllers\DocumentTypesController.cs" />
     <Compile Include="Controllers\DropdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleFormController.cs" />
     <Compile Include="Controllers\OrganisationController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\ReqAddDropdown.cs" />
     <Compile Include="Models\ReqAddEvent.cs" />
     <Compile Include="Models\ReqAddField.cs" />
+    <Compile Include="Models\ReqAddFolder.cs" />
     <Compile Include="Models\ReqAddFormField.cs" />
     <Compile Include="Models\ReqAddPage.cs" />
     <Compile Include="Models\ReqAddPanel.cs" />
@@ -303,6 +305,7 @@
     <Content Include="Views\Dropdown\List.cshtml" />
     <Content Include="Views\Dropdown\Edit.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
+    <Content Include="Views\Library\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

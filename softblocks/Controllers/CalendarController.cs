@@ -22,6 +22,7 @@ namespace softblocks.Controllers
             this._userRepository = _userRepository;
         }
         // GET: Calendar
+        [Authorize]
         public ActionResult Index()
         {
             return View();

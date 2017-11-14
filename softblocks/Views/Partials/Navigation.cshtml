@@ -63,7 +63,7 @@
             </li>
         }
         <li class="@Html.IsSelected(controller: "Dashboard")">
-            <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Library</span> <span class="pull-right"><i class="fa fa-book"></i></span> </a>
+            <a href="@Url.Action("Index", "Library")"> <span class="nav-label">Library</span> <span class="pull-right"><i class="fa fa-book"></i></span> </a>
         </li>
         <li class="@Html.IsSelected(controller: "Dashboard") disabled">
             <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Inbox</span> <span class="pull-right"><i class="fa fa-envelope"></i></span> </a>
