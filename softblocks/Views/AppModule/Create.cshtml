@@ -1,52 +1,58 @@
 ﻿
-<section class="content">
-    <div class="container-fluid">
 
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="view-header">
-                    <div class="header-icon">
-                        <i class="pe page-header-icon pe-7s-note2"></i>
-                    </div>
-                    <div class="header-title">
-                        <h3>Module</h3>
-                    </div>
-                </div>
-                <hr>
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/AppModule">Apps</a></li>
+                    <li class="active">
+                        <span>Create new app</span>
+                    </li>
+                </ol>
             </div>
+            <h2 class="font-light m-b-xs">
+                Create new app
+            </h2>
+            <small>Page description</small>
         </div>
+    </div>
+</div>
 
-        <div class="row">
-
-            <div class="col-md-6" id="pblCreateOrg">
-                <div class="panel panel-filled">
-                    <div class="panel-heading">
-                        Create a Module
+<div class="content">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="hpanel">
+                <div class="panel-heading hbuilt">
+                    <div class="panel-tools">
+                        <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                        <a class="closebox"><i class="fa fa-times"></i></a>
                     </div>
-                    <div class="panel-body">
-
-                        <p>A module is system of forms, document types and workflow.</p>
-
-                        <form id="frmCreateOrg">
-                            <div class="form-group">
-                                <label for="exampleInputName">Module Name</label>
-                                <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Description</label>
-                                <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
-                            </div>
-                            <!--<button type="button" class="btn btn-default" id="btnCreate">Create</button>-->
-                            <button type="button" class="btn btn-default" id="btnCreate">Create</button>
-                        </form>
+                    Create a new  app
+                </div>
+                <div class="panel-body" style="display: block;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="frmCreateOrg">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Module Name</label>
+                                    <input type="text" class="form-control" id="txtOrganisationName" placeholder="Name" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Description</label>
+                                    <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtDescription"></textarea>
+                                </div>
+                                <!--<button type="button" class="btn btn-default" id="btnCreate">Create</button>-->
+                                <button type="button" class="btn btn-primary" id="btnCreate">Create</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-</section>
+</div>
+
 
 @section Scripts{
     <script type="text/javascript">

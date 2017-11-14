@@ -3,54 +3,56 @@
     Layout = null;
 }
 
-@if (Model.DataView != null && Model.DocumentFields != null) { 
+@if (Model.DataView != null && Model.DocumentFields != null)
+{
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="panel panel-inverse">
-            <div class="panel-heading">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt">
                 @Model.DataView.Name
             </div>
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            @if (Model.DataView.Tabular != null)
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        @if (Model.DataView.Tabular != null)
+                        {
+                            if (Model.DataView.Tabular.Columns != null)
                             {
-                                if (Model.DataView.Tabular.Columns != null)
-                                {
-                                    var sampleData = new List<string>();
-                                    <div class="table-responsive softblock-tabular" data-data-view-id="@Model.DataView.Id" data-app-id="@ViewBag.AppId" data-document-type-id="@Model.DataView.DocumentTypeId" data-sub-document-type-id="@Model.DataView.SubDocumentTypeId" data-data-id="@ViewBag.DataId" data-document-type-name="@ViewBag.DocumentTypeName">
-                                        <input type="hidden" id="softblock-data-@Model.DataView.Id" value="@Model.Data" />
-                                        <table class="table table-striped" id="softblock-tabular-@Model.DataView.Id">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    @foreach (var field in Model.DataView.Tabular.Columns.OrderBy(n => n.Order))
+                                var sampleData = new List<string>();
+                                <div class="table-responsive softblock-tabular" data-data-view-id="@Model.DataView.Id" data-app-id="@ViewBag.AppId" data-document-type-id="@Model.DataView.DocumentTypeId" data-sub-document-type-id="@Model.DataView.SubDocumentTypeId" data-data-id="@ViewBag.DataId" data-document-type-name="@ViewBag.DocumentTypeName">
+                                    <input type="hidden" id="softblock-data-@Model.DataView.Id" value="@Model.Data" />
+                                    <table class="table table-striped table-condensed" id="softblock-tabular-@Model.DataView.Id" cellpadding="1" cellspacing="1">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                @foreach (var field in Model.DataView.Tabular.Columns.OrderBy(n => n.Order))
+                                                {
+                                                    if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
                                                     {
-                                                        if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
-                                                        {
-                                                            sampleData.Add("sample data");
-                                                            var documentField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);
-                                                            <th class="data-view-columns" data-field-name="@documentField.Name" data-field-data-type="@documentField.DataType" data-field-is-link="@field.IsLinkToDetailPage" data-field-link-page="@field.PageId">@documentField.Name</th>
-                                                        }
+                                                        sampleData.Add("sample data");
+                                                        var documentField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);
+                                                        <th class="data-view-columns" data-field-name="@documentField.Name" data-field-data-type="@documentField.DataType" data-field-is-link="@field.IsLinkToDetailPage" data-field-link-page="@field.PageId">@documentField.Name</th>
                                                     }
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    @foreach (var sample in sampleData)
-                                                    {
-                                                        <td>@sample</td>
-                                                    }
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                }
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach (var sample in sampleData)
+                                                {
+                                                    <td>@sample</td>
+                                                }
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             }
-                        </div>
+                        }
                     </div>
                 </div>
+
+
+
             </div>
-        </div>
+        </div>        
     </div>
 }

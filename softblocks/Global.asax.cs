@@ -2,6 +2,7 @@
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 using SimpleInjector.Lifestyles;
+using softblocks.App_Start;
 using softblocks.data.Interface;
 using softblocks.data.Repository;
 using System;
@@ -11,6 +12,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace softblocks
@@ -29,6 +31,8 @@ namespace softblocks
             container.Register<IDocumentTypeRepository, DocumentTypeRepository>(Lifestyle.Scoped);
             container.Register<IModuleMenuRepository, ModuleMenuRepository>(Lifestyle.Scoped);
             container.Register<IDataPanelRepository, DataPanelRepository>(Lifestyle.Scoped);
+            container.Register<ICalendarEventRepository, CalendarEventRepository>(Lifestyle.Scoped);
+
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();
 
@@ -37,7 +41,7 @@ namespace softblocks
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

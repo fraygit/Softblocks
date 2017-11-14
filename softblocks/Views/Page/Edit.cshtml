@@ -1,23 +1,31 @@
 ﻿@model softblocks.data.Model.AppModulePage
 
-<div class="row bg-title">
-    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-        <h4 class="page-title">Page</h4>
-    </div>
-    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-        <ol class="breadcrumb">
-            <li><a href="/AppModule">Modules</a></li>
-            <li><a href="/AppModule/ModuleDetails?moduleId=@ViewBag.AppId">@ViewBag.AppName</a></li>
-            <li class="active">@Model.Name</li>
-        </ol>
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/AppModule">Apps</a></li>
+                    <li><a href="/AppModule/ModuleDetails?moduleId=@ViewBag.AppId">@ViewBag.AppName</a></li>
+                    <li><a href="/AppModule/ModuleDetails?moduleId=@ViewBag.AppId">User Interface</a></li>
+                    <li class="active">
+                        <span>@Model.Name</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                @Model.Name
+            </h2>
+            <small>Page description</small>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="white-box">
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="hpanel">
+                <div class="panel-body" style="display: block;">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -30,26 +38,29 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <span class="pull-right"><button type="button" class="btn btn-info waves-effect" id="btnAddPanel" data-toggle="modal" data-target="#pnlAddPanel">Add Panel</button></span>
-        <h3>Preview</h3>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <span class="pull-right"><button type="button" class="btn btn-success" id="btnAddPanel" data-toggle="modal" data-target="#pnlAddPanel">Add Panel</button></span>
+            <h3>Preview</h3>
 
-        <div class="row" id="pnlForm">
-            @if (Model.Panels != null) 
-            { 
-                foreach (var panel in Model.Panels.OrderBy(n => n.Order))
+            <div class="row" id="pnlForm">
+                @if (Model.Panels != null)
                 {
-                    <div class="col-lg-@panel.ColWidth col-md-@panel.ColWidth page-panel" data-app-id="@ViewBag.AppId" data-foreign-id="@panel.ForeignId" data-panel-type="@panel.PanelType" data-panel-id="@panel.Id" data-is-preview="true">
+                    foreach (var panel in Model.Panels.OrderBy(n => n.Order))
+                    {
+                        <div class="col-lg-@panel.ColWidth col-md-@panel.ColWidth page-panel" data-app-id="@ViewBag.AppId" data-foreign-id="@panel.ForeignId" data-panel-type="@panel.PanelType" data-panel-id="@panel.Id" data-is-preview="true">
 
-                    </div>
+                        </div>
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
 </div>
+
+
+
 
 
 <div class="modal fade" id="pnlAddPanel" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">

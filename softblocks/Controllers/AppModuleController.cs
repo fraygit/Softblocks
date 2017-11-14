@@ -42,6 +42,7 @@ namespace softblocks.Controllers
             if (!string.IsNullOrEmpty(user.CurrentOrganisation))
             {
                 var modules = await _appModuleRepository.ListAll();
+                modules = modules.Where(n => n.OrganisationId == user.CurrentOrganisation).ToList();
                 return View(modules);
             }
             return View();
@@ -55,10 +56,19 @@ namespace softblocks.Controllers
 
         public async Task<ActionResult> ModuleDetails(string moduleId)
         {
+            ViewBag.AppId = moduleId;
             var module = await _appModuleRepository.Get(moduleId);
             return View(module);
         }
 
+        public async Task<ActionResult> DataComponents(string moduleId)
+        {
+            ViewBag.AppId = moduleId;
+            var module = await _appModuleRepository.Get(moduleId);
+            return View(module);
+        }
+
+        
         [HttpPost]
         public async Task<JsonResult> AddPage(ReqAddPage req)
         {

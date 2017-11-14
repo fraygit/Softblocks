@@ -1,6 +1,6 @@
 softblocks.data/bin/
+softblocks.library/bin/
+softblocks.library/obj/
+softblocks.data/obj/
 softblocks/bin/
 softblocks/obj/
-softblocks.data/obj/
-softblocks.library/obj/
-softblocks.library/bin/
