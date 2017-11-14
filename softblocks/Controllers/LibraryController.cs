@@ -26,15 +26,35 @@ namespace softblocks.Controllers
         public async Task<ActionResult> Index(string parent)
         {
             ObjectId parentId = ObjectId.Empty;
+            Folder folder;
+            ViewBag.CurrentFolderName = "Root";
+            if (!string.IsNullOrEmpty(parent))
+            {
+                ObjectId.TryParse(parent, out parentId);
+                folder = await _folderRepository.Get(parentId.ToString());
+                if (folder != null)
+                {
+                    ViewBag.CurrentFolderName = folder.Name;
+                }
+            }
+            ViewBag.ParentId = parent;
+            ViewBag.GrandParent = await GetParent(parentId);
+            return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ListFolders(string parent)
+        {
+            ObjectId parentId = ObjectId.Empty;
             if (!string.IsNullOrEmpty(parent))
             {
                 ObjectId.TryParse(parent, out parentId);
             }
             ViewBag.ParentId = parent;
-            ViewBag.GrandParent = await GetParent(parentId);
             var personalFolders = await _folderRepository.GetByParent(parentId);
             return View(personalFolders);
         }
+        
 
         private async Task<string> GetParent(ObjectId folderId)
         {
