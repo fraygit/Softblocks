@@ -1,0 +1,42 @@
+﻿@model softblocks.Models.ResRenderTabular
+@{
+    Layout = null;
+}
+
+@if (Model.DataView != null && Model.DocumentFields != null)
+{
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt">
+                @Model.DataView.Name
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        @if (Model.DataView.Tabular != null)
+                        {
+                            if (Model.DataView.Tabular.Columns != null)
+                            {
+                                var sampleData = new List<string>();
+                                <div class="softblock-line-chart" data-data-view-id="@Model.DataView.Id" data-app-id="@ViewBag.AppId" data-document-type-id="@Model.DataView.DocumentTypeId" data-sub-document-type-id="@Model.DataView.SubDocumentTypeId" data-data-id="@ViewBag.DataId" data-document-type-name="@ViewBag.DocumentTypeName">
+                                @foreach (var field in Model.DataView.Tabular.Columns.OrderBy(n => n.Order))
+                                {
+                                    if (Model.DocumentFields.Any(n => n.Id == field.FieldId))
+                                    {
+                                        var documentField = Model.DocumentFields.FirstOrDefault(n => n.Id == field.FieldId);                                    
+                                        <div class="data-view-columns" data-field-name="@documentField.Name" data-field-data-type="@documentField.DataType"></div>
+                                    }
+                                }
+                                </div>
+                                <canvas id="softblock-line-chart-@Model.DataView.Id"></canvas>
+                            }
+                        }
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+}

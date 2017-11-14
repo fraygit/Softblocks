@@ -12,15 +12,16 @@ function RemoveLoadingOverlay(elementName) {
 }
 
 function alertSuccess(title, message) {
-    $.toast({
-        heading: title,
-        text: message,
-        position: 'top-right',
-        loaderBg: '#ff6849',
-        icon: 'success',
-        hideAfter: 2000,
-        stack: 6
-    });
+    toastr["success"](title, message)
+    //$.toast({
+    //    heading: title,
+    //    text: message,
+    //    position: 'top-right',
+    //    loaderBg: '#ff6849',
+    //    icon: 'success',
+    //    hideAfter: 2000,
+    //    stack: 6
+    //});
 }
 
 function alertError(title, message) {

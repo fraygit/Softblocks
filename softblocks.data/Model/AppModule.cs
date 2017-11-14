@@ -17,5 +17,6 @@ namespace softblocks.data.Model
         public List<DocumentType> DocumentTypes { get; set; }
         public List<ModuleForm> Forms { get; set; }
         public List<DataView> DataViews { get; set; }
+        public List<Dropdown> Dropdowns { get; set; }
     }
 }

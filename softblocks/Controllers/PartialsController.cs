@@ -64,7 +64,8 @@ namespace softblocks.Controllers
             var modules = new List<AppModule>();
             if (!string.IsNullOrEmpty(user.CurrentOrganisation))
             {
-                modules = Task.Run(() => _appModuleRepository.ListAll()).Result; 
+                modules = Task.Run(() => _appModuleRepository.ListAll()).Result;
+                modules = modules.Where(n => n.OrganisationId == user.CurrentOrganisation).ToList();
             }
             return PartialView(modules);
         }
