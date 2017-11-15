@@ -83,6 +83,7 @@
     <Compile Include="Model\CalendarEvent.cs" />
     <Compile Include="Model\Folder.cs" />
     <Compile Include="Model\LibraryFile.cs" />
+    <Compile Include="Model\LibraryFileVersion.cs" />
     <Compile Include="Model\Tabular.cs" />
     <Compile Include="Model\TabularColumns.cs" />
     <Compile Include="Model\DocumentType.cs" />

@@ -4,6 +4,7 @@ using softblocks.data.Model;
 using softblocks.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -128,6 +129,50 @@ namespace softblocks.Controllers
             {
                 IsSuccess = false,
                 Message = "No folder name specifed."
+            };
+            return Json(ErrorResult);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> AddFile()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    HttpFileCollectionBase files = Request.Files;
+
+                    var path = Server.MapPath("~/tempUpload/");
+
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        var file = files[i];
+                        file.SaveAs(Path.Combine(path, file.FileName));
+                    }
+
+                    var result = new JsonGenericResult
+                    {
+                        IsSuccess = true,
+                        Message = ""
+                    };
+                    return Json(result);
+                }
+                catch (Exception ex)
+                {
+                    var ExResult = new JsonGenericResult
+                    {
+                        IsSuccess = false,
+                        Message = ex.Message
+                    };
+                    return Json(ExResult);
+                }
+            }
+
+            var ErrorResult = new JsonGenericResult
+            {
+                IsSuccess = false,
+                Message = "No file specifed."
             };
             return Json(ErrorResult);
         }

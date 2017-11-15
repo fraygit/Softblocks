@@ -11,10 +11,11 @@ namespace softblocks.data.Model
     public class LibraryFile : MongoEntity
     {
         public ObjectId FolderId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
         public string Filename { get; set; }
+        public string Description { get; set; }
         public string RemotePath { get; set; }
+        public string FileType { get; set; } // Personal / Organisation
+        public List<LibraryFileVersion> Versions { get; set; }
         public DateTime Created { get; set; }
         public ObjectId UploadedBy { get; set; }
     }

@@ -36,7 +36,15 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-2">
-            <button class="btn btn-success btn-block"><i class="fa fa-file"></i> Add File</button>
+            <div class="">
+                <div class="btn-group btn-block">
+                    <button data-toggle="dropdown" class="btn btn-success btn-block"><i class="fa fa-file"></i> Add File <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:AddFile('Personal');">Personal</a></li>
+                        <li><a href="javascript:AddFile('Organisation');">Organisation</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         @if (!string.IsNullOrEmpty(ViewBag.GrandParent))
         { 
@@ -92,6 +100,39 @@
     </div>
 </div>
 
+<div class="modal fade" id="pnlAddFile" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="modalFileTitle">Add File</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddFile">
+                    <input type="hidden" id="hdnFileType" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">File</label>
+                                <input type="file" class="form-control" id="uploadFile" placeholder="File" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">Description</label>
+                                <textarea class="form-control" id="txtFileDescription" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddFile">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @section Scripts {
@@ -110,7 +151,49 @@
                 $("#pnlAddFolder").modal("show");
             }
 
+            AddFile = function (folderType) {
+                $("#hdnFileType").val(folderType);
+                $("#modalFileTitle").text("Add " + folderType + " File");
+                $("#pnlAddFile").modal("show");
+            }
+
             LoadFolders();
+
+            $("#btnAddFile").click(function () {
+                var isValid = $("#frmAddFile").valid();
+                if (isValid) {
+                    var fileUpload = $("#uploadFile").get(0);
+                    var files = fileUpload.files;
+
+                    var fileData = new FormData();
+
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    fileData.append("Description", $("#txtFileDescription").val());
+                    fileData.append("FolderId", $("#divData").data("parent-id"));
+                    fileData.append("FileType", $("#hdnFileType").val());
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddFile", "Library")",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                alertSuccess("Success", "Successfully added file!");
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alertError("Error!", "Error adding event");
+                        }
+                    });
+                }
+            });
 
             $("#btnAddFolder").click(function () {
                 var isValid = $("#frmAddFolder").valid();
@@ -131,6 +214,7 @@
                             if (d.IsSuccess == true) {
                                 alertSuccess("Success", "Successfully added folder!");
                                 $("#pnlAddFolder").modal("hide");
+                                $("#frmAddFolder")[0].reset();
                                 LoadFolders();
                             }
                             else {
