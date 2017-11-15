@@ -1,5 +1,11 @@
 ﻿
+function ShowLoading() {
+    $("#pnlLoading").show();
+}
 
+function HideLoading() {
+    $("#pnlLoading").hide();
+}
 
 
 function AddLoadingOverlay(elementName) {
