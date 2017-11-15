@@ -12,5 +12,6 @@ namespace softblocks.data.Interface
     public interface ILibraryFileRepository : IEntityService<LibraryFile>
     {
         Task<List<LibraryFile>> Get(ObjectId folderId, string filename);
+        Task<List<LibraryFile>> GetByFolder(ObjectId folderId);
     }
 }

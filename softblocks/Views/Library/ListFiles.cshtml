@@ -1,0 +1,57 @@
+﻿@model List<softblocks.data.Model.LibraryFile>
+@{
+    Layout = null;
+}
+
+@ListFiles("Personal")
+
+@ListFiles("Organisation")
+
+@helper ListFiles(string fileType)
+{
+    if (Model.Any(n => n.FileType == fileType))
+    {
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <p class="text-center"><strong>@fileType Files</strong></p>
+                <hr />
+            </div>
+        </div>
+    
+        <div class="row">
+            @if (Model != null)
+            {
+                var panelColor = fileType == "Personal" ? "hgreen" : "hblue";
+                foreach (var file in Model.Where(n => n.FileType == fileType))
+                {
+                    var icon = "fa-file-o";
+                    if (file.Filename.Contains(".docx"))
+                    {
+                        icon = "fa-file-word-o";
+                    }
+                    if (file.Filename.Contains(".xlsx"))
+                    {
+                        icon = "fa-file-excel-o";
+                    }                    
+                    if (file.Filename.Contains(".png") || file.Filename.Contains(".jpg") || file.Filename.Contains(".gif"))
+                    {
+                        icon = "fa-file-image-o";
+                    }                    
+                    <div class="col-lg-2 col-md-2">
+                        <div class="hpanel @panelColor contact-panel">
+                            <div class="panel-body">
+                                <div class="row">
+                                    
+                                    <div class="col-xs-12 text-center">
+                                        <h1><i class="fa @icon"></i></h1>
+                                        <strong style="word-wrap:break-word">@file.Filename</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+}

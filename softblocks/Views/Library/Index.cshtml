@@ -70,6 +70,8 @@
 
     <div id="pnlFolders"></div>
 
+    <div id="pnlFiles"></div>
+
 </div>
 
 
@@ -137,11 +139,14 @@
 
 @section Scripts {
     <script type="text/javascript">
-        $(function () {
+    $(function () {
             var LoadFolders = function () {
-                AddLoadingOverlay("#pnlForms");
                 $('#pnlFolders').load('@Url.Action("ListFolders", "Library", new { parent = ViewBag.ParentId })', function () {
-                    RemoveLoadingOverlay("#pnlForms");
+                });
+            };
+
+            var LoadFiles = function () {
+                $('#pnlFiles').load('@Url.Action("ListFiles", "Library", new { folder = ViewBag.ParentId })', function () {
                 });
             };
 
@@ -158,6 +163,7 @@
             }
 
             LoadFolders();
+            LoadFiles();
 
             $("#btnAddFile").click(function () {
                 var isValid = $("#frmAddFile").valid();
@@ -178,61 +184,62 @@
                     $.ajax({
                         type: "POST",
                         url: "@Url.Action("AddFile", "Library")",
-                        contentType: false,
-                        processData: false,
-                        data: fileData,
-                        success: function (d) {
-                            if (d.IsSuccess == true) {
-                                alertSuccess("Success", "Successfully added file!");
-                                $("#pnlAddFile").modal("hide");
-                                $("#frmAddFile")[0].reset();
-                                HideLoading();
-                            }
-                            else {
-                                alertError("Error!", d.Message);
-                                HideLoading();
-                            }
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            alertError("Error!", "Error adding event");
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            alertSuccess("Success", "Successfully added file!");
+                            $("#pnlAddFile").modal("hide");
+                            $("#frmAddFile")[0].reset();
+                            HideLoading();
+                            LoadFiles();
+                        }
+                        else {
+                            alertError("Error!", d.Message);
                             HideLoading();
                         }
-                    });
-                }
-            });
-
-            $("#btnAddFolder").click(function () {
-                var isValid = $("#frmAddFolder").valid();
-                if (isValid) {
-                    var data = {
-                        Name: $("#txtFolderName").val(),
-                        Parent: $("#divData").data("parent-id"),
-                        FolderType: $("#hdnType").val()
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alertError("Error!", "Error adding event");
+                        HideLoading();
                     }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("AddFolder", "Library")",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify(data),
-                        success: function (d) {
-                            if (d.IsSuccess == true) {
-                                alertSuccess("Success", "Successfully added folder!");
-                                $("#pnlAddFolder").modal("hide");
-                                $("#frmAddFolder")[0].reset();
-                                LoadFolders();
-                            }
-                            else {
-                                alertError("Error!", d.Message);
-                            }
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            alertError("Error!", "Error adding event");
-                        }
-                    });
-                }
-            });
+                });
+            }
         });
+
+        $("#btnAddFolder").click(function () {
+            var isValid = $("#frmAddFolder").valid();
+            if (isValid) {
+                var data = {
+                    Name: $("#txtFolderName").val(),
+                    Parent: $("#divData").data("parent-id"),
+                    FolderType: $("#hdnType").val()
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddFolder", "Library")",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            alertSuccess("Success", "Successfully added folder!");
+                            $("#pnlAddFolder").modal("hide");
+                            $("#frmAddFolder")[0].reset();
+                            LoadFolders();
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alertError("Error!", "Error adding event");
+                    }
+                });
+            }
+        });
+    });
 </script>
 }

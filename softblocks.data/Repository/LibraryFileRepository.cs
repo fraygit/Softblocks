@@ -20,5 +20,13 @@ namespace softblocks.data.Repository
             var listings = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
             return listings;
         }
+
+        public async Task<List<LibraryFile>> GetByFolder(ObjectId folderId)
+        {
+            var builder = Builders<LibraryFile>.Filter;
+            var filter = builder.Eq("FolderId", folderId);
+            var listings = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
+            return listings;
+        }
     }
 }

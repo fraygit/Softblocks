@@ -312,6 +312,7 @@
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\ListFolders.cshtml" />
+    <Content Include="Views\Library\ListFiles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

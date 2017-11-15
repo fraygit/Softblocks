@@ -58,6 +58,19 @@ namespace softblocks.Controllers
             var personalFolders = await _folderRepository.GetByParent(parentId);
             return View(personalFolders);
         }
+
+        [Authorize]
+        public async Task<ActionResult> ListFiles(string folder)
+        {
+            ObjectId folderId = ObjectId.Empty;
+            if (!string.IsNullOrEmpty(folder))
+            {
+                ObjectId.TryParse(folder, out folderId);
+            }
+            ViewBag.ParentId = folder;
+            var files = await _libraryRepository.GetByFolder(folderId);
+            return View(files);
+        }
         
 
         private async Task<string> GetParent(ObjectId folderId)
