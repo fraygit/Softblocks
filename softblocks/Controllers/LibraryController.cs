@@ -2,6 +2,7 @@
 using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.Models;
+using softblocks.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,12 +16,14 @@ namespace softblocks.Controllers
     public class LibraryController : Controller
     {
         private IFolderRepository _folderRepository;
+        private ILibraryFileRepository _libraryRepository;
         private IUserRepository _userRepository;
 
-        public LibraryController(IFolderRepository _folderRepository, IUserRepository _userRepository)
+        public LibraryController(IFolderRepository _folderRepository, IUserRepository _userRepository, ILibraryFileRepository _libraryRepository)
         {
             this._folderRepository = _folderRepository;
             this._userRepository = _userRepository;
+            this._libraryRepository = _libraryRepository;
         }
 
         // GET: Library
@@ -144,11 +147,83 @@ namespace softblocks.Controllers
                     HttpFileCollectionBase files = Request.Files;
 
                     var path = Server.MapPath("~/tempUpload/");
+                    var reqFolderId = Request["FolderId"].ToString();
+                    var reqDescription = Request["Description"].ToString();
+                    var reqFolderType = Request["FileType"].ToString();
+
+                    ObjectId folderId = ObjectId.Empty;
+                    if (!string.IsNullOrEmpty(reqFolderId))
+                    {
+                        ObjectId.TryParse(reqFolderId, out folderId);
+                    }
+
+                    var amazon = new AmazonService();
 
                     for (int i = 0; i < files.Count; i++)
                     {
                         var file = files[i];
-                        file.SaveAs(Path.Combine(path, file.FileName));
+                        var tempFilePath = Path.Combine(path, file.FileName);
+                        file.SaveAs(tempFilePath);
+                        var s3Path = string.Format("documents/{0}", Guid.NewGuid());
+
+                        using (var fileIO = System.IO.File.OpenRead(tempFilePath))
+                        {
+                            using (MemoryStream tempFileStream = new MemoryStream())
+                            {
+                                fileIO.CopyTo(tempFileStream);
+                                amazon.S3Upload(s3Path, MimeMapping.GetMimeMapping(file.FileName), tempFileStream);
+                            }
+                        }
+                        System.IO.File.Delete(tempFilePath);
+                        
+                        var libraryFile = new LibraryFile();
+                        var sameFilename = await _libraryRepository.Get(folderId, file.FileName);
+                        if (sameFilename.Any())
+                        {
+                            libraryFile = sameFilename.FirstOrDefault();
+                            var version = libraryFile.Versions.Count + 1;
+                            libraryFile.Versions.Add(new LibraryFileVersion
+                            {
+                                Description = reqDescription,
+                                Path = s3Path,
+                                Version = version,
+                                DateUploaded = DateTime.UtcNow
+                            });
+                            await _libraryRepository.Update(libraryFile.Id.ToString(), libraryFile);
+                        }
+                        else
+                        {
+                            var user = await _userRepository.GetUser(User.Identity.Name);
+                            if (user != null)
+                            {
+                                if (reqFolderType == "Personal")
+                                {
+                                    libraryFile.ForeignId = user.Id;
+                                }
+                                else
+                                {
+                                    ObjectId OrgId;
+                                    if (ObjectId.TryParse(user.CurrentOrganisation, out OrgId))
+                                    {
+                                        libraryFile.ForeignId = OrgId;
+                                    }
+                                }
+                            }
+                            libraryFile.Filename = file.FileName;
+                            libraryFile.FileType = reqFolderType;
+                            libraryFile.Created = DateTime.UtcNow;
+                            libraryFile.FolderId = folderId;
+                            libraryFile.Versions = new List<LibraryFileVersion>();
+                            libraryFile.Versions.Add(new LibraryFileVersion
+                            {
+                                Description = reqDescription,
+                                Path = s3Path,
+                                Version = 1,
+                                DateUploaded = DateTime.UtcNow
+                            });
+                            await _libraryRepository.CreateSync(libraryFile);
+                        }                        
+                        
                     }
 
                     var result = new JsonGenericResult

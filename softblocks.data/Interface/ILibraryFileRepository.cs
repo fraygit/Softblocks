@@ -1,4 +1,5 @@
-﻿using softblocks.data.Model;
+﻿using MongoDB.Bson;
+using softblocks.data.Model;
 using softblocks.data.Service;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace softblocks.data.Interface
 {
     public interface ILibraryFileRepository : IEntityService<LibraryFile>
     {
+        Task<List<LibraryFile>> Get(ObjectId folderId, string filename);
     }
 }

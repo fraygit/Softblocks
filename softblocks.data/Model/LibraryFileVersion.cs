@@ -11,5 +11,6 @@ namespace softblocks.data.Model
         public string Description { get; set; }
         public int Version { get; set; }
         public string Path { get; set; }
+        public DateTime DateUploaded { get; set; }
     }
 }

@@ -63,11 +63,14 @@
             </li>
         }
         <li class="@Html.IsSelected(controller: "Dashboard")">
-            <a href="@Url.Action("Index", "Library")"> <span class="nav-label">Library</span> <span class="pull-right"><i class="fa fa-book"></i></span> </a>
+            <a href="@Url.Action("Index", "Library")"> <span class="nav-label">Documents</span> <span class="pull-right"><i class="fa fa-archive "></i></span> </a>
         </li>
-        <li class="@Html.IsSelected(controller: "Dashboard") disabled">
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Index", "Library")"> <span class="nav-label">Locations</span> <span class="pull-right"><i class="fa fa-building-o"></i></span> </a>
+        </li>
+        @*<li class="@Html.IsSelected(controller: "Dashboard") disabled">
             <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Inbox</span> <span class="pull-right"><i class="fa fa-envelope"></i></span> </a>
-        </li>
+        </li>*@
 
         <li class="@Html.IsSelected(controller: "Dashboard")">
             <a href="@Url.Action("Index", "Calendar")"> <span class="nav-label">Calendar</span> <span class="pull-right"><i class="fa fa-calendar"></i></span> </a>

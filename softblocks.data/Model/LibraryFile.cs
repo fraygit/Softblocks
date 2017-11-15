@@ -10,6 +10,7 @@ namespace softblocks.data.Model
 {
     public class LibraryFile : MongoEntity
     {
+        public ObjectId ForeignId { get; set; }
         public ObjectId FolderId { get; set; }
         public string Filename { get; set; }
         public string Description { get; set; }

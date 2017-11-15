@@ -183,6 +183,9 @@
                         success: function (d) {
                             if (d.IsSuccess == true) {
                                 alertSuccess("Success", "Successfully added file!");
+                                $("#pnlAddFile").modal("hide");
+                                $("#frmAddFile")[0].reset();
+
                             }
                             else {
                                 alertError("Error!", d.Message);
