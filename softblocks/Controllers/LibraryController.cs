@@ -71,6 +71,37 @@ namespace softblocks.Controllers
             var files = await _libraryRepository.GetByFolder(folderId);
             return View(files);
         }
+
+        [Authorize]
+        public async Task<FileResult> Download(string fileId, int version)
+        {
+            var file = await _libraryRepository.Get(fileId);
+            if (file != null)
+            {
+                var path = "";
+                if (version == 0)
+                {
+                    var fileVersion = file.Versions.OrderByDescending(n => n.Version).FirstOrDefault();
+                    path = fileVersion.Path;
+                }
+                else
+                {
+                    if (file.Versions.Any(n => n.Version == version))
+                    {
+                        var specificVersion = file.Versions.FirstOrDefault(n => n.Version == version);
+                        path = specificVersion.Path;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var amazon = new AmazonService();
+                    var fileByte = amazon.ReteiveFile(path);
+                    return File(fileByte, System.Net.Mime.MediaTypeNames.Application.Octet, file.Filename);
+                }
+            }
+            return null;
+        }
         
 
         private async Task<string> GetParent(ObjectId folderId)
