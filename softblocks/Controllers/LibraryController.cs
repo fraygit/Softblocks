@@ -82,14 +82,26 @@ namespace softblocks.Controllers
                         FolderType = req.FolderType,
                         CreatedBy = user.Id
                     };
+                    ObjectId parentId = ObjectId.Empty;
                     if (!string.IsNullOrEmpty(req.Parent))
                     {
-                        ObjectId parentId;
                         if (ObjectId.TryParse(req.Parent, out parentId))
                         {
                             folder.Parent = parentId;
                         }
                     }
+
+                    var currentDirectory = await _folderRepository.GetByParent(parentId);
+                    if (currentDirectory.Any(n => n.Name == req.Name))
+                    {
+                        var ErrorSamename = new JsonGenericResult
+                        {
+                            IsSuccess = false,
+                            Message = "A folder with the same name already exists!"
+                        };
+                        return Json(ErrorSamename);
+                    }
+
 
                     if (req.FolderType == "Personal")
                     {
