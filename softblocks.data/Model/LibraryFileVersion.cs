@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace softblocks.data.Model
         public int Version { get; set; }
         public string Path { get; set; }
         public DateTime DateUploaded { get; set; }
+        public ObjectId UploadedBy { get; set; }
     }
 }

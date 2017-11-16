@@ -60,6 +60,34 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
+        public async Task<ActionResult> FilePreview(string reqFileId, int version)
+        {
+            var file = await _libraryRepository.Get(reqFileId);
+            ViewBag.Filename = file.Filename;
+            ViewBag.FileId = file.Id;
+            return View(file.Versions.FirstOrDefault(n => n.Version == version));
+        }
+
+        [Authorize]
+        public async Task<ActionResult> FileDetails(string reqFileId)
+        {
+            var file = await _libraryRepository.Get(reqFileId);
+            ViewBag.UploadedByDisplayName = "";
+            ViewBag.FolderId = file.FolderId;
+            var currentVersion = file.Versions.OrderByDescending(n => n.Version).FirstOrDefault();
+            if (currentVersion.UploadedBy != null)
+            {
+                var uploadedByUser = await _userRepository.Get(currentVersion.UploadedBy.ToString());
+                if (uploadedByUser != null)
+                {
+                    ViewBag.UploadedByDisplayName = uploadedByUser.FirstName + " " + uploadedByUser.LastName;
+                }
+            }
+
+            return View(file);
+        }
+
+        [Authorize]
         public async Task<ActionResult> ListFiles(string folder)
         {
             ObjectId folderId = ObjectId.Empty;
@@ -73,7 +101,7 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
-        public async Task<FileResult> Download(string fileId, int version)
+        public async Task<FileResult> Download(string fileId, int version, bool isEmbed)
         {
             var file = await _libraryRepository.Get(fileId);
             if (file != null)
@@ -97,7 +125,21 @@ namespace softblocks.Controllers
                 {
                     var amazon = new AmazonService();
                     var fileByte = amazon.ReteiveFile(path);
-                    return File(fileByte, System.Net.Mime.MediaTypeNames.Application.Octet, file.Filename);
+                    if (isEmbed)
+                    {
+                        var cd = new System.Net.Mime.ContentDisposition
+                        {
+                            FileName = file.Filename,
+                            Inline = true,
+                        };
+                        string contentType = MimeMapping.GetMimeMapping(file.Filename);
+                        Response.AppendHeader("Content-Disposition", cd.ToString());
+                        return File(fileByte, contentType);
+                    }
+                    else
+                    {
+                        return File(fileByte, System.Net.Mime.MediaTypeNames.Application.Octet, file.Filename);
+                    }
                 }
             }
             return null;
@@ -219,6 +261,8 @@ namespace softblocks.Controllers
                             }
                         }
                         System.IO.File.Delete(tempFilePath);
+
+                        var user = await _userRepository.GetUser(User.Identity.Name);
                         
                         var libraryFile = new LibraryFile();
                         var sameFilename = await _libraryRepository.Get(folderId, file.FileName);
@@ -231,13 +275,14 @@ namespace softblocks.Controllers
                                 Description = reqDescription,
                                 Path = s3Path,
                                 Version = version,
-                                DateUploaded = DateTime.UtcNow
+                                DateUploaded = DateTime.UtcNow,
+                                UploadedBy = user.Id
+                                
                             });
                             await _libraryRepository.Update(libraryFile.Id.ToString(), libraryFile);
                         }
                         else
                         {
-                            var user = await _userRepository.GetUser(User.Identity.Name);
                             if (user != null)
                             {
                                 if (reqFolderType == "Personal")
@@ -263,7 +308,8 @@ namespace softblocks.Controllers
                                 Description = reqDescription,
                                 Path = s3Path,
                                 Version = 1,
-                                DateUploaded = DateTime.UtcNow
+                                DateUploaded = DateTime.UtcNow,
+                                UploadedBy = user.Id
                             });
                             await _libraryRepository.CreateSync(libraryFile);
                         }                        

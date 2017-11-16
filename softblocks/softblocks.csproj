@@ -313,6 +313,8 @@
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\ListFolders.cshtml" />
     <Content Include="Views\Library\ListFiles.cshtml" />
+    <Content Include="Views\Library\FileDetails.cshtml" />
+    <Content Include="Views\Library\FilePreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

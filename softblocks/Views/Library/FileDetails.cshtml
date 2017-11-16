@@ -1,0 +1,123 @@
+﻿@model softblocks.data.Model.LibraryFile
+
+@{
+    var currentVersion = Model.Versions.OrderByDescending(n => n.Version).FirstOrDefault();
+}
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Library">Library</a></li>
+                    <li class="active">
+                        <span>File Details</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                File Details
+            </h2>
+            <small>Page description</small>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-info pull-right" href="@Url.Action("Index", "Library", new { parent = ViewBag.FolderId })"><i class="fa fa-level-up"></i> Up</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="font-bold m-b-sm">
+                Preview
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div id="pnlPreview"></div>
+
+                            @*@if (Model.Filename.ToLower().Contains(".pdf"))
+                            {
+                                <object data="@Url.Action("Download", "Library", new { fileId = Model.Id, version = 0, isEmbed = true })" type="application/pdf" width="100%" height="600px"></object>
+                            }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="font-bold m-b-sm">
+                Details
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-info " href="@Url.Action("Download", "Library", new { fileId = Model.Id, version = 0, isEmbed = false })"><i class="fa fa-download"></i> Download</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <dl>
+                                <dt>Filename</dt>
+                                <dd>@Model.Filename</dd>
+                                <dt>Description</dt>
+                                <dd>@currentVersion.Description</dd>
+                                <dt>Last Date Uploaded</dt>
+                                <dd>@currentVersion.DateUploaded.ToString("dd MMM yyyy hh:mm tt")</dd>
+                                <dt>Uploaded By</dt>
+                                <dd>@ViewBag.UploadedByDisplayName</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="hpanel panel-group">
+                <div class="panel-body">
+                    <div class="text-center text-muted font-bold">Versions</div>
+                </div>
+                <div id="notes" class="collapse">
+
+                    @foreach (var version in Model.Versions.OrderByDescending(n => n.Version))
+                    {
+                        <div class="panel-body note-link">
+                            <a onclick="javascript:PreviewVersion(@version.Version);" data-toggle="tab">
+                                <small class="pull-right text-muted">@version.DateUploaded.ToString("dd MMM yy hh:mm tt")</small>
+                                <h5>Revision: @version.Version</h5>
+                                <div class="small">
+                                    @version.Description
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            var LoadPreview = function () {
+                $('#pnlPreview').load('@Html.Raw(Url.Action("FilePreview", "Library", new { reqFileId = Model.Id, version = currentVersion.Version }))', function () {
+                });
+            }
+
+            window.PreviewVersion = function (version) {
+                $('#pnlPreview').load('@Html.Raw(Url.Action("FilePreview", "Library", new { reqFileId = Model.Id}))&version=' + version, function () {
+                });
+            }
+
+            LoadPreview();
+        });
+    </script>
+}

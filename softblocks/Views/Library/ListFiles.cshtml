@@ -43,8 +43,10 @@
                                 <div class="row">
                                     
                                     <div class="col-xs-12 text-center">
-                                        <h1><i class="fa @icon"></i></h1>
-                                        <strong style="word-wrap:break-word">@file.Filename</strong>
+                                        <a href="@Url.Action("FileDetails", "Library", new { reqFileId = file.Id.ToString() })">
+                                            <h1><i class="fa @icon"></i></h1>
+                                            <strong style="word-wrap:break-word">@file.Filename</strong>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,23 @@
+﻿@model softblocks.data.Model.LibraryFileVersion
+@{
+    Layout = null;
+}
+
+@if (ViewBag.Filename.ToLower().Contains(".pdf"))
+{
+    <object data="@Url.Action("Download", "Library", new { fileId = ViewBag.FileId, version = Model.Version, isEmbed = true })" type="application/pdf" width="100%" height="600px"></object>
+}
+else if (ViewBag.Filename.ToLower().Contains(".docx") || ViewBag.Filename.ToLower().Contains(".doc"))
+{
+    <iframe src="http://docs.google.com/gview?url=http://remote.url.tld/path/to/document.doc&embedded=true" width="100%" height="600px"></iframe>
+}
+else if (ViewBag.Filename.ToLower().Contains(".jpg") || ViewBag.Filename.ToLower().Contains(".png") || ViewBag.Filename.ToLower().Contains(".gif"))
+{
+    <img class="img-responsive" src="@Url.Action("Download", "Library", new { fileId = ViewBag.FileId, version = Model.Version, isEmbed = true })" />
+}
+else
+{
+    <p>Unable to preview file.</p>
+}
+
+
