@@ -36,14 +36,24 @@ namespace softblocks.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<JsonResult> Create(Organisation model)
         {
             try
             {
                 var organisationService = new OrganisationService(_organisationRepository, _userRepository);
-                model.Users = new List<string>();
-                model.Users.Add(User.Identity.Name);
+                //model.Users = new List<string>();
+                //model.Users.Add(User.Identity.Name);
+
+                var currentUser = await _userRepository.GetUser(User.Identity.Name);
+
+                model.Users = new List<OrganisationUser>();
+                model.Users.Add(new OrganisationUser
+                {
+                    IsAdmin = true,
+                    UserId = currentUser.Id
+                });
                 await organisationService.CreateAndSetUserDefaultOrganisation(model, User.Identity.Name);
                 var result = new JsonGenericResult
                 {

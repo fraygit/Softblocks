@@ -1,0 +1,43 @@
+﻿@model List<softblocks.data.Model.User>
+
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped" id="tblUsers">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Is Registered?</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @switch (user.Status)
+                        {
+                            case 0:
+                                <span>No</span>
+                                break;
+                            case 1:
+                            <span>Yes</span>
+                                break;
+                        }
+                    </td>
+                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                    <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

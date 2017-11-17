@@ -35,10 +35,11 @@ namespace softblocks.Controllers
                     var userService = new UserService(_userRepository);
                     var user = new User
                     {
-                        Email = model.Username,
+                        Email = model.Username.ToLower(), // to lower for easy search
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Password = model.Password
+                        Password = model.Password,
+                        Status = 1 // registered
                     };
                     var newUser = await userService.CreateUser(user);
                     var result = new JsonGenericResult

@@ -28,6 +28,7 @@
     @Styles.Render("~/bundles/fullCalendar/css")
     @Styles.Render("~/bundles/summernote/css")
     @Styles.Render("~/bundles/datetimepicker/css")
+    @Styles.Render("~/bundles/bootstrapTour/css")
 
     
     <style type="text/css">
@@ -69,6 +70,39 @@
         @Html.Partial("_Footer")
     </div>
 
+
+    <div class="modal fade" id="pnlAddOrganisation" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title" id="modalFileTitle">Add new organisation</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmCreateOrg">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Organisation Name</label>
+                                    <input type="text" class="form-control" id="txtOrganisationName" placeholder="Organisation Name" required="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Description</label>
+                                    <textarea class="form-control" rows="3" placeholder="Textarea example text" id="txtOrganisationDescription"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info waves-effect" id="btnAddOrg">Create and go to Organisation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Section for main scripts render -->
     @Scripts.Render("~/bundles/jquery/js")
     @Scripts.Render("~/bundles/bootstrap/js")
@@ -85,6 +119,7 @@
     @Scripts.Render("~/bundles/fullCalendar/js")
     @Scripts.Render("~/bundles/chartjs/js")
     @Scripts.Render("~/bundles/summernote/js")
+    @Scripts.Render("~/bundles/bootstrapTour/js")
 
 
     <script src="/scripts/softblocks/common.js"></script>
@@ -93,6 +128,47 @@
     <script src="/scripts/softblocks/tabular.js"></script>
     <script src="/scripts/softblocks/lineChart.js"></script>
 
+    <script type="text/javascript">
+        $(function () {
+            window.OpenAddOrg = function () {
+                    $("#pnlAddOrganisation").modal("show");
+                };
+
+            $("#btnAddOrg").click(function () {
+                var isValid = $("#frmCreateOrg").valid();
+                if (isValid) {
+                    var data = {
+                        Name: $("#txtOrganisationName").val(),
+                        Description: $("#txtOrganisationDescription").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Organisation/Create",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#frmCreateOrg")[0].reset();
+
+                                alertSuccess("Success", "Successfully created organisation!");
+
+                                setTimeout(function () {
+                                    document.location.href = "/";
+                                }, 2000);
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alertError("Error!", "Error adding organisation.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
     <!-- Handler for local scripts -->
     @RenderSection("scripts", required: false)
 </body>

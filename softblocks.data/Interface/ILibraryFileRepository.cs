@@ -13,5 +13,6 @@ namespace softblocks.data.Interface
     {
         Task<List<LibraryFile>> Get(ObjectId folderId, string filename);
         Task<List<LibraryFile>> GetByFolder(ObjectId folderId);
+        Task<List<LibraryFile>> Get(ObjectId folderId, ObjectId userId, ObjectId orgId);
     }
 }

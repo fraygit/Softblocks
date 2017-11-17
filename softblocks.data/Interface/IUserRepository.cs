@@ -1,4 +1,5 @@
-﻿using softblocks.data.Model;
+﻿using MongoDB.Bson;
+using softblocks.data.Model;
 using softblocks.data.Service;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace softblocks.data.Interface
     {
         Task<User> GetUser(string username);
         Task<User> GetUserByVerificationCode(string verificationCode);
+        Task<List<User>> Get(ObjectId[] userId);
     }
 }

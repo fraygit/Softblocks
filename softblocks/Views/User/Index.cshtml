@@ -1,0 +1,139 @@
+﻿<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/">Organisation</a></li>
+                    <li class="active">
+                        <span>Users</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Users
+            </h2>
+            <small>Page description</small>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div id="divData" data-organisation-id="@ViewBag.CurrentOrganisationId"></div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <span class="pull-right">
+                <button class="btn btn-info " type="button" id="btnAddUserModal"><i class="fa fa-user"></i> Add User</button>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            &nbsp;
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <div id="pnlUserList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pnlAddUser" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="modalTitle">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddUser">
+                    <input type="hidden" id="hdnType" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">Email</label>
+                                <input type="text" class="form-control" id="txtEmail" placeholder="Email" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputName">First Name</label>
+                                <input type="text" class="form-control" id="txtFirstName">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="txtLastName">Last Name</label>
+                                <input type="text" class="form-control" id="txtLastName">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddUser">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            var LoadUsers = function () {
+                $('#pnlUserList').load('@Url.Action("ListUsers", "User")', function () {
+                    $('#tblUsers').DataTable();
+                });
+            };
+
+            LoadUsers();
+
+            $("#btnAddUserModal").click(function () {
+                $("#pnlAddUser").modal("show");
+            });
+
+            $("#btnAddUser").click(function () {
+                var isValid = $("#frmAddUser").valid();
+                if (isValid) {
+                    var data = {
+                        Email: $("#txtEmail").val(),
+                        FirstName: $("#txtFirstName").val(),
+                        LastName: $("#txtLastName").val(),
+                        OrganisationId: $("#divData").data("organisation-id")
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddUser", "User")",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                alertSuccess("Success", "Successfully added user!");
+                                $("#pnlAddUser").modal("hide");
+                                $("#frmAddUser")[0].reset();
+                                LoadUsers();
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alertError("Error!", "Error adding event");
+                        }
+                    });
+                }
+            });
+        });
+</script>
+}

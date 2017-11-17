@@ -30,7 +30,9 @@
                     <button data-toggle="dropdown" class="btn btn-success btn-block"><i class="fa fa-folder"></i> Add Folder <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:AddFolder('Personal');">Personal</a></li>
-                        <li><a href="javascript:AddFolder('Organisation');">Organisation</a></li>
+                        @if (!string.IsNullOrEmpty(ViewBag.CurrentOrgId)) { 
+                            <li><a href="javascript:AddFolder('Organisation');">Organisation</a></li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -41,7 +43,9 @@
                     <button data-toggle="dropdown" class="btn btn-success btn-block"><i class="fa fa-file"></i> Add File <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:AddFile('Personal');">Personal</a></li>
-                        <li><a href="javascript:AddFile('Organisation');">Organisation</a></li>
+                        @if (!string.IsNullOrEmpty(ViewBag.CurrentOrgId)) {
+                            <li><a href="javascript:AddFile('Organisation');">Organisation</a></li>
+                        }
                     </ul>
                 </div>
             </div>

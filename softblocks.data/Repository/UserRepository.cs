@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using softblocks.data.Common;
 using softblocks.data.Interface;
 using softblocks.data.Model;
@@ -18,7 +19,7 @@ namespace softblocks.data.Repository
             try
             {
                 var builder = Builders<User>.Filter;
-                var filter = builder.Eq("Email", username);
+                var filter = builder.Eq("Email", username.ToLower());
                 var users = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
                 if (users.Any())
                     return users.FirstOrDefault();
@@ -40,9 +41,20 @@ namespace softblocks.data.Repository
             return null;
         }
 
+        public async Task<List<User>> Get(ObjectId[] userId)
+        {
+            var builder = Builders<User>.Filter;
+            var filter = builder.In("_id", userId);
+            var users = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
+            return users;
+        }
+
         public async Task<bool> CreateSync(User user)
         {
-            user.Password = Crypto.HashSha256(user.Password);
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                user.Password = Crypto.HashSha256(user.Password);
+            }
             await ConnectionHandler.MongoCollection.InsertOneAsync(user);
             return true;
         }

@@ -71,17 +71,23 @@ namespace softblocks.Controllers
                         color = "#62cb31"
                     });
                 }
-                eventsCalendar = await _calendarEventRepository.GetByUser(start, end, ObjectId.Parse(user.CurrentOrganisation));
-                foreach (var ev in eventsCalendar)
+
+                var orgId = ObjectId.Empty;
+                ObjectId.TryParse(user.CurrentOrganisation, out orgId);
+                eventsCalendar = await _calendarEventRepository.GetByUser(start, end, orgId);
+                if (eventsCalendar != null)
                 {
-                    events.Add(new ResEvent
+                    foreach (var ev in eventsCalendar)
                     {
-                        id = ev.Id.ToString(),
-                        title = ev.Title,
-                        start = ev.StartDate,
-                        end = ev.EndDate,
-                        color = "#3498db"
-                    });
+                        events.Add(new ResEvent
+                        {
+                            id = ev.Id.ToString(),
+                            title = ev.Title,
+                            start = ev.StartDate,
+                            end = ev.EndDate,
+                            color = "#3498db"
+                        });
+                    }
                 }
 
                 return Json(events, JsonRequestBehavior.AllowGet);

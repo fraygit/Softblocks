@@ -1,4 +1,5 @@
-﻿using softblocks.data.Entities.Base;
+﻿using MongoDB.Bson;
+using softblocks.data.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,9 @@ namespace softblocks.data.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfilePhoto { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } // 0 not registered // 1 registered
         public string VerificationCode { get; set; }
         public string CurrentOrganisation { get; set; }
+        public List<ObjectId> Organisations { get; set; }
     }
 }

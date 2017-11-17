@@ -41,6 +41,10 @@ namespace softblocks.Controllers
                     ViewBag.CurrentFolderName = folder.Name;
                 }
             }
+
+            var currentUser = await _userRepository.GetUser(User.Identity.Name);
+
+            ViewBag.CurrentOrgId = currentUser.CurrentOrganisation;
             ViewBag.ParentId = parent;
             ViewBag.GrandParent = await GetParent(parentId);
             return View();
@@ -54,8 +58,13 @@ namespace softblocks.Controllers
             {
                 ObjectId.TryParse(parent, out parentId);
             }
+
+            var currentUser = await _userRepository.GetUser(User.Identity.Name);
+            var orgId = ObjectId.Empty;
+            ObjectId.TryParse(currentUser.CurrentOrganisation, out orgId);
+
             ViewBag.ParentId = parent;
-            var personalFolders = await _folderRepository.GetByParent(parentId);
+            var personalFolders = await _folderRepository.Get(parentId, currentUser.Id, orgId);
             return View(personalFolders);
         }
 
@@ -95,8 +104,13 @@ namespace softblocks.Controllers
             {
                 ObjectId.TryParse(folder, out folderId);
             }
+
+            var currentUser = await _userRepository.GetUser(User.Identity.Name);
+            var orgId = ObjectId.Empty;
+            ObjectId.TryParse(currentUser.CurrentOrganisation, out orgId);
+
             ViewBag.ParentId = folder;
-            var files = await _libraryRepository.GetByFolder(folderId);
+            var files = await _libraryRepository.Get(folderId, currentUser.Id, orgId);
             return View(files);
         }
 

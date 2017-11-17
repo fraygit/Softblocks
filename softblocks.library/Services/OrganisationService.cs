@@ -1,4 +1,5 @@
-﻿using softblocks.data.Interface;
+﻿using MongoDB.Bson;
+using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.data.Repository;
 using System;
@@ -40,6 +41,12 @@ namespace softblocks.library.Services
             if (user != null)
             {
                 user.CurrentOrganisation = organisation.Id.ToString();
+                if (user.Organisations == null)
+                {
+                    user.Organisations = new List<ObjectId>();
+
+                }
+                user.Organisations.Add(organisation.Id);
             }
             await _userRepository.Update(user.Id.ToString(), user);
 

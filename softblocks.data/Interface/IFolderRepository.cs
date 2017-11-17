@@ -12,5 +12,6 @@ namespace softblocks.data.Interface
     public interface IFolderRepository : IEntityService<Folder>
     {
         Task<List<Folder>> GetByParent(ObjectId parentId);
+        Task<List<Folder>> Get(ObjectId parentId, ObjectId userId, ObjectId orgId);
     }
 }

@@ -138,6 +138,7 @@
     <Content Include="images\a3.jpg" />
     <Content Include="images\a4.jpg" />
     <Content Include="images\a5.jpg" />
+    <Content Include="images\logo.png" />
     <Content Include="images\profile.jpg" />
     <Content Include="plugins\bower_components\blockUI\jquery.blockUI.js" />
     <Content Include="plugins\bower_components\bootstrap-datepicker\bootstrap-datepicker.min.css" />
@@ -212,6 +213,7 @@
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ScreenshotController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Custom\SoftblocksMembershipProvider.cs" />
     <Compile Include="Custom\SoftblocksRoleProvider.cs" />
     <Compile Include="Global.asax.cs">
@@ -231,6 +233,7 @@
     <Compile Include="Models\ReqAddFormField.cs" />
     <Compile Include="Models\ReqAddPage.cs" />
     <Compile Include="Models\ReqAddPanel.cs" />
+    <Compile Include="Models\ReqAddUser.cs" />
     <Compile Include="Models\ReqCreateDataView.cs" />
     <Compile Include="Models\ReqCreateDocumentType.cs" />
     <Compile Include="Models\ReqCreateForm.cs" />
@@ -315,6 +318,8 @@
     <Content Include="Views\Library\ListFiles.cshtml" />
     <Content Include="Views\Library\FileDetails.cshtml" />
     <Content Include="Views\Library\FilePreview.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\ListUsers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
