@@ -15,11 +15,13 @@ namespace softblocks.Controllers
     {
         private IUserRepository _userRepository;
         private IOrganisationRepository _organisationRepository;
+        private IEmailNotificationRepository _emailNotificationRepository;
 
-        public UserController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository)
+        public UserController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository, IEmailNotificationRepository _emailNotificationRepository)
         {
             this._userRepository = _userRepository;
             this._organisationRepository = _organisationRepository;
+            this._emailNotificationRepository = _emailNotificationRepository;
         }
 
         // GET: User
@@ -50,6 +52,28 @@ namespace softblocks.Controllers
                 }
             }
             return View();
+        }
+
+        private async Task NotifyAddUser(string email, string name, string organisationName)
+        {
+            try
+            {
+                var to = new List<string>();
+                to.Add(email);
+                var addUserEmail = new EmailNotification
+                {
+                    To = to,
+                    From = "system@softblocks.co.nz",
+                    Subject = string.Format("Softblocks - You have been added to {0}", organisationName),
+                    Message = string.Format(@"Hi {0}, <br/><br/> You have been added to {1}. Please login/register <a href='http://app.softblocks.co.nz'>here</a>. <br/><br/> Thanks you.", name, organisationName),
+                    IsHtml = true
+                };
+                await _emailNotificationRepository.CreateSync(addUserEmail);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         [Authorize]
@@ -108,6 +132,7 @@ namespace softblocks.Controllers
                                 IsSuccess = true,
                                 Result = existingUser.Id.ToString()
                             };
+                            await NotifyAddUser(req.Email, req.FirstName, organisation.Name);
                             return Json(result);
                         }
                         else
@@ -117,7 +142,8 @@ namespace softblocks.Controllers
                                 FirstName = req.FirstName,
                                 LastName = req.LastName,
                                 Email = req.Email.ToLower(),
-                                Organisations = new List<ObjectId>()
+                                Organisations = new List<ObjectId>(),
+                                CurrentOrganisation = organisation.Id.ToString()
                             };
                             newUser.Organisations.Add(organisationId);
                             await _userRepository.CreateSync(newUser);
@@ -128,6 +154,7 @@ namespace softblocks.Controllers
                                 UserId = newUser.Id
                             });
                             await _organisationRepository.Update(req.OrganisationId, organisation);
+                            await NotifyAddUser(req.Email, req.FirstName, organisation.Name);
 
                             var result2 = new JsonGenericResult
                             {

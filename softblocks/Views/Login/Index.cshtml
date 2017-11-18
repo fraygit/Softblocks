@@ -1,29 +1,41 @@
 ﻿@model softblocks.Models.LoginViewModel
 @{
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_login.cshtml";
 }
 
-        <div class="login-box login-sidebar">
+
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <h3>LOGIN</h3>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                    @Html.Partial("Validate", new softblocks.Models.PageLogin())                  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <strong>Softblocks</strong> - Backoffice partner <br /> 2017 Copyright Company Name
+        </div>
+    </div>
+</div>
+
+        @*<div class="login-box login-sidebar">
             <div class="white-box">
                 @Html.Partial("Validate", new softblocks.Models.PageLogin())
 
             </div>
-        </div>
+        </div>*@
 
 @section Scripts{
     @if (Model.InvalidUser)
     {
         <script type="text/javascript">
-
-            $.toast({
-                heading: 'Error',
-                text: 'Invalid username or password!',
-                position: 'top-right',
-                loaderBg: '#ff6849',
-                icon: 'error',
-                hideAfter: 3000,
-                stack: 6
-            });
+            alertError("Error!", "Invalid username or password!");
         </script>
     }
 
