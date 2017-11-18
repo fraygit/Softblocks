@@ -1,9 +1,59 @@
 ﻿@model softblocks.Models.RegisterViewModel
 @{
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    Layout = "~/Views/Shared/_login.cshtml";
 }
 
-<section class="content">
+
+
+<div class="register-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <h3>Registration</h3>
+                <small>To login please click <a href="/login">here</a>. </small>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                    <form id="loginForm" onsubmit="event.preventDefault();">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label>Email Address</label>
+                                <input type="text" value="" id="txtEmail" class="form-control" name="" required="">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>First name</label>
+                                <input type="text" value="" id="txtFirstname" class="form-control" name="" required="">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Last name</label>
+                                <input type="text" value="" id="txtLastname" class="form-control" name="" required="">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Password</label>
+                                <input type="password" value="" id="txtPassword" class="form-control" name="" required="">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Repeat Password</label>
+                                <input type="password" value="" id="txtPasswordRepeat" class="form-control" name="" required="">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-success" id="btnRegister">Register</button>
+                            <button class="btn btn-default">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <strong>Softblock</strong> <br /> 2017 Copyright Softblocks
+        </div>
+    </div>
+</div>
+
+@*<section class="content">
     <div class="back-link">
         <a href="/login" class="btn btn-accent">Back to Login</a>
     </div>
@@ -60,39 +110,60 @@
             </div>
         </div>
     </div>
-</section>
+</section>*@
 
 @section Scripts{
         <script type="text/javascript">
-
             $(function () {
-
                 $("#btnRegister").click(function () {
-                    var data = {
-                        Username: $("#txtEmail").val(),
-                        FirstName: $("#txtFirstname").val(),
-                        LastName: $("#txtLastname").val(),
-                        Password: $("#txtPassword").val(),
-                        PasswordRepeat: $("#txtPasswordRepeat").val(),
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "/Register/AddUser",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify(data),
-                        success: function (d) {
-                            if (d.IsSuccess == true)
-                                window.location = "/";
-                            else {
-                                toastr.warning('Error occured. ' + d.Message);
+                    if (!isBlank($("#txtPassword").val())) {
+                        if ($("#txtPassword").val() == $("#txtPasswordRepeat").val()) {
+                            var isValid = $("#loginForm").valid();
+                            if (isValid) {
+                                var data = {
+                                    Username: $("#txtEmail").val(),
+                                    FirstName: $("#txtFirstname").val(),
+                                    LastName: $("#txtLastname").val(),
+                                    Password: $("#txtPassword").val(),
+                                    PasswordRepeat: $("#txtPasswordRepeat").val(),
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("AddUser", "Register")",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    data: JSON.stringify(data),
+                                    success: function (d) {
+                                        if (d.IsSuccess == true) {
+                                            $("#loginForm")[0].reset();
+                                            swal({
+                                                title: "Good job!",
+                                                text: "We have sent you an email, please click on the link to verify email address.",
+                                                type: "success"
+                                            });
+                                        }
+                                        else {
+                                            alertError("Error!", d.Message);
+                                        }
+                                    },
+                                    error: function (xhr, textStatus, errorThrown) {
+                                        alertError("Error!", "oh no! sorry! this is embarrassing, we are updating our system, please try again later.");
+                                    }
+                                });
                             }
-                        },
-                        error: function (xhr, textStatus, errorThrown) {
-                            // TODO: Show error
+                            else {
+                                alertError("Error!", "Password does not match.");
+                            }
                         }
-                    });
+                        else {
+                            alertError("Error!", "Password does not match.");
+                        }
+                    }
+                    else {
+                        alertError("Error!", "Please complete a require fields");
+                    }
                 });
+
             });
 
         </script>

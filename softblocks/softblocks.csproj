@@ -320,6 +320,7 @@
     <Content Include="Views\Library\FilePreview.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\ListUsers.cshtml" />
+    <Content Include="Views\Shared\_login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

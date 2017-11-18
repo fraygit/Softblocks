@@ -38,6 +38,22 @@
             alertError("Error!", "Invalid username or password!");
         </script>
     }
+    
+    @if (Model.IsPending)
+    {
+        <script type="text/javascript">
+            alertError("Error!", "Account not yet active. Please verify your email address.");
+        </script>
+
+    }
+    
+    @if (!string.IsNullOrEmpty(Model.code))
+    {
+        <script type="text/javascript">
+            alertSuccess("Success", "Account activated!");
+        </script>
+
+    }
 
     
 }
