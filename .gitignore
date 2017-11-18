@@ -5,3 +5,5 @@ softblocks.data/obj/
 softblocks/bin/
 softblocks/obj/
 softblocks/tempUpload/
+softblocks.EmailSender/bin/
+softblocks.EmailSender/obj/
