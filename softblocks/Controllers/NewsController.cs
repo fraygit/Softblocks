@@ -25,9 +25,14 @@ namespace softblocks.Controllers
         }
 
         // GET: News
-        public ActionResult Index()
+        [Authorize]
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var user = await _userRepository.GetUser(User.Identity.Name);
+            var orgId = ObjectId.Empty;
+            ObjectId.TryParse(user.CurrentOrganisation, out orgId);
+            var news = await _newsRepository.Get(orgId);
+            return View(news);
         }
 
         public ActionResult Create()

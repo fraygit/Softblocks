@@ -18,5 +18,6 @@ namespace softblocks.data.Model
         public ObjectId DateModified { get; set; }
         public ObjectId ModifiedBy { get; set; }
         public string Status { get; set; } // 0 - draft, 1 - published, 2 - ARCHIVED
+        public DateTime DatePublished { get; set; }
     }
 }
