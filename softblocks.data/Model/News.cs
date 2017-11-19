@@ -12,11 +12,11 @@ namespace softblocks.data.Model
     {
         public ObjectId OrganisationId { get; set; }
         public string Title { get; set; }
-        public string Body { get; set; }
+        public string Article { get; set; }
         public ObjectId CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
         public ObjectId DateModified { get; set; }
         public ObjectId ModifiedBy { get; set; }
-        public int Status { get; set; } // 0 - draft, 1 - published, 2 - ARCHIVED
+        public string Status { get; set; } // 0 - draft, 1 - published, 2 - ARCHIVED
     }
 }
