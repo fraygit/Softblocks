@@ -35,6 +35,7 @@ namespace softblocks
             container.Register<IFolderRepository, FolderRepository>(Lifestyle.Scoped);
             container.Register<ILibraryFileRepository, LibraryFileRepository>(Lifestyle.Scoped);
             container.Register<IEmailNotificationRepository, EmailNotificationRepository>(Lifestyle.Scoped);
+            container.Register<INewsRepository, NewsRepository>(Lifestyle.Scoped);
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();

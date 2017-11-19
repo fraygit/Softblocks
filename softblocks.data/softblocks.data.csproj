@@ -71,6 +71,7 @@
     <Compile Include="Interface\IFolderRepository.cs" />
     <Compile Include="Interface\ILibraryFileRepository.cs" />
     <Compile Include="Interface\IModuleMenuRepository.cs" />
+    <Compile Include="Interface\INewsRepository.cs" />
     <Compile Include="Interface\IOrganisationRepository.cs" />
     <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Model\AppModule.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Model\Folder.cs" />
     <Compile Include="Model\LibraryFile.cs" />
     <Compile Include="Model\LibraryFileVersion.cs" />
+    <Compile Include="Model\News.cs" />
     <Compile Include="Model\OrganisationUser.cs" />
     <Compile Include="Model\Tabular.cs" />
     <Compile Include="Model\TabularColumns.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Repository\FolderRepository.cs" />
     <Compile Include="Repository\LibraryFileRepository.cs" />
     <Compile Include="Repository\ModuleMenuRepository.cs" />
+    <Compile Include="Repository\NewsRepository.cs" />
     <Compile Include="Repository\OrganisationRepositoty.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Service\ConnectionHandler.cs" />
