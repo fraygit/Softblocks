@@ -63,12 +63,15 @@ namespace softblocks.Controllers
                     var existingUser = await _userRepository.GetUser(model.Username);
                     if (existingUser != null)
                     {
-                        var Existingresult = new JsonGenericResult
+                        if (existingUser.Status == 1)
                         {
-                            IsSuccess = false,
-                            Message = "Email already registered"
-                        };
-                        return Json(Existingresult);
+                            var Existingresult = new JsonGenericResult
+                            {
+                                IsSuccess = false,
+                                Message = "Email already registered"
+                            };
+                            return Json(Existingresult);
+                        }
                     }
 
                     var verficationCode = ObjectId.GenerateNewId().ToString();

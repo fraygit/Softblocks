@@ -46,7 +46,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Article</label>
-                                    <textarea id="txtArticle"></textarea>
+                                    <textarea id="txtArticle">@Html.Raw(Model.Article)</textarea>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -63,7 +63,7 @@
 @section Scripts {
     <script type="text/javascript">
         $(function () {
-            $("#txtArticle").summernote('code', '@Html.Raw(Model.Article)');
+            $("#txtArticle").summernote();
         });
 
         $("#btnSave").click(function () {

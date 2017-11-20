@@ -143,7 +143,8 @@ namespace softblocks.Controllers
                                 LastName = req.LastName,
                                 Email = req.Email.ToLower(),
                                 Organisations = new List<ObjectId>(),
-                                CurrentOrganisation = organisation.Id.ToString()
+                                CurrentOrganisation = organisation.Id.ToString(),
+                                Status = 3 // invited
                             };
                             newUser.Organisations.Add(organisationId);
                             await _userRepository.CreateSync(newUser);
