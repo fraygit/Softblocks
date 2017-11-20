@@ -204,6 +204,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\DataPanelController.cs" />
     <Compile Include="Controllers\DataViewController.cs" />
+    <Compile Include="Controllers\DiscussionController.cs" />
     <Compile Include="Controllers\DocumentTypesController.cs" />
     <Compile Include="Controllers\DropdownController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -331,6 +332,7 @@
     <Content Include="Views\News\ViewArticle.cshtml" />
     <Content Include="Views\News\RenderContent.cshtml" />
     <Content Include="Views\AlertPages\NotAvailable.cshtml" />
+    <Content Include="Views\Discussion\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

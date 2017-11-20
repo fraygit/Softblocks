@@ -65,6 +65,7 @@
     <Compile Include="Interface\IAppModuleRepository.cs" />
     <Compile Include="Interface\ICalendarEventRepository.cs" />
     <Compile Include="Interface\IDataPanelRepository.cs" />
+    <Compile Include="Interface\IDiscussionRepository.cs" />
     <Compile Include="Interface\IDocumentTypeRepository.cs" />
     <Compile Include="Interface\IEmailErrorRepository.cs" />
     <Compile Include="Interface\IEmailNotificationRepository.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Model\DataView.cs" />
     <Compile Include="Model\Detail.cs" />
     <Compile Include="Model\DetailComponent.cs" />
+    <Compile Include="Model\Discussion.cs" />
     <Compile Include="Model\Dropdown.cs" />
     <Compile Include="Model\DropdownItem.cs" />
     <Compile Include="Model\CalendarEvent.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Repository\AppModuleRepositoty.cs" />
     <Compile Include="Repository\CalendarEventRepository.cs" />
     <Compile Include="Repository\DataPanelRepository.cs" />
+    <Compile Include="Repository\DiscussionRepository.cs" />
     <Compile Include="Repository\DocumentTypeRepository.cs" />
     <Compile Include="Repository\EmailErrorRepository.cs" />
     <Compile Include="Repository\EmailNotificationRepository.cs" />
