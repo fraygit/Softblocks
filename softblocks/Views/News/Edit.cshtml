@@ -1,4 +1,6 @@
-﻿<div class="normalheader  small-header">
+﻿@model softblocks.data.Model.News
+
+<div class="normalheader  small-header">
     <div class="hpanel">
         <div class="panel-body">
             <div id="hbreadcrumb" class="pull-right">
@@ -28,16 +30,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Title</label>
-                                    <input type="text" id="txtTitle" class="form-control" placeholder="Article Title" required="">
+                                    <input type="text" id="txtTitle" class="form-control" placeholder="Article Title" required="" value="@Model.Title">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
                                     <select class="form-control" id="ddStatus">
-                                        <option>Draft</option>
-                                        <option>Published</option>
-                                        <option>Archived</option>
+                                        <option @(Model.Status == "Draft" ? "selected" : "")>Draft</option>
+                                        <option @(Model.Status == "Published" ? "selected" : "")>Published</option>
+                                        <option @(Model.Status == "Archived" ? "selected" : "")>Archived</option>
                                     </select>
                                 </div>
                             </div>
@@ -61,9 +63,7 @@
 @section Scripts {
     <script type="text/javascript">
         $(function () {
-            $("#txtArticle").summernote({
-                height: 250
-            });
+            $("#txtArticle").summernote('code', '@Html.Raw(Model.Article)');
         });
 
         $("#btnSave").click(function () {
@@ -71,20 +71,19 @@
             var data = {
                 Title: $("#txtTitle").val(),
                 Status: $("#ddStatus").val(),
-                Article: $("#txtArticle").summernote("code")
+                Article: $("#txtArticle").summernote("code"),
+                ArticleId: '@Model.Id.ToString()'
             }
             if (isValid) {
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("AddArticle", "News")",
+                    url: "@Url.Action("Update", "News")",
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify(data),
                     success: function (d) {
                         if (d.IsSuccess == true) {
-                            alertSuccess("Success", "Successfully created article!");
-                            $("#frmArticle")[0].reset();
-                            $("#txtArticle").summernote("reset")
+                            alertSuccess("Success", "Successfully updated article!");
                         }
                         else {
                             alertError("Error!", d.Message);

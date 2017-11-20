@@ -326,6 +326,9 @@
     <Content Include="Views\Shared\_login.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\News\ViewArticle.cshtml" />
+    <Content Include="Views\News\RenderContent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

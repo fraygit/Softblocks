@@ -10,5 +10,6 @@ namespace softblocks.Models
         public string Title { get; set; }
         public string Article { get; set; }
         public string Status { get; set; }
+        public string ArticleId { get; set; }
     }
 }
