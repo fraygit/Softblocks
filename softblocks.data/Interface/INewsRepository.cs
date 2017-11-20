@@ -12,5 +12,6 @@ namespace softblocks.data.Interface
     public interface INewsRepository : IEntityService<News>
     {
         Task<List<News>> Get(ObjectId organisationId);
+        Task<List<News>> GetStatus(ObjectId organisationId, string status);
     }
 }
