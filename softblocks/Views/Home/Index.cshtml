@@ -87,6 +87,7 @@
                 var LoadArticle = function () {
                     $('#pnlArticle').load('@Url.Action("RenderContent", "News", new { articleId = ViewBag.ArticleId })', function () {
                         $($("#pnlArticle").find("img")).addClass("img-responsive");
+                        $($("#pnlArticle").find("iframe")).addClass("img-responsive");
                         $('#pnlArticle').slimScroll({
                             height: '600px'
                         });
@@ -114,10 +115,17 @@
                         dataType: "json",
                         success: function (d) {
                             if (d.IsSuccess == true) {
+                                var dateStart = new Date(parseInt(d.Result.StartDate.substr(6)));
+                                var dateEnd = "";
+                                var dateEndInt = parseInt(d.Result.EndDate.substr(6));
+                                if (dateEndInt > 0) {
+                                    dateEndDte = new Date(parseInt(d.Result.EndDate.substr(6)));
+                                    dateEnd = moment(dateEndDte).format("DD MMM YYYY h:mm a")
+                                }
                                 $("#lblTitle").text(d.Result.Title);
                                 $("#lblDetails").text(d.Result.Details);
-                                $("#lblStart").text(d.Result.StartDate);
-                                $("#lblEnd").text(d.Result.EndDate);
+                                $("#lblStart").text(moment(dateStart).format("DD MMM YYYY h:mm a"));
+                                $("#lblEnd").text(dateEnd);
                                 $("#pnlEventDetails").modal("show");
                             }
                             else {

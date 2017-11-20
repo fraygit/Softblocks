@@ -198,6 +198,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AlertPagesController.cs" />
     <Compile Include="Controllers\AppModuleController.cs" />
     <Compile Include="Controllers\AppStoreController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
@@ -329,6 +330,7 @@
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\ViewArticle.cshtml" />
     <Content Include="Views\News\RenderContent.cshtml" />
+    <Content Include="Views\AlertPages\NotAvailable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
