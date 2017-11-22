@@ -8,5 +8,6 @@ namespace softblocks.Models
     public class NavigationViewModel
     {
         public string OrganisationName { get; set; }
+        public string OrganisationId { get; set; }
     }
 }

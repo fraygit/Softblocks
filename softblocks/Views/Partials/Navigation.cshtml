@@ -1,6 +1,35 @@
 ﻿@model softblocks.Models.NavigationViewModel
 
 
+<div class="modal fade" id="pnlSwitchOrg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" id="modalTitle">Switch Organisation</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddEvent">
+                    <input type="hidden" id="hdnType" />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Organisation</label>
+                            <select id="ddOrganisation" class="form-control">
+                                <option id="@Model.OrganisationId" selected>@Model.OrganisationName</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div id="navigation">
     <div class="profile-picture" id="pnlOrgMenu">
         @if (!string.IsNullOrEmpty(Model.OrganisationName))
@@ -18,15 +47,10 @@
                     <small class="text-muted">Organisation <b class="caret"></b></small>
                 </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                    
                     @if (!string.IsNullOrEmpty(Model.OrganisationName))
                     {
-                        <li><a href="contacts.html">Users</a></li>
-                        <li><a href="profile.html">Documents</a></li>
-                    }
-                    <li class="divider"></li>
-                    @if (!string.IsNullOrEmpty(Model.OrganisationName))
-                    {
-                        <li><a href="login.html">Switch Organisation</a></li>
+                        <li><a data-toggle="modal" data-target="#pnlSwitchOrg">Switch Organisation</a></li>
                     }
                     <li><a onclick="javascript: OpenAddOrg();">Add new organisation</a></li>
                 </ul>
@@ -59,7 +83,8 @@
         @if (!string.IsNullOrEmpty(Model.OrganisationName))
         {
             <li class="@Html.IsSelected(controller: "Dashboard")">
-                <a href="@Url.Action("Index", "AppStore")"> <span class="nav-label">App Store</span> <span class="pull-right"><i class="fa fa-shopping-cart"></i></span> </a>
+                @*<a href="@Url.Action("Index", "AppStore")"> <span class="nav-label">App Store</span> <span class="pull-right"><i class="fa fa-shopping-cart"></i></span> </a>*@
+                <a href="@Url.Action("NotAvailable", "Page")"> <span class="nav-label">App Store</span> <span class="pull-right"><i class="fa fa-shopping-cart"></i></span> </a>
             </li>
         }
         <li class="@Html.IsSelected(controller: "Dashboard")">
@@ -68,6 +93,10 @@
         @*<li class="@Html.IsSelected(controller: "Dashboard") disabled">
             <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Inbox</span> <span class="pull-right"><i class="fa fa-envelope"></i></span> </a>
         </li>*@
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("NotAvailable", "Page")"> <span class="nav-label">Tasks</span> <span class="pull-right"><i class="fa fa-tasks"></i></span> </a>
+        </li>
 
         <li class="@Html.IsSelected(controller: "Dashboard")">
             <a href="@Url.Action("Index", "Calendar")"> <span class="nav-label">Calendar</span> <span class="pull-right"><i class="fa fa-calendar"></i></span> </a>
@@ -89,9 +118,10 @@
         @if (!string.IsNullOrEmpty(Model.OrganisationName))
         {
             <li class="@Html.IsSelected(controller: "AppModule")">
-                <a href="#"><span class="nav-label">Developer</span><span class="fa arrow"></span> </a>
+                <a href="#"><span class="nav-label">Make Custom App</span><span class="fa arrow"></span> </a>
                 <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li class=""><a href="/AppModule">Apps <span class="pull-right"><i class="fa fa-cubes"></i></span></a></li>
+                    @*<li class=""><a href="/AppModule">Apps <span class="pull-right"><i class="fa fa-cubes"></i></span></a></li>*@
+                    <li class=""><a href="@Url.Action("NotAvailable", "Page")">Apps <span class="pull-right"><i class="fa fa-cubes"></i></span></a></li>
                 </ul>
             </li>
         }

@@ -1,4 +1,6 @@
-﻿using softblocks.data.Interface;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.data.Service;
 using System;
@@ -11,5 +13,12 @@ namespace softblocks.data.Repository
 {
     public class DiscussionRepository : EntityService<Discussion>, IDiscussionRepository
     {
+        public async Task<List<Discussion>> GetByOrganisation(ObjectId organisationId)
+        {
+            var builder = Builders<Discussion>.Filter;
+            var filter = builder.Eq("OrganisationId", organisationId);
+            var listings = await ConnectionHandler.MongoCollection.Find(filter).ToListAsync();
+            return listings;
+        }
     }
 }

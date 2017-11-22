@@ -58,5 +58,19 @@ namespace softblocks.data.Repository
             await ConnectionHandler.MongoCollection.InsertOneAsync(user);
             return true;
         }
+
+        public async Task<ReplaceOneResult> UpdateWithPassword(string id, User user)
+        {
+            var carId = ObjectId.Parse(id);
+            var builder = Builders<User>.Filter;
+            var filter = builder.Eq("_id", carId);
+
+            var hashed = Crypto.HashSha256(user.Password);
+
+            user.Id = carId;
+            user.Password = hashed;
+            var result = await ConnectionHandler.MongoCollection.ReplaceOneAsync(filter, user);
+            return result;
+        }
     }
 }

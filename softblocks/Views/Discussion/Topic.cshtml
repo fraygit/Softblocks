@@ -1,0 +1,111 @@
+﻿@model softblocks.data.Model.Topic
+
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Discussion">Discussion</a></li>
+                    <li class="active">
+                        <span>Topic</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Topic
+            </h2>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="hpanel forum-box">
+
+                <div class="panel-heading">
+                    <span class="pull-right">
+                        <i class="fa fa-clock-o"> </i> Last modification: 10.12.2015, 10:22 am
+                    </span>
+                    <span class="f"> @ViewBag.ParentCategoryName &gt; <span class="text-success">@Model.Title</span> </span>
+                </div>
+
+                <div id="pnlComments"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="hpanel forum-box">
+                <div class="panel-heading">
+                    Reply
+                </div>
+                <div class="panel-body">
+                    <textarea id="txtReply"></textarea>
+
+                    <button id="btnReply" class="btn btn-info">Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#txtReply").summernote();
+
+            var LoadComments = function () {
+                $('#pnlComments').load('@Html.Raw(Url.Action("ListComments", "Discussion", new { discussionId = ViewBag.DiscussionId, topicId = @Model.Id.ToString() }))', function () {
+                    $("#pnlComments").slimScroll({
+                        "height": "340px"
+                    })
+                });
+            };
+
+            LoadComments();
+
+            $("#btnReply").click(function () {
+                var isValid = !isBlank($("#txtReply").summernote("code"));
+                if (isValid) {
+                    var data = {
+                        DiscussionId: '@ViewBag.DiscussionId',
+                        TopicId: '@Model.Id.ToString()',
+                        Comment: $("#txtReply").summernote("code")
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Reply", "Discussion")",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#txtReply").summernote("reset")
+                                alertSuccess("Success", "Successfully added reply!");
+                                LoadComments();
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            RemoveLoadingOverlay("#pnlPages");
+                            // TODO: Show error
+                        }
+                    });
+                }
+            });
+
+        });
+
+    </script>
+}

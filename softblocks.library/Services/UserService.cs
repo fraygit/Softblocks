@@ -36,7 +36,8 @@ namespace softblocks.library.Services
             var user = await _userRepository.GetUser(username);
             if (user != null)
             {
-                if (user.Password == Crypto.HashSha256(password))
+                var hashed = Crypto.HashSha256(password);
+                if (user.Password == hashed)
                 {
                     return user;
                 }

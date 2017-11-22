@@ -1,0 +1,42 @@
+﻿@model List<softblocks.data.Model.Discussion>
+
+@{
+    Layout = null;
+}
+
+
+@if (Model != null)
+{
+    foreach (var category in Model)
+    {
+        <div class="hpanel forum-box">
+
+            <div class="panel-heading">
+                <span class="pull-right">
+                    <button class="btn btn-xs btn-info" onclick="OpenAddTopic('@category.Id')">Add Topic</button>
+                </span>
+                @category.Title
+            </div>
+
+            @if (category.Topics != null)
+            {
+                foreach (var topic in category.Topics)
+                {
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-11 forum-heading">
+                                <a href="@Url.Action("Topic", "Discussion", new { discussionId = category.Id.ToString(), topicId=topic.Id })"><h4> @topic.Title</h4></a>
+                                <div class="desc">@topic.Description</div>
+                            </div>
+                            <div class="col-md-1 forum-info">
+                                <span class="number"> @(topic.Comments != null ? topic.Comments.Count.ToString() : "0") </span>
+                                <small>Posts</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+}
+

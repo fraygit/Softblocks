@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <span class="pull-right">
-                <a class="btn btn-success " href="@Url.Action("Create", "News")"><i class="fa fa-newspaper-o"></i> <span class="bold">Create a category</span></a>
+                <a data-toggle="modal" data-target="#pnlAddCategory" class="btn btn-success "><i class="fa fa-comments"></i> <span class="bold">Create a category</span></a>
             </span>
         </div>
     </div>
@@ -32,4 +32,147 @@
             &nbsp;
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div id="pnlCategories"></div>
+        </div>
+    </div>
 </div>
+
+
+<div class="modal fade" id="pnlAddCategory" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add Category</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddCategory">
+                    <div class="form-group">
+                        <label for="exampleInputName">Title</label>
+                        <input type="text" class="form-control" id="txtTitle" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="What is this category about?" id="txtDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddCategory">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pnlAddTopic" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add Category</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddTopic">
+                    <input type="hidden" id="hdnDiscussionId" />
+                    <div class="form-group">
+                        <label for="exampleInputName">Title</label>
+                        <input type="text" class="form-control" id="txtTopicTitle" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="What is this category about?" id="txtTopicDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddTopic" onclick="AddTopic()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var LoadCategories = function () {
+                $('#pnlCategories').load('@Url.Action("ListCategory", "Discussion")', function () {
+                });
+            };
+
+            LoadCategories();
+
+            window.OpenAddTopic = function (categoryId) {
+                $("#hdnDiscussionId").val(categoryId);
+                $("#pnlAddTopic").modal("toggle");
+            }
+
+            $("#btnAddCategory").click(function () {
+                var isValid = $("#frmAddCategory").valid();
+                if (isValid) {
+                    var data = {
+                        Title: $("#txtTitle").val(),
+                        Description: $("#txtDescription").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddCategory", "Discussion")",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#frmAddCategory")[0].reset();
+                                $("#pnlAddCategory").modal('toggle');
+                                alertSuccess("Success", "Successfully created category!");
+                                LoadCategories();
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            // TODO: Show error
+                        }
+                    });
+            }
+            });
+
+            window.AddTopic = function () {
+                var isValid = $("#frmAddTopic").valid();
+                if (isValid) {
+                    var data = {
+                        Title: $("#txtTopicTitle").val(),
+                        Description: $("#txtTopicDescription").val(),
+                        DiscussionId: $("#hdnDiscussionId").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddTopic", "Discussion")",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#frmAddTopic")[0].reset();
+                                $("#pnlAddTopic").modal('toggle');
+                                alertSuccess("Success", "Successfully created topic!");
+                                LoadCategories();
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            // TODO: Show error
+                        }
+                    });
+                }
+            };
+
+        });
+    </script>
+    }

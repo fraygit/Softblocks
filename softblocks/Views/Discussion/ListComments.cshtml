@@ -1,0 +1,30 @@
+﻿@model List<softblocks.Models.ResComment>
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    foreach (var comment in Model)
+    {
+        <div class="panel-body">
+            <div class="media">
+                <div class="media-image pull-left">
+                    <img src="/Images/placeholder-user-photo.png" alt="profile-picture">
+                    <div class="author-info">
+                        <strong>@comment.Name</strong><br>
+                        @comment.Comment.DateReplied.ToString("dd MMM yy hh:mm tt")
+                        @*<div class="badges">
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-shield text-success"></i>
+
+                        </div>*@
+                    </div>
+                </div>
+                <div class="media-body">
+                    @Html.Raw(comment.Comment.Content)
+                </div>
+            </div>
+        </div>
+    }
+}

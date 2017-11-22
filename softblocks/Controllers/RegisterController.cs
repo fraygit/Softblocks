@@ -59,11 +59,12 @@ namespace softblocks.Controllers
                 if (model.Password == model.PasswordRepeat)
                 {
                     var userService = new UserService(_userRepository);
+                    var verficationCode = ObjectId.GenerateNewId().ToString();
 
                     var existingUser = await _userRepository.GetUser(model.Username);
                     if (existingUser != null)
                     {
-                        if (existingUser.Status == 1)
+                        if (existingUser.Status == 1 || existingUser.Status == 2)
                         {
                             var Existingresult = new JsonGenericResult
                             {
@@ -72,9 +73,24 @@ namespace softblocks.Controllers
                             };
                             return Json(Existingresult);
                         }
+                        else if (existingUser.Status == 3) // Already invited then update the user
+                        {
+                            existingUser.Status = 2;
+                            existingUser.Password = model.Password;
+                            existingUser.FirstName = model.FirstName;
+                            existingUser.LastName = model.LastName;
+                            existingUser.VerificationCode = verficationCode;
+                            await _userRepository.UpdateWithPassword(existingUser.Id.ToString(), existingUser);
+                            var result2 = new JsonGenericResult
+                            {
+                                IsSuccess = true,
+                                Result = ""
+                            };
+                            await NotifyRegisteredUser(model.Username, model.FirstName, verficationCode);
+                            return Json(result2);
+                        }
                     }
 
-                    var verficationCode = ObjectId.GenerateNewId().ToString();
                     var user = new User
                     {
                         Email = model.Username.ToLower(), // to lower for easy search

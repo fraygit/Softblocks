@@ -229,6 +229,7 @@
     <Compile Include="Models\NavigationViewModel.cs" />
     <Compile Include="Models\PageLogin.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\ReqAddCategory.cs" />
     <Compile Include="Models\ReqAddData.cs" />
     <Compile Include="Models\ReqAddDropdown.cs" />
     <Compile Include="Models\ReqAddEvent.cs" />
@@ -244,7 +245,9 @@
     <Compile Include="Models\ReqCreateForm.cs" />
     <Compile Include="Models\ReqData.cs" />
     <Compile Include="Models\ReqDetailAddComponent.cs" />
+    <Compile Include="Models\ReqReply.cs" />
     <Compile Include="Models\ReqTabularAddColumn.cs" />
+    <Compile Include="Models\ResComment.cs" />
     <Compile Include="Models\ResDropdown.cs" />
     <Compile Include="Models\ResEvent.cs" />
     <Compile Include="Models\ResRenderForm.cs" />
@@ -333,6 +336,10 @@
     <Content Include="Views\News\RenderContent.cshtml" />
     <Content Include="Views\AlertPages\NotAvailable.cshtml" />
     <Content Include="Views\Discussion\Index.cshtml" />
+    <Content Include="Views\Discussion\ListCategory.cshtml" />
+    <Content Include="Views\Discussion\Topic.cshtml" />
+    <Content Include="Views\Discussion\ListComments.cshtml" />
+    <Content Include="Views\Page\NotAvailable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

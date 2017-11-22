@@ -22,6 +22,12 @@ namespace softblocks.Controllers
             this._userRepository = _userRepository;
         }
 
+        [Authorize]
+        public ActionResult NotAvailable()
+        {
+            return View();
+        }
+
 
         // GET: Page
         [Authorize]

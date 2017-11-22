@@ -141,6 +141,9 @@
                                                 text: "We have sent you an email, please click on the link to verify email address.",
                                                 type: "success"
                                             });
+                                            setTimeout(function () {
+                                                document.location.href = "/login";
+                                            }, 4000);
                                         }
                                         else {
                                             alertError("Error!", d.Message);

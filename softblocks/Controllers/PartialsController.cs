@@ -47,6 +47,7 @@ namespace softblocks.Controllers
                 if (organisation != null)
                 {
                     _model.OrganisationName = organisation.Name;
+                    _model.OrganisationId = organisation.Id.ToString();
                 }
             }
             return PartialView(_model);

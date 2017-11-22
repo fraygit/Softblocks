@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using softblocks.data.Model;
 using softblocks.data.Service;
 using System;
@@ -14,5 +15,6 @@ namespace softblocks.data.Interface
         Task<User> GetUser(string username);
         Task<User> GetUserByVerificationCode(string verificationCode);
         Task<List<User>> Get(ObjectId[] userId);
+        Task<ReplaceOneResult> UpdateWithPassword(string id, User user);
     }
 }
