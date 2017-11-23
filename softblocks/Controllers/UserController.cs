@@ -38,6 +38,17 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
+        public async Task<ActionResult> Profile(string userId)
+        {
+            var user = await _userRepository.Get(userId);
+            if (user != null)
+            {
+                return View(user);
+            }
+            return View();
+        }
+
+        [Authorize]
         public async Task<ActionResult> ListUsers()
         {
             var currentUser = await _userRepository.GetUser(User.Identity.Name);

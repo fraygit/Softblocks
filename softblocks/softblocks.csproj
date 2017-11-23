@@ -140,6 +140,7 @@
     <Content Include="images\a4.jpg" />
     <Content Include="images\a5.jpg" />
     <Content Include="images\logo.png" />
+    <Content Include="images\placeholder-user-photo.png" />
     <Content Include="images\profile.jpg" />
     <Content Include="plugins\bower_components\blockUI\jquery.blockUI.js" />
     <Content Include="plugins\bower_components\bootstrap-datepicker\bootstrap-datepicker.min.css" />
@@ -340,6 +341,9 @@
     <Content Include="Views\Discussion\Topic.cshtml" />
     <Content Include="Views\Discussion\ListComments.cshtml" />
     <Content Include="Views\Page\NotAvailable.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\Organisation\Settings.cshtml" />
+    <Content Include="Views\Organisation\ListUserAttributes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

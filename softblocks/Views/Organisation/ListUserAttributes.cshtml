@@ -1,0 +1,37 @@
+﻿@model List<softblocks.data.Model.UserAttribute>
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped" id="tblUsers">
+        <thead>
+            <tr>
+                <th>Attribute Name</th>
+                <th>Data Type</th>
+                <th>Sort</th>
+                <th>Column Width</th>
+                <th>Featured</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null) 
+            { 
+                foreach (var attribute in Model)
+                {
+                    <tr>
+                        <td>@attribute.Name</td>
+                        <td>@attribute.DataType</td>
+                        <td>@attribute.Sort</td>
+                        <td>@attribute.Column</td>
+                        <td>@(attribute.IsFeatured ? "Yes" : "No")</td>
+                        <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                        <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,171 @@
+﻿
+<div class="normalheader  small-header">
+    <div class="hpanel">
+        <div class="panel-body">
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/">Organisation</a></li>
+                    <li class="active">
+                        <span>Settings</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Settings
+            </h2>
+            <small>Organisation Settings</small>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <ul class="mailbox-list">
+                        <li class="active">
+                            <a href="#">
+                                <i class="fa fa-user-circle-o"></i> User Attributes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-university"></i> Org Attributes</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hpanel">
+                        <div class="panel-heading hbuilt">
+                            <div class="panel-tools">
+                                <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                            </div>
+                            <div class="pull-right">
+                                <a data-toggle="modal" data-target="#pnlAddUserAttribute" role="menuitem" class="btn btn-success btn-xs"><i class="icon wb-reply" aria-hidden="true"></i> Add</a>
+                            </div>
+                            Add/Edit User Profile Attributes
+                        </div>
+                        <div class="panel-body">
+                            <div id="pnlUserAttributes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pnlAddUserAttribute" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Add User Attribute</h4>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddUserAttribute">
+                    <div class="form-group">
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="txtName" placeholder="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Data Type</label>
+                        <select id="ddDataType" class="form-control">
+                            <option value="Text">Text</option>
+                            <option value="Integer">Integer</option>
+                            <option value="Date">Date</option>
+                            <option value="Document Type">Document Type</option>
+                            <option value="Rich Text">Rich Text</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Column Width</label>
+                        <select id="ddColWidth" class="form-control">
+                            <option value="12">12</option>
+                            <option value="11">11</option>
+                            <option value="10">10</option>
+                            <option value="9">9</option>
+                            <option value="8">8</option>
+                            <option value="7">7</option>
+                            <option value="6">6</option>
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName">Sort</label>
+                        <input type="number" class="form-control" id="txtSort" placeholder="Name" required="">
+                    </div>
+                    <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="chkIsFeatured">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Is featured?</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect" id="btnAddUserAttribute">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var LoadUserAttributes = function () {
+                $('#pnlUserAttributes').load('@Url.Action("ListUserAttributes", "Organisation")', function () {
+                });
+            };
+
+            LoadUserAttributes();
+
+            $("#btnAddUserAttribute").click(function () {
+                var isValid = $("#frmAddUserAttribute").valid();
+                if (isValid) {
+                    var data = {
+                        Name: $("#txtName").val(),
+                        DataType: $("#ddDataType").val(),
+                        Sort: $("#txtSort").val(),
+                        Column: $("#ddColWidth").val(),
+                        IsFeatured: $('#chkIsFeatured').prop("checked") == true
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("AddUserAttribute", "Organisation")",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                $("#frmAddUserAttribute")[0].reset();
+                                $("#pnlAddUserAttribute").modal('toggle');
+                                alertSuccess("Success", "Successfully created attribute!");
+                                LoadUserAttributes();
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            RemoveLoadingOverlay("#pnlPages");
+                            // TODO: Show error
+                        }
+                    });
+            }
+            });
+        });
+    </script>
+}
