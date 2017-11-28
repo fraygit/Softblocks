@@ -344,6 +344,7 @@
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Organisation\Settings.cshtml" />
     <Content Include="Views\Organisation\ListUserAttributes.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

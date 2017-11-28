@@ -1,41 +1,119 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <div id="mobile-menu">
-                <div class="left-nav-toggle">
-                    <a href="#">
-                        <i class="stroke-hamburgermenu"></i>
-                    </a>
-                </div>
-            </div>
-            <a class="navbar-brand" href="/index.html">
-                SoftBlocks
-                <span>v.0.1</span>
-            </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <div class="left-nav-toggle">
-                <a href="">
-                    <i class="stroke-hamburgermenu"></i>
-                </a>
-            </div>
-            <form class="navbar-form navbar-left">
-                <input type="text" class="form-control" placeholder="Search data for analysis" style="width: 175px">
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="versions.html">
-                        Versions
-                        <span class="label label-warning pull-right">2</span>
-                    </a>
+﻿@model softblocks.data.Model.User
+
+<div class="color-line">
+</div>
+<div id="logo" class="light-version">
+    <span>
+        SoftBlocks
+    </span>
+</div>
+<nav role="navigation">
+    <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
+    <div class="small-logo">
+        <span class="text-primary">SoftBlocks APP</span>
+    </div>
+    <div class="mobile-menu">
+        <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
+            <i class="fa fa-chevron-down"></i>
+        </button>
+        <div class="collapse mobile-navbar" id="mobile-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="" href="@Url.Action("Login", "CommonViews")">Switch Organisation</a>
                 </li>
-                <li class=" profil-link">
-                    <a href="login.html">
-                        <span class="profile-address">luna@company.io</span>
-                        <img src="images/profile.jpg" class="img-circle" alt="">
-                    </a>
+                <li>
+                    <a class="" onclick="javascript: OpenAddOrg();">Add New Organisation</a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("Logout", "Home")">Logout</a>
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="navbar-right">
+        <ul class="nav navbar-nav no-borders">
+            <li class="dropdown">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                    <i class="pe-7s-user"></i>
+                </a>
+                <div class="dropdown-menu hdropdown bigmenu animated flipInX">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Profile", "User", new { userId = Model.Id.ToString() })">
+                                        <i class="fa fa-vcard text-info"></i>
+                                        <h5>Profile</h5>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Logout", "Home")">
+                                        <i class="fa fa-power-off text-warning"></i>
+                                        <h5>Logout</h5>
+                                    </a>
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td>
+                                    <a href="/AppViews/Forum">
+                                        <i class="pe pe-7s-comment text-info"></i>
+                                        <h5>Forum</h5>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/Analytics">
+                                        <i class="pe pe-7s-graph1 text-danger"></i>
+                                        <h5>Analytics</h5>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/AppViews/FileManager">
+                                        <i class="pe pe-7s-box1 text-success"></i>
+                                        <h5>Files</h5>
+                                    </a>
+                                </td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+            @*<li class="dropdown">
+                    <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown">
+                        <i class="pe-7s-mail"></i>
+                        <span class="label label-success">4</span>
+                    </a>
+                    <ul class="dropdown-menu hdropdown animated flipInX">
+                        <div class="title">
+                            You have 4 new messages
+                        </div>
+                        <li>
+                            <a>
+                                It is a long established.
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                There are many variations.
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                Lorem Ipsum is simply dummy.
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                Contrary to popular belief.
+                            </a>
+                        </li>
+                        <li class="summary"><a href="#">See All Messages</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="login.html">
+                        <i class="pe-7s-upload pe-rotate-90"></i>
+                    </a>
+                </li>*@
+        </ul>
     </div>
 </nav>

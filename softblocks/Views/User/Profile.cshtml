@@ -26,7 +26,7 @@
                 <div class="hpanel hgreen">
                     <div class="panel-body">
                         <div class="pull-right text-right">
-                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="@Url.Action("Edit", "User", new { userId = Model.Id.ToString() })"><i class="fa fa-pencil"></i></a>
                         </div>
                         <img alt="logo" class="img-circle m-b m-t-md" src="~/Images/placeholder-user-photo.png" width="75">
                         <h3><a href="">@Model.FirstName @Model.LastName</a></h3>

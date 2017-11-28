@@ -55,7 +55,9 @@ namespace softblocks.Controllers
 
         public ActionResult Header()
         {
-            return PartialView();
+            var userService = new UserService(_userRepository);
+            var user = Task.Run(() => userService.Get(User.Identity.Name)).Result;
+            return PartialView(user);
         }
 
         public ActionResult ListModulePages()

@@ -65,6 +65,35 @@
             <a href="/"> <span class="nav-label">Home</span> <span class="pull-right"><i class="fa fa-desktop"></i></span> </a>
         </li>
 
+        @if (!string.IsNullOrEmpty(Model.OrganisationName))
+        {
+            <li class="@Html.IsSelected(controller: "AppModule")">
+                <a href="#"><span class="nav-label">Organisation</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level collapse" aria-expanded="false">
+                    <li class=""><a href="@Url.Action("Index", "News")">News <span class="pull-right"><i class="fa fa-newspaper-o"></i></span></a></li>
+                    <li class=""><a href="@Url.Action("Index", "Discussion")">Discussions <span class="pull-right"><i class="fa fa-comments"></i></span></a></li>
+                    <li class=""><a href="@Url.Action("Index", "User")">Users <span class="pull-right"><i class="fa fa-users"></i></span></a></li>
+                    <li class=""><a href="/AppModule">Site <span class="pull-right"><i class="fa fa-building"></i></span></a></li>
+                    <li class=""><a href="@Url.Action("Settings", "Organisation")">Settings <span class="pull-right"><i class="fa fa-cog"></i></span></a></li>
+                </ul>
+            </li>
+        }
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Index", "Library")"> <span class="nav-label">Documents</span> <span class="pull-right"><i class="fa fa-archive "></i></span> </a>
+        </li>
+        @*<li class="@Html.IsSelected(controller: "Dashboard") disabled">
+            <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Inbox</span> <span class="pull-right"><i class="fa fa-envelope"></i></span> </a>
+        </li>*@
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Index", "Calendar")"> <span class="nav-label">Calendar</span> <span class="pull-right"><i class="fa fa-calendar"></i></span> </a>
+        </li>
+
+        <li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("NotAvailable", "Page")"> <span class="nav-label">Tasks</span> <span class="pull-right"><i class="fa fa-tasks"></i></span> </a>
+        </li>
+
         @*@if (!string.IsNullOrEmpty(Model.OrganisationName))
         {
 
@@ -85,34 +114,6 @@
             <li class="@Html.IsSelected(controller: "Dashboard")">
                 @*<a href="@Url.Action("Index", "AppStore")"> <span class="nav-label">App Store</span> <span class="pull-right"><i class="fa fa-shopping-cart"></i></span> </a>*@
                 <a href="@Url.Action("NotAvailable", "Page")"> <span class="nav-label">App Store</span> <span class="pull-right"><i class="fa fa-shopping-cart"></i></span> </a>
-            </li>
-        }
-        <li class="@Html.IsSelected(controller: "Dashboard")">
-            <a href="@Url.Action("Index", "Library")"> <span class="nav-label">Documents</span> <span class="pull-right"><i class="fa fa-archive "></i></span> </a>
-        </li>
-        @*<li class="@Html.IsSelected(controller: "Dashboard") disabled">
-            <a href="@Url.Action("Logout", "Home")"> <span class="nav-label">Inbox</span> <span class="pull-right"><i class="fa fa-envelope"></i></span> </a>
-        </li>*@
-
-        <li class="@Html.IsSelected(controller: "Dashboard")">
-            <a href="@Url.Action("NotAvailable", "Page")"> <span class="nav-label">Tasks</span> <span class="pull-right"><i class="fa fa-tasks"></i></span> </a>
-        </li>
-
-        <li class="@Html.IsSelected(controller: "Dashboard")">
-            <a href="@Url.Action("Index", "Calendar")"> <span class="nav-label">Calendar</span> <span class="pull-right"><i class="fa fa-calendar"></i></span> </a>
-        </li>
-
-        @if (!string.IsNullOrEmpty(Model.OrganisationName))
-        {
-            <li class="@Html.IsSelected(controller: "AppModule")">
-                <a href="#"><span class="nav-label">Organisation</span><span class="fa arrow"></span> </a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li class=""><a href="@Url.Action("Index", "News")">News <span class="pull-right"><i class="fa fa-newspaper-o"></i></span></a></li>
-                    <li class=""><a href="@Url.Action("Index", "Discussion")">Discussions <span class="pull-right"><i class="fa fa-comments"></i></span></a></li>
-                    <li class=""><a href="@Url.Action("Index", "User")">Users <span class="pull-right"><i class="fa fa-users"></i></span></a></li>
-                    <li class=""><a href="/AppModule">Site <span class="pull-right"><i class="fa fa-building"></i></span></a></li>
-                    <li class=""><a href="@Url.Action("Settings", "Organisation")">Settings <span class="pull-right"><i class="fa fa-cog"></i></span></a></li>
-                </ul>
             </li>
         }
 
