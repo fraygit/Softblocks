@@ -14,11 +14,11 @@
     <div class="row animate-panel" data-effect="fadeInDown" data-child="element">
         <div class="col-lg-8 element">
             <div id="pnlArticle"></div>
-            <div style="border: 2px dashed silver;padding:10px;">
+            @*<div style="border: 2px dashed silver;padding:10px;">
                 <label>
                     Widget goes here
                 </label>
-            </div>
+            </div>*@
         </div>
         <div class="col-lg-4 element">
 
@@ -93,6 +93,7 @@
                         $('#pnlArticle').slimScroll({
                             height: '600px'
                         });
+                        RenderAndFormatDates();
                     });
                 };
 

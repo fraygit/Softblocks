@@ -9,7 +9,7 @@
         <small>Created by: <span class="font-bold">@ViewBag.CreatedBy</span> </small>
         @if (Model.DatePublished != DateTime.MinValue) { 
             <br />
-            <small><span class="font-bold">@Model.DatePublished.ToString("dd MMM yyyy hh:mm tt")</span> </small>
+            <small><span class="font-bold"><span class="RenderDate" data-date="@Model.DatePublished" data-format="DD MMM YYYY h:mm a"></span> </span> </small>
         }
     </div>
     <div class="panel-body">

@@ -17,6 +17,7 @@ function AddLoadingOverlay(elementName) {
     //});
 }
 
+
 function RemoveLoadingOverlay(elementName) {
     //$(elementName).unblock();
 }
@@ -101,4 +102,18 @@ function RetrieveDocument(jsonBsonDoc, id) {
 
 function isBlank(str) {
     return (!str || /^\s*$/.test(str));
+}
+
+
+function RenderAndFormatDates() {
+    $.each($(".RenderDate"), function (indexDateEl, itemDateEl) {
+        if (isBlank($(itemDateEl).text())) {
+            var rawDate = $(itemDateEl).data("date");
+            var utcDate = new Date(rawDate);
+            var date = new Date(Date.UTC(utcDate.getFullYear(), utcDate.getMonth(), utcDate.getDate(), utcDate.getHours(), utcDate.getMinutes()));
+            var format = $(itemDateEl).data("format");
+            var formattedDate = moment(new Date(date)).format(format);
+            $(itemDateEl).text(formattedDate);
+        }
+    });
 }
