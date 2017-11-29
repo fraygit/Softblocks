@@ -38,6 +38,7 @@ namespace softblocks
             container.Register<INewsRepository, NewsRepository>(Lifestyle.Scoped);
             container.Register<IDiscussionRepository, DiscussionRepository>(Lifestyle.Scoped);
             container.Register<IUserAttributeRepository, UserAttributeRepository>(Lifestyle.Scoped);
+            container.Register<IAttributeValueRepository, AttributeValueRepository>(Lifestyle.Scoped);
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();

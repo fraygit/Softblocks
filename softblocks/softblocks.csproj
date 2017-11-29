@@ -250,6 +250,7 @@
     <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResComment.cs" />
     <Compile Include="Models\ResDropdown.cs" />
+    <Compile Include="Models\ResEditUserProfile.cs" />
     <Compile Include="Models\ResEvent.cs" />
     <Compile Include="Models\ResRenderForm.cs" />
     <Compile Include="Models\ResRenderTabular.cs" />

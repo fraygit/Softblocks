@@ -16,12 +16,14 @@ namespace softblocks.Controllers
         private IUserRepository _userRepository;
         private IOrganisationRepository _organisationRepository;
         private IEmailNotificationRepository _emailNotificationRepository;
+        private IUserAttributeRepository _userAttributeRepository;
 
-        public UserController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository, IEmailNotificationRepository _emailNotificationRepository)
+        public UserController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository, IEmailNotificationRepository _emailNotificationRepository, IUserAttributeRepository _userAttributeRepository)
         {
             this._userRepository = _userRepository;
             this._organisationRepository = _organisationRepository;
             this._emailNotificationRepository = _emailNotificationRepository;
+            this._userAttributeRepository = _userAttributeRepository;
         }
 
         // GET: User
@@ -43,7 +45,16 @@ namespace softblocks.Controllers
             var user = await _userRepository.Get(userId);
             if (user != null)
             {
-                return View(user);
+                var result = new ResEditUserProfile();
+                result.User = user;
+
+                var organisationId = ObjectId.Empty;
+                ObjectId.TryParse(user.CurrentOrganisation, out organisationId);
+
+                var userAttributes = await _userAttributeRepository.GetByOrganisation(organisationId);
+                result.Attributes = userAttributes;
+
+                return View(result);
             }
             return View();
         }

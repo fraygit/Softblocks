@@ -1,4 +1,4 @@
-﻿@model softblocks.data.Model.User
+﻿@model softblocks.Models.ResEditUserProfile
 
 <div class="normalheader  small-header">
     <div class="hpanel">
@@ -33,20 +33,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">First Name</label>
-                                    <input type="text" id="txtFirstName" class="form-control" placeholder="John doe" value="@Model.FirstName">
+                                    <input type="text" id="txtFirstName" class="form-control" placeholder="John doe" value="@Model.User.FirstName">
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Last Name</label>
-                                    <input type="text" id="txtLastName" class="form-control" placeholder="John doe" value="@Model.LastName">
+                                    <input type="text" id="txtLastName" class="form-control" placeholder="John doe" value="@Model.User.LastName">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Email</label>
-                                    <p class="text-muted">@Model.Email</p>
+                                    <p class="text-muted">@Model.User.Email</p>
                                 </div>
                             </div>
                         </div>
@@ -73,12 +73,34 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">First Name</label>
-                                    <input type="text" id="txtFirstName" class="form-control" placeholder="John doe" value="@Model.FirstName">
-                                </div>
-                            </div>
+                            @if (Model.Attributes != null)
+                            {
+                                foreach (var attribute in Model.Attributes)
+                                {
+                                    <div class="col-md-@attribute.Column">
+                                        <div class="form-group">
+                                            <label class="control-label">@attribute.Name</label>
+                                            @switch (attribute.DataType)
+                                            {
+                                                case "Text":
+                                                    <input type="text" class="form-control user-attribute" data-user-attribute-id="@attribute.Id" data-data-type="@attribute.DataType" placeholder="@attribute.Name" value="">
+                                                    break;
+                                                case "Date":
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control user-attribute data-type-date" id="@attribute.Id" data-data-type="@attribute.DataType" data-user-attribute-id="@attribute.Id" placeholder="Date time"> 
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default" onclick="OpenDatePicker('@attribute.Id')">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    break;
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                }
+                            }
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
@@ -87,7 +109,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-2">
-                                <button type="button" class="btn btn-primary btn-block" id="btnCreate">Save</button>
+                                <button type="button" class="btn btn-primary btn-block" id="btnSaveExtended">Save</button>
                             </div>
                         </div>
                     </div>
@@ -95,4 +117,48 @@
             </div>
         </div>
     </div>
+}
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.each($(".data-type-date"), function (dateElIndex, dateElItem) {
+                var id = $(dateElItem).attr("id");
+                $("#" + id).datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+            });
+
+            window.OpenDatePicker = function (id) {
+                $("#" + id).data("DateTimePicker").toggle();
+                //$($($(el).parent()).prev()).data("DateTimePicker").toggle();
+                //$($($(el).parent()).prev()).datepicker();
+            }
+
+            $("#btnSaveExtended").click(function () {
+                var attributeValues = [];
+                $.each($(".user-attribute"), function (attrIndex, attrItem) {
+                    var attrId = $(attrItem).data("user-attribute-id");
+                    var attrDataType = $(attrItem).data("data-type");
+                    var value = "";
+                    switch (attrDataType) {
+                        case "Text":
+                            value = $(attrItem).val();
+                            break;
+                        case "Date":
+                            value = $(attrItem).data("DateTimePicker").date();
+                            break;
+                    }
+
+                    attributeValues.push({
+                        Id: attrId,
+                        Value: value
+                    });
+                });
+
+            });
+
+        });
+    </script>
 }
