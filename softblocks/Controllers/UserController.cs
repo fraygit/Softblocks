@@ -17,13 +17,15 @@ namespace softblocks.Controllers
         private IOrganisationRepository _organisationRepository;
         private IEmailNotificationRepository _emailNotificationRepository;
         private IUserAttributeRepository _userAttributeRepository;
+        private IAttributeValueRepository _attributeValueRepository;
 
-        public UserController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository, IEmailNotificationRepository _emailNotificationRepository, IUserAttributeRepository _userAttributeRepository)
+        public UserController(IUserRepository _userRepository, IOrganisationRepository _organisationRepository, IEmailNotificationRepository _emailNotificationRepository, IUserAttributeRepository _userAttributeRepository, IAttributeValueRepository _attributeValueRepository)
         {
             this._userRepository = _userRepository;
             this._organisationRepository = _organisationRepository;
             this._emailNotificationRepository = _emailNotificationRepository;
             this._userAttributeRepository = _userAttributeRepository;
+            this._attributeValueRepository = _attributeValueRepository;
         }
 
         // GET: User
@@ -54,6 +56,9 @@ namespace softblocks.Controllers
                 var userAttributes = await _userAttributeRepository.GetByOrganisation(organisationId);
                 result.Attributes = userAttributes;
 
+                var attributeValues = await _attributeValueRepository.GetByForeignId(user.Id);
+                result.Values = attributeValues;
+
                 return View(result);
             }
             return View();
@@ -65,7 +70,19 @@ namespace softblocks.Controllers
             var user = await _userRepository.Get(userId);
             if (user != null)
             {
-                return View(user);
+                var result = new ResEditUserProfile();
+                result.User = user;
+
+                var organisationId = ObjectId.Empty;
+                ObjectId.TryParse(user.CurrentOrganisation, out organisationId);
+
+                var userAttributes = await _userAttributeRepository.GetByOrganisation(organisationId);
+                result.Attributes = userAttributes;
+
+                var attributeValues = await _attributeValueRepository.GetByForeignId(user.Id);
+                result.Values = attributeValues;
+
+                return View(result);
             }
             return View();
         }
@@ -107,6 +124,54 @@ namespace softblocks.Controllers
             {
 
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> SaveUserAttributes(ReqSaveUserAttribute req)
+        {
+            var currentUser = await _userRepository.GetUser(User.Identity.Name);
+            if (currentUser != null)
+            {
+                var organisationId = ObjectId.Empty;
+                ObjectId.TryParse(currentUser.CurrentOrganisation, out organisationId);
+
+                foreach (var item in req.AtrributeValues)
+                {
+                    var attributeId = ObjectId.Empty;
+                    ObjectId.TryParse(item.Id, out attributeId);
+                    var existingValue = await _attributeValueRepository.Get(attributeId, currentUser.Id);
+                    if (existingValue != null)
+                    {
+                        existingValue.Value = item.Value;
+                        await _attributeValueRepository.Update(existingValue.Id.ToString(), existingValue);
+                    }
+                    else
+                    {
+                        var newAttributeValue = new AttributeValue
+                        {
+                            AttributeId = attributeId,
+                            ForeignId = currentUser.Id,
+                            Value = item.Value
+                        };
+                        await _attributeValueRepository.CreateSync(newAttributeValue);
+                    }
+                }
+                var result = new JsonGenericResult
+                {
+                    IsSuccess = true,
+                    Result = ""
+                };
+                return Json(result);
+
+
+            }
+            var ErrorResult = new JsonGenericResult
+            {
+                IsSuccess = false,
+                Message = "Error adding Saving."
+            };
+            return Json(ErrorResult);
         }
 
         [Authorize]

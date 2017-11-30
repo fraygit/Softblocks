@@ -80,14 +80,21 @@
                                     <div class="col-md-@attribute.Column">
                                         <div class="form-group">
                                             <label class="control-label">@attribute.Name</label>
+                                            @{
+                                                var value = "";
+                                                if (Model.Values.Any(n => n.AttributeId == attribute.Id)) {
+                                                    value = Model.Values.FirstOrDefault(n => n.AttributeId == attribute.Id).Value;
+                                                }
+                                            }
+
                                             @switch (attribute.DataType)
                                             {
                                                 case "Text":
-                                                    <input type="text" class="form-control user-attribute" data-user-attribute-id="@attribute.Id" data-data-type="@attribute.DataType" placeholder="@attribute.Name" value="">
+                                                    <input type="text" class="form-control user-attribute" data-user-attribute-id="@attribute.Id" data-data-type="@attribute.DataType" placeholder="@attribute.Name" value="@value">
                                                     break;
                                                 case "Date":
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control user-attribute data-type-date" id="@attribute.Id" data-data-type="@attribute.DataType" data-user-attribute-id="@attribute.Id" placeholder="Date time"> 
+                                                        <input type="text" class="form-control user-attribute data-type-date" id="@attribute.Id" data-data-type="@attribute.DataType" data-user-attribute-id="@attribute.Id" placeholder="Date time" data-value="@value"> 
                                                         <span class="input-group-btn">
                                                             <button type="button" class="btn btn-default" onclick="OpenDatePicker('@attribute.Id')">
                                                                 <i class="fa fa-calendar"></i>
@@ -125,9 +132,15 @@
         $(function () {
             $.each($(".data-type-date"), function (dateElIndex, dateElItem) {
                 var id = $(dateElItem).attr("id");
-                $("#" + id).datetimepicker({
-                    format: 'DD/MM/YYYY'
-                });
+                var value = $(dateElItem).data("value");
+                    $("#" + id).datetimepicker({
+                        format: 'DD/MM/YYYY',
+                        defaultDate: moment().add(20, 'days')
+                    });
+                    //if (!isBlank(value)) {
+                    //    $("#" + id).datetimepicker("setDate", new Date(2016, 1, 1));
+                    //}
+                    
             });
 
             window.OpenDatePicker = function (id) {
@@ -155,6 +168,29 @@
                         Id: attrId,
                         Value: value
                     });
+                });
+
+                var data = {
+                    AtrributeValues: attributeValues
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SaveUserAttributes", "User")",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (d) {
+                        if (d.IsSuccess == true) {
+                            alertSuccess("Success", "Successfully saved!");
+                        }
+                        else {
+                            alertError("Error!", d.Message);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alertError("Error!", "Error adding event");
+                    }
                 });
 
             });

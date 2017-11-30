@@ -1,4 +1,5 @@
-﻿using softblocks.data.Model;
+﻿using MongoDB.Bson;
+using softblocks.data.Model;
 using softblocks.data.Service;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,7 @@ namespace softblocks.data.Interface
 {
     public interface IAttributeValueRepository: IEntityService<AttributeValue>
     {
+        Task<AttributeValue> Get(ObjectId attributeId, ObjectId foreignId);
+        Task<List<AttributeValue>> GetByForeignId(ObjectId foreignId);
     }
 }

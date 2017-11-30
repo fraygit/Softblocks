@@ -195,18 +195,6 @@ namespace softblocks.Controllers
                         }
                     }
 
-                    var currentDirectory = await _folderRepository.GetByParent(parentId);
-                    if (currentDirectory.Any(n => n.Name == req.Name))
-                    {
-                        var ErrorSamename = new JsonGenericResult
-                        {
-                            IsSuccess = false,
-                            Message = "A folder with the same name already exists!"
-                        };
-                        return Json(ErrorSamename);
-                    }
-
-
                     if (req.FolderType == "Personal")
                     {
                         folder.ForeignId = user.Id;
@@ -219,6 +207,20 @@ namespace softblocks.Controllers
                             folder.ForeignId = orgId;
                         }
                     }
+
+                    var currentDirectory = await _folderRepository.GetByParent(parentId);
+                    if (currentDirectory.Any(n => n.Name == req.Name && n.FolderType == folder.FolderType && n.ForeignId == folder.ForeignId))
+                    {
+                        var ErrorSamename = new JsonGenericResult
+                        {
+                            IsSuccess = false,
+                            Message = "A folder with the same name already exists!"
+                        };
+                        return Json(ErrorSamename);
+                    }
+
+
+
                     await _folderRepository.CreateSync(folder);
                     var result = new JsonGenericResult
                     {

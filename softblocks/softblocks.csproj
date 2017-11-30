@@ -240,6 +240,7 @@
     <Compile Include="Models\ReqAddPage.cs" />
     <Compile Include="Models\ReqAddPanel.cs" />
     <Compile Include="Models\ReqAddUser.cs" />
+    <Compile Include="Models\ReqAttributeValue.cs" />
     <Compile Include="Models\ReqCreateArticle.cs" />
     <Compile Include="Models\ReqCreateDataView.cs" />
     <Compile Include="Models\ReqCreateDocumentType.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Models\ReqData.cs" />
     <Compile Include="Models\ReqDetailAddComponent.cs" />
     <Compile Include="Models\ReqReply.cs" />
+    <Compile Include="Models\ReqSaveUserAttribute.cs" />
     <Compile Include="Models\ReqTabularAddColumn.cs" />
     <Compile Include="Models\ResComment.cs" />
     <Compile Include="Models\ResDropdown.cs" />

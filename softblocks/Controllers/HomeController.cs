@@ -15,11 +15,13 @@ namespace softblocks.Controllers
     {
         private IUserRepository _userRepository;
         private INewsRepository _newsRepository;
+        private IOrganisationRepository _organisationRepository;
 
-        public HomeController(IUserRepository _userRepository, INewsRepository _newsRepository)
+        public HomeController(IUserRepository _userRepository, INewsRepository _newsRepository, IOrganisationRepository _organisationRepository)
         {
             this._userRepository = _userRepository;
             this._newsRepository = _newsRepository;
+            this._organisationRepository = _organisationRepository;
         }
         // GET: Home
         [Authorize]
@@ -29,6 +31,12 @@ namespace softblocks.Controllers
             if (!string.IsNullOrEmpty(currentUser.CurrentOrganisation))
             {
                 var articles = await _newsRepository.GetStatus(ObjectId.Parse(currentUser.CurrentOrganisation), "Published");
+                var organisation = await _organisationRepository.Get(currentUser.CurrentOrganisation);
+                ViewBag.OrganisationName = "";
+                if (organisation != null)
+                {
+                    ViewBag.OrganisationName = organisation.Name;
+                }
                 if (articles != null)
                 {
                     if (articles.Any())

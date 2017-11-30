@@ -1,4 +1,4 @@
-﻿@model softblocks.data.Model.User
+﻿@model softblocks.Models.ResEditUserProfile
 
 @if (Model != null)
 {
@@ -26,11 +26,11 @@
                 <div class="hpanel hgreen">
                     <div class="panel-body">
                         <div class="pull-right text-right">
-                            <a href="@Url.Action("Edit", "User", new { userId = Model.Id.ToString() })"><i class="fa fa-pencil"></i></a>
+                            <a href="@Url.Action("Edit", "User", new { userId = Model.User.Id.ToString() })"><i class="fa fa-pencil"></i></a>
                         </div>
                         <img alt="logo" class="img-circle m-b m-t-md" src="~/Images/placeholder-user-photo.png" width="75">
-                        <h3><a href="">@Model.FirstName @Model.LastName</a></h3>
-                        <div class="text-muted font-bold m-b-xs">@Model.Email</div>
+                        <h3><a href="">@Model.User.FirstName @Model.User.LastName</a></h3>
+                        <div class="text-muted font-bold m-b-xs">@Model.User.Email</div>
                     </div>
 
                     <div class="panel-body">
@@ -50,7 +50,28 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
-                                    
+                                    @if (Model.Attributes != null)
+                                    {
+                                        foreach (var attribute in Model.Attributes)
+                                        {
+                                            <div class="col-md-@attribute.Column">
+                                                <div class="form-group">
+                                                    <label class="control-label">@attribute.Name</label><br />
+                                                    @if (Model.Values.Any(n => n.AttributeId == attribute.Id)) { 
+                                                        switch (attribute.DataType)
+                                                        {
+                                                            case "Text":
+                                                                <span>@Model.Values.FirstOrDefault(n => n.AttributeId == attribute.Id).Value</span>
+                                                                break;
+                                                            case "Date":
+                                                            <span class="RenderDate" data-date="@Model.Values.FirstOrDefault(n => n.AttributeId == attribute.Id).Value" data-format="DD MMM YYYY"></span>
+                                                                break;
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }                                    
                                 </div>
                             </div>
                         </div>
@@ -63,3 +84,12 @@
         </div>
     </div>
 }
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            RenderAndFormatDates();
+        });
+    </script>
+}
+

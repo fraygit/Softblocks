@@ -11,11 +11,15 @@
     {
         <div class="hpanel forum-box">
 
-            <div class="panel-heading">
+            <div class="panel-heading" style="font-size:130%;">
                 <span class="pull-right">
                     <button class="btn btn-xs btn-info" onclick="OpenAddTopic('@category.Id')">Add Topic</button>
                 </span>
-                @category.Title
+                @category.Title 
+                @if (!string.IsNullOrEmpty(category.Description))
+                {
+                    <small>@category.Description</small>
+                }
             </div>
 
             @if (category.Topics != null)

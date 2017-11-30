@@ -10,5 +10,6 @@ namespace softblocks.Models
     {
         public User User { get; set; }
         public List<UserAttribute> Attributes { get; set; }
+        public List<AttributeValue> Values { get; set; }
     }
 }
