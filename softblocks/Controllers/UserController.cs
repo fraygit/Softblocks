@@ -2,12 +2,16 @@
 using softblocks.data.Interface;
 using softblocks.data.Model;
 using softblocks.Models;
+using softblocks.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using softblocks.Helpers;
+using System.Drawing;
 
 namespace softblocks.Controllers
 {
@@ -39,6 +43,92 @@ namespace softblocks.Controllers
                 ViewBag.CurrentOrganisationId = currentUser.CurrentOrganisation;
             }
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<JsonResult> SaveProfileBasicDetails()
+        {
+            try
+            {
+                HttpFileCollectionBase files = Request.Files;
+
+                var path = Server.MapPath("~/tempUpload/");
+                var reqUserId = Request["UserId"].ToString();
+                var reqFirstName = Request["FirstName"].ToString();
+                var reqLastName = Request["LastName"].ToString();
+
+                if (!string.IsNullOrEmpty(reqUserId))
+                {
+                    var user = await _userRepository.Get(reqUserId);
+                    if (user != null)
+                    {
+                        user.FirstName = reqFirstName;
+                        user.LastName = reqLastName;
+                    }                    
+
+                    if (Request.Files.Count > 0)
+                    {
+                        var amazon = new AmazonService();
+
+                        for (int i = 0; i < files.Count; i++)
+                        {
+                            var file = files[i];
+                            var tempFilePath = Path.Combine(path, file.FileName);
+                            var croppedImagePath = Path.Combine(path, "cropped_" + file.FileName);
+                            file.SaveAs(tempFilePath);
+
+                            using (var image = Image.FromFile(tempFilePath))
+                            {
+                                using (var croppedImage = Util.ScaleImage(image, 200, 200))
+                                {
+                                    croppedImage.Save(croppedImagePath);
+                                    
+                                }
+                            }
+
+                            var s3Path = string.Format("profilephoto/{0}", Guid.NewGuid());
+                            user.ProfilePhoto = s3Path;
+                            user.ProfilePhotoFilename = file.FileName;
+
+                            using (var fileIO = System.IO.File.OpenRead(croppedImagePath))
+                            {
+                                using (MemoryStream tempFileStream = new MemoryStream())
+                                {
+                                    fileIO.CopyTo(tempFileStream);
+                                    amazon.S3Upload(s3Path, MimeMapping.GetMimeMapping(file.FileName), tempFileStream);
+                                }
+                            }
+                            System.IO.File.Delete(tempFilePath);
+                            System.IO.File.Delete(croppedImagePath);
+                        }
+                    }// files
+
+                    await _userRepository.Update(reqUserId, user);
+
+                    var result = new JsonGenericResult
+                    {
+                        IsSuccess = true,
+                        Message = ""
+                    };
+                    return Json(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                var ExResult = new JsonGenericResult
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+                return Json(ExResult);
+            }
+            var error = new JsonGenericResult
+            {
+                IsSuccess = false,
+                Message = "Error saving user profile."
+            };
+            return Json(error);
         }
 
         [Authorize]

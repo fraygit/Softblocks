@@ -10,7 +10,15 @@
         <div class="panel-body">
             <div class="media">
                 <div class="media-image pull-left">
-                    <img src="/Images/placeholder-user-photo.png" alt="profile-picture">
+                    @if (!string.IsNullOrEmpty(comment.ProfilePhoto))
+                    {
+                        <img src="@Url.Action("DownloadFileByPath", "Library", new { path = comment.ProfilePhoto, filename = comment.ProfilePhotoFilename, isEmbed = false })" class="circletag-small m-b center" alt="logo" style="position:relative;right:-36px;">
+                    }
+                    else
+                    {
+                        <img src="/Images/placeholder-user-photo.png" alt="profile-picture">
+                    }
+                    
                     <div class="author-info">
                         <strong>@comment.Name</strong><br>
                         @comment.Comment.DateReplied.ToString("dd MMM yy hh:mm tt")

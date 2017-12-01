@@ -34,7 +34,13 @@
         <ul class="nav navbar-nav no-borders">
             <li class="dropdown">
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                    <i class="pe-7s-user"></i>
+                    @if (!string.IsNullOrEmpty(Model.ProfilePhoto)) { 
+                        <img src="@Url.Action("DownloadFileByPath", "Library", new { path = Model.ProfilePhoto, filename = Model.ProfilePhotoFilename, isEmbed = false })" class="circletag-small m-b" alt="logo">
+                    }
+                    else
+                    {
+                        <i class="pe-7s-user"></i>
+                    }
                 </a>
                 <div class="dropdown-menu hdropdown bigmenu animated flipInX">
                     <table>

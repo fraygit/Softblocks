@@ -115,6 +115,33 @@ namespace softblocks.Controllers
         }
 
         [Authorize]
+        public async Task<FileResult> DownloadFileByPath(string path, string filename, bool isEmbed)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                var amazon = new AmazonService();
+                var fileByte = amazon.ReteiveFile(path);
+                if (isEmbed)
+                {
+                    var cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = filename,
+                        Inline = true,
+                    };
+                    string contentType = MimeMapping.GetMimeMapping(filename);
+                    Response.AppendHeader("Content-Disposition", cd.ToString());
+                    return File(fileByte, contentType);
+                }
+                else
+                {
+                    return File(fileByte, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+                }
+            }
+            return null;
+        }
+
+
+        [Authorize]
         public async Task<FileResult> Download(string fileId, int version, bool isEmbed)
         {
             var file = await _libraryRepository.Get(fileId);

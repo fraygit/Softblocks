@@ -28,7 +28,14 @@
                         <div class="pull-right text-right">
                             <a href="@Url.Action("Edit", "User", new { userId = Model.User.Id.ToString() })"><i class="fa fa-pencil"></i></a>
                         </div>
-                        <img alt="logo" class="img-circle m-b m-t-md" src="~/Images/placeholder-user-photo.png" width="75">
+                        @if (!string.IsNullOrEmpty(Model.User.ProfilePhoto))
+                        {
+                            <img src="@Url.Action("DownloadFileByPath", "Library", new { path = Model.User.ProfilePhoto, filename = Model.User.ProfilePhotoFilename, isEmbed = false })" class="circletag m-b" alt="logo">
+                        }
+                        else
+                        {
+                            <img alt="logo" class="img-circle m-b m-t-md" src="~/Images/placeholder-user-photo.png" width="75">
+                        }
                         <h3><a href="">@Model.User.FirstName @Model.User.LastName</a></h3>
                         <div class="text-muted font-bold m-b-xs">@Model.User.Email</div>
                     </div>

@@ -73,7 +73,9 @@ namespace softblocks.Controllers
                                 response.Add(new ResComment
                                 {
                                     Comment = comment,
-                                    Name = userComment.FirstName + " " + userComment.LastName
+                                    Name = userComment.FirstName + " " + userComment.LastName,
+                                    ProfilePhoto = userComment.ProfilePhoto,
+                                    ProfilePhotoFilename = userComment.ProfilePhotoFilename
                                 });
                             }
                             return View(response);                            

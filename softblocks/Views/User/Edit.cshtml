@@ -29,27 +29,45 @@
                         Basic Details
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">First Name</label>
-                                    <input type="text" id="txtFirstName" class="form-control" placeholder="John doe" value="@Model.User.FirstName">
+                        <form id="frmUserBasicDetails" onsubmit="event.preventDefault();">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    @if (string.IsNullOrEmpty(Model.User.ProfilePhoto))
+                                    {
+                                        <img src="/Images/placeholder-user-photo.png" class="img-circle m-b" alt="logo" width="100px" style="border: 1px solid grey;">
+                                    }
+                                    else
+                                    {
+                                        <img src="@Url.Action("DownloadFileByPath", "Library", new { path = Model.User.ProfilePhoto, filename = Model.User.ProfilePhotoFilename, isEmbed = false })" class="circletag m-b" alt="logo" width="100px" style="border: 1px solid grey;">
+                                    }
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Profile Photo</label>
+                                    <input type="file" class="form-control" id="upldProfilePhoto">
                                 </div>
                             </div>
-                            <!--/span-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Last Name</label>
-                                    <input type="text" id="txtLastName" class="form-control" placeholder="John doe" value="@Model.User.LastName">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">First Name</label>
+                                        <input type="text" id="txtFirstName" class="form-control" placeholder="John" value="@Model.User.FirstName" required="">
+                                    </div>
+                                </div>
+                                <!--/span-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Last Name</label>
+                                        <input type="text" id="txtLastName" class="form-control" placeholder="Doe" value="@Model.User.LastName" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Email</label>
+                                        <p class="text-muted">@Model.User.Email</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Email</label>
-                                    <p class="text-muted">@Model.User.Email</p>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                         <div class="row">
                             <div class="col-lg-12">
                                 <hr />
@@ -57,7 +75,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-2">
-                                <button type="button" class="btn btn-primary btn-block" id="btnCreate">Save</button>
+                                <button type="button" class="btn btn-primary btn-block" id="btnSaveBasicDetails">Save</button>
                             </div>
                         </div>
                     </div>
@@ -193,6 +211,42 @@
                     }
                 });
 
+            });
+
+            $("#btnSaveBasicDetails").click(function () {
+                var isValid = $("#frmUserBasicDetails").valid()
+                if (isValid) {
+                    var fileUpload = $("#upldProfilePhoto").get(0);
+                    var files = fileUpload.files;
+                    var fileData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    fileData.append("UserId", "@Model.User.Id");
+                    fileData.append("FirstName", $("#txtFirstName").val());
+                    fileData.append("LastName", $("#txtLastName").val());
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SaveProfileBasicDetails", "User")",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (d) {
+                            if (d.IsSuccess == true) {
+                                alertSuccess("Success", "Successfully saved!");
+                            }
+                            else {
+                                alertError("Error!", d.Message);
+                            }
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alertError("Error!", "Error adding event");
+                            HideLoading();
+                        }
+                    });
+
+                }
             });
 
         });
