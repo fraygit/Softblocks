@@ -28,6 +28,19 @@ namespace softblocks.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<JsonResult> Delete(string id)
+        {
+            await _calendarEventRepository.Delete(id);
+            var result = new JsonGenericResult
+            {
+                IsSuccess = true,
+                Result = ""
+            };
+            return Json(result);
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<JsonResult> Details(string eventId)

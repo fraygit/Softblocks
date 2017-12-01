@@ -125,7 +125,7 @@
             </div>
             <div class="modal-body">
                 <form id="frmAddEvent">
-                    <input type="hidden" id="hdnType" />
+                    <input type="hidden" id="hdnTypeView" />
                     <div class="row">
                         <div class="col-sm-6 col-xs-6 b-r">
                             <strong>Title</strong>
@@ -151,6 +151,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal" id="btnDeleteEvent"><i class="fa fa-trash-o"></i></button>
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -182,6 +183,7 @@
                                 dateEndDte = new Date(parseInt(d.Result.EndDate.substr(6)));
                                 dateEnd = moment(dateEndDte).format("DD MMM YYYY h:mm a")
                             }
+                            $("#hdnTypeView").val(ConvertObjectId(d.Result.Id));
                             $("#lblTitle").text(d.Result.Title);
                             $("#lblDetails").text(d.Result.Details);
                             $("#lblStart").text(moment(dateStart).format("DD MMM YYYY h:mm a"));
@@ -200,6 +202,33 @@
                 
             }
         })
+
+        $("#btnDeleteEvent").click(function () {
+            var isDelete = confirm("Are you sure you want to delete this event?");
+            if (isDelete) {
+                var id = $("#hdnTypeView").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Calendar/Delete?id=" + id,
+                    contentType: "application/json",
+                dataType: "json",
+                success: function (d) {
+                    if (d.IsSuccess == true) {
+                        alertSuccess("Success", "Successfully deleted event!");
+                        $('#pnlCalendar').fullCalendar("refetchEvents");
+                        $("#pnlEventDetails").modal("hide");
+                    }
+                    else {
+                        alertError("Error!", d.Message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alertError("Error!", "Error adding event");
+                }
+            });
+            }
+        });
 
         $("#txtStartDate").datetimepicker();
         $("#txtEndDate").datetimepicker();
